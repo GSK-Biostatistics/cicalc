@@ -15,3 +15,6 @@ Description: More about what it does (maybe more than one line).
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    cli,
+    rlang
