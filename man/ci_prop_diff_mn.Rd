@@ -85,7 +85,7 @@ arm <- rep(c("treat", "control"), times = c(10, 10))
 ci_prop_diff_mn(x = responses, by = arm)
 
 # Calculate 99\% confidence interval
-ci_prop_diff_mn(x = c(treat, control), by = arm, conf.level = 0.99)
+ci_prop_diff_mn(x = responses, by = arm, conf.level = 0.99)
 
 # Calculate the p-value under the null hypothesis delta = -0.1
 ci_prop_diff_mn(x = responses, by = arm, delta = -0.1)
