@@ -5,7 +5,7 @@
 #' raw data format for analysis functions that require individual-level data.
 #'
 #' @param x Integer (or vector of integers) representing the number of successes.
-#' @param n Integer (or vector of integers) representing the total number of participants or trials.
+#' @param n Integer (or vector of integers) representing the total number of participants.
 #'
 #' @return A logical vector where TRUE represents a success and FALSE represents a failure.
 #'   The length of the vector equals the sum of all sample sizes.
@@ -16,7 +16,7 @@
 #' concatenated in order.
 #'
 #' @examples
-#' # Convert 4 successes out of 13 trials to binary data
+#' # Convert 4 successes out of 13 participants to binary data
 #' expand(4, 13)
 #'
 #' # Convert multiple groups of data

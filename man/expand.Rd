@@ -9,7 +9,7 @@ expand(x, n)
 \arguments{
 \item{x}{Integer (or vector of integers) representing the number of successes.}
 
-\item{n}{Integer (or vector of integers) representing the total number of participants or trials.}
+\item{n}{Integer (or vector of integers) representing the total number of participants.}
 }
 \value{
 A logical vector where TRUE represents a success and FALSE represents a failure.
@@ -26,7 +26,7 @@ followed by `n-x` FALSE values. If multiple pairs are provided, the resulting ve
 concatenated in order.
 }
 \examples{
-# Convert 4 successes out of 13 trials to binary data
+# Convert 4 successes out of 13 participants to binary data
 expand(4, 13)
 
 # Convert multiple groups of data

@@ -102,28 +102,33 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   check_n_levels(by, n_levels = 2)
   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
   check_identical_length(x, by)
+  check_numeric(delta, allow_empty = TRUE)
+  check_range(delta,allow_empty = TRUE,
+              range = c(-1, 1), include_bounds = c(FALSE, FALSE))
 
   # check x and by are equal length if data is null
   by_vals <- unique(by)
   y1 <- x[which(by == by_vals[1])]
   y2 <- x[which(by == by_vals[2])]
+  r_1 = sum(y1); n_1 = length(y1)
+  r_2 = sum(y2); n_2 = length(y2)
 
   z <- stats::qnorm((1 + conf.level) / 2)
   delta_vec <- seq(-0.99999, 0.99999, length.out = 1000000)
-  T_scores <- test_score_mn(y1, y2, delta = delta_vec)
+  T_scores <- test_score_mn(r_x = r_1, n_x = n_1,
+                            r_y = r_2, n_y = n_2, delta = delta_vec)
   potential_vals <- delta_vec[which(-z < T_scores & T_scores < z)]
 
   if(!is.null(delta)){
     check_not_missing(delta)
-    check_numeric(delta)
-    check_range(delta, range = c(-1, 1), include_bounds = c(FALSE, FALSE))
-
-    statistic = test_score_mn(y1, y2, delta = delta)
+    statistic = test_score_mn(r_x = r_1, n_x = n_1,
+                              r_y = r_2, n_y = n_2, delta = delta)
     out <- list(
       estimate = sum(y1)/length(y1) - sum(y1) / length(y2),
       conf.low = min(potential_vals),
       conf.high = max(potential_vals),
       conf.level = conf.level,
+      delta = delta,
       statistic = statistic,
       p.value = 2 * (1 - pnorm(abs(statistic))),
       method =
@@ -148,8 +153,10 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 #' delta (difference in proportions) using the method described in Miettinen and
 #' Nurminen (1985).
 #'
-#' @param x A binary vector representing the first sample.
-#' @param y A binary vector representing the second sample.
+#' @param r_x A numeric vector of successes in the first group.
+#' @param n_x A numeric vector of sample sizes in the first group.
+#' @param r_y A numeric vector of successes in the second group.
+#' @param n_y A numeric vector of sample sizes in the second group.
 #' @param delta A numeric value representing the hypothesized difference in proportions (p_x - p_y).
 #'              Must be between -1 and 1, inclusive.
 #'
@@ -196,22 +203,11 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 #'
 #' @keywords internal
 #' @noRd
-test_score_mn <- function(x, y, delta){
-  set_cli_abort_call()
-
-  # check inputs ---------------------------------------------------------------
-  check_not_missing(x)
-  check_binary(x)
-  check_not_missing(y)
-  check_binary(y)
-  check_range(delta, range = c(-1, 1), include_bounds = c(TRUE, TRUE))
-
-  n_x <- length(x)
-  n_y <- length(y)
+test_score_mn <- function(r_x, n_x, r_y, n_y, delta){
   N <- n_x + n_y
 
-  p_hat_x <- sum(x) / n_x
-  p_hat_y <- sum(y) / n_y
+  p_hat_x <- r_x / n_x
+  p_hat_y <- r_y / n_y
   p_hat <- p_hat_x - p_hat_y
 
   theta = n_y / n_x
@@ -231,3 +227,70 @@ test_score_mn <- function(x, y, delta){
   T_stat
 }
 
+
+#' Calculate Stratified Miettinen-Nurminen Test Statistic
+#'
+#' The stratified Miettinen-Nurminen z test statistic
+#' for a given delta (difference in proportions) using the method described in
+#' Miettinen and Nurminen (1985), adapted for stratified data.
+#'
+#' @param r_x A numeric vector of successes in the first group, one per stratum.
+#' @param n_x A numeric vector of sample sizes in the first group, one per stratum.
+#' @param r_y A numeric vector of successes in the second group, one per stratum.
+#' @param n_y A numeric vector of sample sizes in the second group, one per stratum.
+#' @param delta A numeric value representing the hypothesized difference in proportions (p_x - p_y).
+#'        Must be between -1 and 1, inclusive.
+#'
+#' @return A numeric value representing the stratified Miettinen-Nurminen Z-test statistic.
+#'
+#' @details
+#' The function implements the stratified version of the Miettinen-Nurminen (MN) score test
+#' for the difference between two proportions. The stratified test combines information across
+#' multiple strata using appropriate weighting.
+#'
+#'
+#' @references
+#' Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of two rates.
+#' Statistics in Medicine, 4(2), 213-226.
+#'
+#' @keywords internal
+#' @noRd
+test_score_mn_strata<-function(r_x, n_x, r_y, n_y, delta){
+  N <- n_x + n_y
+  tot_r <- r_x + r_y
+  w <- (n_x * n_y) / N
+  tot_w <- sum(w)
+
+  # The implementation follows equations described in Miettinen and Nurminen's
+  # paper, specifically equations 8, 15, 27, and 28 for handling stratified
+  # data. Variable names have been changed to be more consistent with the rest
+  # of the package
+
+  #equation 27
+  L3 <- N
+  L2 <- (n_x + 2*n_y)*delta - N - tot_r
+  L1 <- (n_y*delta - N - 2*r_y)*delta + tot_r
+  L0 <- r_y*delta*(1-delta)
+
+  #equation 28
+  q <- (L2^3)/((3*L3)^3) - (L1*L2)/(6*(L3^2)) + L0/(2*L3)
+
+  p <- abs(sqrt((L2^2)/((3*L3)^2) - L1/(3*L3)))
+
+  temp <- pmax(pmin(q/(p^3),1),-1)
+  a <- (1/3)*(pi+acos(temp))
+
+  mR0 <- 2*p*cos(a) - L2/(3*L3)
+  mR1 <- mR0+delta
+
+  #equation 8
+  mV <- (mR1*(1-mR1)/n_x + mR0*(1-mR0)/n_y) * (N/(N-1))
+
+  #equation 15
+  den <- ((w/tot_w)^2)*mV
+
+  tot_den <- sum(den)
+
+  zstat <- (diff-delta)/sqrt(tot_den)
+  zstat
+}
