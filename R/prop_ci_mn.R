@@ -1,33 +1,46 @@
 #' Miettinen-Nurminen Confidence Interval for Difference in Proportions
 #'
 #' Calculates the Miettinen-Nurminen (MN) confidence interval for the difference
-#' between two proportions. This method can be more accurate than traditional methods,
-#' especially with small sample sizes or proportions close to 0 or 1.
+#' between two proportions. This method can be more accurate than traditional
+#' methods, especially with small sample sizes or proportions close to 0 or 1.
 #'
-#' @param x A binary vector representing the first sample.
-#' @param y A binary vector representing the second sample.
-#' @param conf.level A numeric value between 0 and 1 specifying the confidence level.
-#'        Default is 0.95 (95\% confidence).
+#' @param x A binary vector representing all responses. Can also be a column
+#'   name if a data frame provided in the `data` argument.
+#' @param by A character or factor vector with exactly two unique levels
+#'   identifying the two groups to compare. Can also be a column name if a data
+#'   frame provided in the `data` argument.
+#' @param conf.level A numeric value between 0 and 1 specifying the confidence
+#'   level. Default is 0.95 (95\% confidence).
+#' @param delta Optional numeric value(s) for hypothesis testing. If provided, the
+#'   function returns the test statistic and p-value under the `delta`
+#'   hypothesis.
+#' @param data Optional data frame containing the variables specified in `x` and `by`.
+#
 #'
 #' @return A list containing the following components:
+#'
 #'   \item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
 #'   \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
+#' If `delta` is provided the list will have two additional compnents:
+#'   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
+#'   \item{p.value}{p-value under the given `delta` null hypothesis}
 #'
-#' @details
-#' The function implements the Miettinen-Nurminen method to compute confidence intervals
-#' for the difference between two proportions. This approach:
 #'
-#' 1. Computes the test statistic across a range of possible difference values (delta)
-#' 2. Identifies values of delta where the test statistic falls within the critical region
-#'    determined by the confidence level
-#' 3. Returns the minimum and maximum acceptable values as the confidence interval bounds
+#' @details The function implements the Miettinen-Nurminen method to compute
+#' confidence intervals for the difference between two proportions. This
+#' approach:
 #'
-#' The method uses a score test with a small-sample correction factor, making it more
-#' accurate than normal approximation methods, especially for small samples or extreme proportions.
-#' The equation for the test statistics is as follows:
+#' 1. Computes the test statistic across a range of possible difference values
+#' (delta) 2. Identifies values of delta where the test statistic falls within
+#' the critical region determined by the confidence level 3. Returns the minimum
+#' and maximum acceptable values as the confidence interval bounds
+#'
+#' The method uses a score test with a small-sample correction factor, making it
+#' more accurate than normal approximation methods, especially for small samples
+#' or extreme proportions. The equation for the test statistics is as follows:
 #' \deqn{T_{MN} = \frac{\hat{p}_x - \hat{p}_y - \delta}{\sqrt{V_{\delta}}}}
 #'
 #' where:
@@ -51,49 +64,82 @@
 #'
 #' }
 #'
-#' @references
-#' Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of two rates.
-#' Statistics in Medicine, 4(2), 213-226.
+#' @references Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of
+#' two rates. Statistics in Medicine, 4(2), 213-226.
 #'
 #' Chen, Y., & Zhou, X. (2016). Interval Estimation for the Difference Between
-#' Independent Proportions. Western Users of SAS Software Conference Proceedings 2016.
-#' https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf
+#' Independent Proportions. Western Users of SAS Software Conference Proceedings
+#' 2016. https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf
 #'
 #' @examples
-#' # Generate two binary samples
-#' x <- rbinom(100, 1, 0.6)
-#' y <- rbinom(80, 1, 0.5)
+#' # Generate binary samples
+#' responses <- expand(c(9, 3), c(10, 10))
+#' arm <- rep(c("treat", "control"), times = c(10, 10))
 #'
 #' # Calculate 95% confidence interval for difference in proportions
-#' ci_prop_diff_mn(x, y)
+#' ci_prop_diff_mn(x = responses, by = arm)
 #'
 #' # Calculate 99% confidence interval
-#' ci_prop_diff_mn(x, y, conf.level = 0.99)
+#' ci_prop_diff_mn(x = c(treat, control), by = arm, conf.level = 0.99)
+#'
+#' # Calculate the p-value under the null hypothesis delta = -0.1
+#' ci_prop_diff_mn(x = responses, by = arm, delta = -0.1)
 #'
 #' @export
-ci_prop_diff_mn <- function(x, y, conf.level = 0.95){
+#'
+ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL){
   set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+  if(is.data.frame(data)){
+    with(data, ci_prop_diff_mn(x = x, by = by,
+                               conf.level = conf.level, delta = delta))
+  }
 
   # check inputs ---------------------------------------------------------------
   check_not_missing(x)
   check_binary(x)
-  check_not_missing(y)
-  check_binary(y)
+  check_not_missing(by)
+  check_n_levels(by, n_levels = 2)
   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_identical_length(x, by)
+
+  # check x and by are equal length if data is null
+  by_vals <- unique(by)
+  y1 <- x[which(by == by_vals[1])]
+  y2 <- x[which(by == by_vals[2])]
 
   z <- stats::qnorm((1 + conf.level) / 2)
   delta_vec <- seq(-0.99999, 0.99999, length.out = 1000000)
-  T_scores <- test_score_mn(x, y, delta = delta_vec)
+  T_scores <- test_score_mn(y1, y2, delta = delta_vec)
   potential_vals <- delta_vec[which(-z < T_scores & T_scores < z)]
 
-  list(
-    estimate = sum(x)/length(x) - sum(y) / length(y),
-    conf.low = min(potential_vals),
-    conf.high = max(potential_vals),
-    conf.level = conf.level,
-    method =
-      glue::glue("Miettinen-Nurminen Confidence Interval")
-  )
+  if(!is.null(delta)){
+    check_not_missing(delta)
+    check_numeric(delta)
+    check_range(delta, range = c(-1, 1), include_bounds = c(FALSE, FALSE))
+
+    statistic = test_score_mn(y1, y2, delta = delta)
+    out <- list(
+      estimate = sum(y1)/length(y1) - sum(y1) / length(y2),
+      conf.low = min(potential_vals),
+      conf.high = max(potential_vals),
+      conf.level = conf.level,
+      statistic = statistic,
+      p.value = 2 * (1 - pnorm(abs(statistic))),
+      method =
+        glue::glue("Miettinen-Nurminen Confidence Interval")
+    )
+  } else {
+    list(
+      estimate = sum(y1)/length(y1) - sum(y1) / length(y2),
+      conf.low = min(potential_vals),
+      conf.high = max(potential_vals),
+      conf.level = conf.level,
+      method =
+        glue::glue("Miettinen-Nurminen Confidence Interval")
+    )
+  }
+
 }
 
 #' Calculate Miettinen-Nurminen Test Statistic

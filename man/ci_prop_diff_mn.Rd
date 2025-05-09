@@ -4,41 +4,55 @@
 \alias{ci_prop_diff_mn}
 \title{Miettinen-Nurminen Confidence Interval for Difference in Proportions}
 \usage{
-ci_prop_diff_mn(x, y, conf.level = 0.95)
+ci_prop_diff_mn(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 }
 \arguments{
-\item{x}{A binary vector representing the first sample.}
+\item{x}{A binary vector representing all responses. Can also be a column
+name if a data frame provided in the `data` argument.}
 
-\item{y}{A binary vector representing the second sample.}
+\item{by}{A character or factor vector with exactly two unique levels
+identifying the two groups to compare. Can also be a column name if a data
+frame provided in the `data` argument.}
 
-\item{conf.level}{A numeric value between 0 and 1 specifying the confidence level.
-Default is 0.95 (95\% confidence).}
+\item{conf.level}{A numeric value between 0 and 1 specifying the confidence
+level. Default is 0.95 (95\% confidence).}
+
+\item{delta}{Optional numeric value(s) for hypothesis testing. If provided, the
+function returns the test statistic and p-value under the `delta`
+hypothesis.}
+
+\item{data}{Optional data frame containing the variables specified in `x` and `by`.}
 }
 \value{
 A list containing the following components:
+
   \item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
   \item{conf.low}{Lower bound of the confidence interval}
   \item{conf.high}{Upper bound of the confidence interval}
   \item{conf.level}{The confidence level used}
   \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
+If `delta` is provided the list will have two additional compnents:
+  \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
+  \item{p.value}{p-value under the given `delta` null hypothesis}
 }
 \description{
 Calculates the Miettinen-Nurminen (MN) confidence interval for the difference
-between two proportions. This method can be more accurate than traditional methods,
-especially with small sample sizes or proportions close to 0 or 1.
+between two proportions. This method can be more accurate than traditional
+methods, especially with small sample sizes or proportions close to 0 or 1.
 }
 \details{
-The function implements the Miettinen-Nurminen method to compute confidence intervals
-for the difference between two proportions. This approach:
+The function implements the Miettinen-Nurminen method to compute
+confidence intervals for the difference between two proportions. This
+approach:
 
-1. Computes the test statistic across a range of possible difference values (delta)
-2. Identifies values of delta where the test statistic falls within the critical region
-   determined by the confidence level
-3. Returns the minimum and maximum acceptable values as the confidence interval bounds
+1. Computes the test statistic across a range of possible difference values
+(delta) 2. Identifies values of delta where the test statistic falls within
+the critical region determined by the confidence level 3. Returns the minimum
+and maximum acceptable values as the confidence interval bounds
 
-The method uses a score test with a small-sample correction factor, making it more
-accurate than normal approximation methods, especially for small samples or extreme proportions.
-The equation for the test statistics is as follows:
+The method uses a score test with a small-sample correction factor, making it
+more accurate than normal approximation methods, especially for small samples
+or extreme proportions. The equation for the test statistics is as follows:
 \deqn{T_{MN} = \frac{\hat{p}_x - \hat{p}_y - \delta}{\sqrt{V_{\delta}}}}
 
 where:
@@ -63,22 +77,25 @@ where:
 }
 }
 \examples{
-# Generate two binary samples
-x <- rbinom(100, 1, 0.6)
-y <- rbinom(80, 1, 0.5)
+# Generate binary samples
+responses <- expand(c(9, 3), c(10, 10))
+arm <- rep(c("treat", "control"), times = c(10, 10))
 
 # Calculate 95\% confidence interval for difference in proportions
-ci_prop_diff_mn(x, y)
+ci_prop_diff_mn(x = responses, by = arm)
 
 # Calculate 99\% confidence interval
-ci_prop_diff_mn(x, y, conf.level = 0.99)
+ci_prop_diff_mn(x = c(treat, control), by = arm, conf.level = 0.99)
+
+# Calculate the p-value under the null hypothesis delta = -0.1
+ci_prop_diff_mn(x = responses, by = arm, delta = -0.1)
 
 }
 \references{
-Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of two rates.
-Statistics in Medicine, 4(2), 213-226.
+Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of
+two rates. Statistics in Medicine, 4(2), 213-226.
 
 Chen, Y., & Zhou, X. (2016). Interval Estimation for the Difference Between
-Independent Proportions. Western Users of SAS Software Conference Proceedings 2016.
-https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf
+Independent Proportions. Western Users of SAS Software Conference Proceedings
+2016. https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf
 }
