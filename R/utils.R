@@ -53,7 +53,7 @@ get_counts <- function(x, by, strata = 1) {
     by = as.numeric(as.factor(by)),
     strata = strata
   ) |>
-    dplyr::group_by(.data$by, .data$strata) |>
+    dplyr::group_by(by, strata) |>
     dplyr::summarise(n = dplyr::n(),
                      response = sum(x)) |>
     tidyr::complete(strata, fill = list("n" = 0, "response" = 0)) |>
