@@ -87,7 +87,7 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   alpha <- 1 - conf.level
 
   lower_ci <- ifelse( df$response_1 > 0,
-                      uniroot(z_distance, interval=c(-0.999,0.999),
+                      stats::uniroot(z_distance, interval=c(-0.999,0.999),
                       fx=test_score_mn,
                       ref_z = stats::qnorm(1 - alpha / 2),
                       s_x = df$response_1, n_x = df$n_1,
@@ -95,7 +95,7 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
                       -1 )
 
   upper_ci <- ifelse( df$response_2 > 0,
-    uniroot(z_distance, interval=c(-0.999999,0.999999),
+    stats::uniroot(z_distance, interval=c(-0.999999,0.999999),
                       fx=test_score_mn,
                       ref_z = stats::qnorm(alpha / 2),
                       s_x = df$response_1, n_x = df$n_1,
@@ -109,7 +109,7 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
     check_not_missing(delta)
     statistic <- test_score_mn(s_x = df$response_1, n_x = df$n_1,
                                s_y = df$response_2, n_y = df$n_2, delta = delta)
-    p.value <- (1 - pnorm(abs(statistic)))
+    p.value <- (1 - stats::pnorm(abs(statistic)))
   }
 
   # Output
@@ -213,7 +213,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
     # Calculate confidence interval
     lower_ci <- ifelse(s_x > 0,
-      uniroot(z_distance, interval=c(-0.999,0.999),
+      stats::uniroot(z_distance, interval=c(-0.999,0.999),
                         fx=test_score_mn_weighted,
                         ref_z = stats::qnorm(1 - alpha / 2),
                         s_x = s_x, n_x = n_x,
@@ -221,7 +221,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
       -1)
 
     upper_ci <- ifelse(s_y > 0,
-      uniroot(z_distance, interval=c(-0.999,0.999),
+      stats::uniroot(z_distance, interval=c(-0.999,0.999),
                         fx=test_score_mn_weighted,
                         ref_z = stats::qnorm(alpha / 2),
                         s_x = s_x, n_x = n_x,
@@ -231,7 +231,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     if(!is.null(delta)){
       statistic <- test_score_mn_strata(s_x = s_x, n_x = n_x,
                                         s_y = s_y, n_y = n_y, w = w, delta = delta)
-      p.value <- (1 - pnorm(abs(statistic)))
+      p.value <- (1 - stats::pnorm(abs(statistic)))
     }
   } else if(method == "summary score") {
     #SAS PROC FREQ Summary Score Estimate of the Common Risk Difference
@@ -248,7 +248,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
              high = purrr::map_dbl(mn, "conf.high"),
              width = high - low,
              dh = low + width/2,
-             sh = width/(2*qnorm(1-alpha/2)),
+             sh = width/(2*stats::qnorm(1-alpha/2)),
              w = (1/sh^2)/sum(1/sh^2)
         ) |>
       dplyr::summarise(dS = sum(dh*w),
@@ -256,13 +256,13 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
 
     # Calculate confidence interval
-    lower_ci <- estimate$dS - qnorm(1-alpha/2)*sqrt(estimate$var_ds)
-    upper_ci <- estimate$dS + qnorm(1-alpha/2)*sqrt(estimate$var_ds)
+    lower_ci <- estimate$dS - stats::qnorm(1-alpha/2)*sqrt(estimate$var_ds)
+    upper_ci <- estimate$dS + stats::qnorm(1-alpha/2)*sqrt(estimate$var_ds)
     diff <- estimate$dS
     if(!is.null(delta)){
       statistic <- test_score_mn_strata(s_x = s_x, n_x = n_x,
                                         s_y = s_y, n_y = n_y, w = w, delta = delta)
-      p.value <- (1 - pnorm(abs(statistic)))
+      p.value <- (1 - stats::pnorm(abs(statistic)))
     }
 
   }
