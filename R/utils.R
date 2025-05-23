@@ -43,3 +43,20 @@ expand <- function(x, n){
              ) |>
     purrr::reduce(c)
 }
+
+
+#' To get the n's and response totals with out without strata
+#' @keywords internal
+get_counts <- function(x, by, strata = 1) {
+  dplyr::tibble(
+    x = x,
+    by = as.numeric(as.factor(by)),
+    strata = strata
+  ) |>
+    dplyr::group_by(.data$by, .data$strata) |>
+    dplyr::summarise(n = dplyr::n(),
+                     response = sum(x)) |>
+    tidyr::complete(strata, fill = list("n" = 0, "response" = 0)) |>
+    tidyr::pivot_wider(names_from = "by", values_from = c("n", "response"))
+
+}
