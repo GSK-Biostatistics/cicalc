@@ -66,7 +66,6 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   set_cli_abort_call()
   check_data_frame(data, allow_empty = TRUE)
   if(is.data.frame(data)){
-    browser()
     with(data, ci_prop_diff_mn(x = x, by = by,
                                conf.level = conf.level, delta = delta))
   }
@@ -87,16 +86,21 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 
   alpha <- 1 - conf.level
 
-  lower_ci <- uniroot(z_distance, interval=c(-0.999,0.999),
+  lower_ci <- ifelse( df$response_1 > 0,
+                      uniroot(z_distance, interval=c(-0.999,0.999),
                       fx=test_score_mn,
                       ref_z = stats::qnorm(1 - alpha / 2),
                       s_x = df$response_1, n_x = df$n_1,
-                      s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root
-  upper_ci <- uniroot(z_distance, interval=c(-0.999999,0.999999),
+                      s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
+                      -1 )
+
+  upper_ci <- ifelse( df$response_2 > 0,
+    uniroot(z_distance, interval=c(-0.999999,0.999999),
                       fx=test_score_mn,
                       ref_z = stats::qnorm(alpha / 2),
                       s_x = df$response_1, n_x = df$n_1,
-                      s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root
+                      s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
+    1)
 
   statistic = NULL
   p.value = NULL
@@ -208,16 +212,22 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     diff <- sum(s_x/n_x*w)/tot_w - sum(s_y/n_y*w)/tot_w
 
     # Calculate confidence interval
-    lower_ci <- uniroot(z_distance, interval=c(-0.999,0.999),
+    lower_ci <- ifelse(s_x > 0,
+      uniroot(z_distance, interval=c(-0.999,0.999),
                         fx=test_score_mn_weighted,
                         ref_z = stats::qnorm(1 - alpha / 2),
                         s_x = s_x, n_x = n_x,
-                        s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root
-    upper_ci <- uniroot(z_distance, interval=c(-0.999,0.999),
+                        s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root,
+      -1)
+
+    upper_ci <- ifelse(s_y > 0,
+      uniroot(z_distance, interval=c(-0.999,0.999),
                         fx=test_score_mn_weighted,
                         ref_z = stats::qnorm(alpha / 2),
                         s_x = s_x, n_x = n_x,
-                        s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root
+                        s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root,
+      1)
+
     if(!is.null(delta)){
       statistic <- test_score_mn_strata(s_x = s_x, n_x = n_x,
                                         s_y = s_y, n_y = n_y, w = w, delta = delta)
