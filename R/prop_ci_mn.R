@@ -95,7 +95,7 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
                       -1 )
 
   upper_ci <- ifelse( df$response_2 > 0,
-    stats::uniroot(z_distance, interval=c(-0.999999,0.999999),
+    stats::uniroot(z_distance, interval=c(lower_ci,0.999999),
                       fx=test_score_mn,
                       ref_z = stats::qnorm(alpha / 2),
                       s_x = df$response_1, n_x = df$n_1,
