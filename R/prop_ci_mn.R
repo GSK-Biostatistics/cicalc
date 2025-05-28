@@ -61,13 +61,22 @@
 #' ci_prop_diff_mn(x = responses, by = arm, delta = -0.1)
 #'
 #' @export
-#'
-ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL){
+ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL) {
   set_cli_abort_call()
   check_data_frame(data, allow_empty = TRUE)
-  if(is.data.frame(data)){
-    with(data, ci_prop_diff_mn(x = x, by = by,
-                               conf.level = conf.level, delta = delta))
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_diff_mn(
+        x = x ,
+        by = by ,
+        conf.level = conf.level,
+        delta = delta
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
   }
 
   # check inputs ---------------------------------------------------------------
