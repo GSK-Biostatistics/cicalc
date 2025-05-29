@@ -53,28 +53,6 @@ and maximum acceptable values as the confidence interval bounds
 The method uses a score test with a small-sample correction factor, making it
 more accurate than normal approximation methods, especially for small samples
 or extreme proportions. The equation for the test statistics is as follows:
-\deqn{T_{MN} = \frac{\hat{p}_x - \hat{p}_y - \delta}{\sqrt{V_{\delta}}}}
-
-where:
-\itemize{
-  \item \eqn{\hat{p}_x} and \eqn{\hat{p}_y} are the observed proportions in the two groups
-  \item \eqn{\delta} is the hypothesized difference
-  \item \eqn{V_{\delta}} is the variance estimate under the null hypothesis
-        \eqn{V_{\delta} = \lambda(\tilde{p}_x(1-\tilde{p}_x)/n_x + \tilde{p}_y(1-\tilde{p}_y)/n_y)}
-  \item \eqn{\lambda = N/(N+1)} is a small sample correction factor
-  \item \eqn{\tilde{p}_x} and \eqn{\tilde{p}_y} are the restricted maximum likelihood estimates
-        under the constraint that \eqn{\tilde{p}_x - \tilde{p}_y = \delta}
-  \item \eqn{\tilde{p}_x = 2ucos(w) - b/3a} and  \eqn{\tilde{p}_y = \tilde{p}_x - \delta}
-  \item \eqn{w = \frac{\pi + cos^{-1}(v/u^3)}{3}}
-  \item \eqn{v = \frac{b^3}{27a^3}-\frac{bc}{6a^2}+\frac{d}{2a}}
-  \item \eqn{u = \frac{v}{|v|}\sqrt{\frac{b^2}{9a^2}+\frac{c}{3a}}}
-  \item \eqn{a = 1 + \theta}
-  \item \eqn{b = -(1 + \theta + \tilde{p}_x + \theta\tilde{p}_y + \delta(\theta + 2))}
-  \item \eqn{c = \delta^2 + \delta(2\tilde{p}_x + \theta + 1) + \tilde{p}_x + \theta\tilde{p}_y}
-  \item \eqn{d = -\tilde{p}_x\delta(1+\delta)}
-  \item \eqn{\theta = n_y / n_x}
-
-}
 }
 \examples{
 # Generate binary samples
@@ -94,8 +72,4 @@ ci_prop_diff_mn(x = responses, by = arm, delta = -0.1)
 \references{
 Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of
 two rates. Statistics in Medicine, 4(2), 213-226.
-
-Chen, Y., & Zhou, X. (2016). Interval Estimation for the Difference Between
-Independent Proportions. Western Users of SAS Software Conference Proceedings
-2016. https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf
 }

@@ -57,3 +57,32 @@ test_that("ci_prop_diff_mn validates inputs correctly", {
   # Invalid delta
   expect_error(ci_prop_diff_mn(x = c(1, 0), by = c("A", "B"), delta = 2))
 })
+
+test_that("ci_prop_diff_mn_strata", {
+  set.seed(123)
+  trt<-c(rep(1, 100),rep(2, 100))
+  response<-rbinom(200,1,.6)
+  region <-1+rbinom(200,1,.5)
+  sex <-1+rbinom(200,1,.5)
+
+  exData<-data.frame(trt,response,region,sex)
+
+  strata <- interaction(region,sex)
+  strata_mn <- ci_prop_diff_mn_strata(x = response, by = trt,
+                         strata = strata, method = c("score", "summary score"),
+                         conf.level = 0.95, delta = -0.1)
+  # The values are from running this same analysis in SAS
+  expect_equal(strata_mn$conf.low, -0.16116, tolerance = 0.001)
+  expect_equal(strata_mn$conf.high, 0.10954, tolerance = 0.001)
+
+  # Check the values based on the delta = -0.1
+  expect_equal(strata_mn$statistic, 1.05697, tolerance = 0.01)
+  expect_equal(strata_mn$p.value, 0.14526, tolerance = 0.01)
+
+  null_delta <- ci_prop_diff_mn_strata(x = response, by = trt,
+                                      strata = strata, method = c("score", "summary score"),
+                                      conf.level = 0.95)
+  expect_null(null_delta$statistic)
+  expect_null(null_delta$p.value)
+
+})
