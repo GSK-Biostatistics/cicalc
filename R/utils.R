@@ -40,13 +40,14 @@ expand <- function(x, n){
   purrr::map2(x, n, \(x1, n1){
     c(rep(TRUE, times = x1), rep(FALSE, times = n1-x1))
   }
-             ) |>
+  ) |>
     purrr::reduce(c)
 }
 
 
 #' To get the n's and response totals with out without strata
 #' @keywords internal
+#' @noMd
 get_counts <- function(x, by, strata = 1) {
   dplyr::tibble(
     x = x,
@@ -59,4 +60,17 @@ get_counts <- function(x, by, strata = 1) {
     tidyr::complete(strata, fill = list("n" = 0, "response" = 0)) |>
     tidyr::pivot_wider(names_from = "by", values_from = c("n", "response"))
 
+}
+
+
+#' Function to combine strata via interaction if strata is passed as a vector
+#' @keywords internal
+#' @noMd
+combine_strata <- function(x, strata){
+  if(length(strata) %% length(x) != 0){
+    cli::cli_abort("The length {.arg strata} must divisable by the length {.arg x}")
+  }
+  factor <- length(strata) / length(x)
+  split(strata, rep(1:factor, each = length(x))) |>
+    interaction()
 }

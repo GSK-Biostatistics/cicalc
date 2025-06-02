@@ -30,10 +30,12 @@ A list containing the following components:
   \item{conf.low}{Lower bound of the confidence interval}
   \item{conf.high}{Upper bound of the confidence interval}
   \item{conf.level}{The confidence level used}
-  \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
-If `delta` is provided the list will have two additional compnents:
+  \item{delta}{delta value used}
   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
   \item{p.value}{p-value under the given `delta` null hypothesis}
+  \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
+
+If `delta` is not provided statistic and p.value will be NULL
 }
 \description{
 Calculates the Miettinen-Nurminen (MN) confidence interval for the difference
@@ -42,17 +44,41 @@ methods, especially with small sample sizes or proportions close to 0 or 1.
 }
 \details{
 The function implements the Miettinen-Nurminen method to compute
-confidence intervals for the difference between two proportions. This
-approach:
-
-1. Computes the test statistic across a range of possible difference values
-(delta) 2. Identifies values of delta where the test statistic falls within
-the critical region determined by the confidence level 3. Returns the minimum
-and maximum acceptable values as the confidence interval bounds
+confidence intervals for the difference between two proportions. This approach:
+\itemize{
+\item Calculates the Miettinen-Nurminen score test statistic for different
+possible values of the proportion difference (delta)
+\item Identifies the delta values where the test statistic equals the critical
+value corresponding to the desired confidence level
+\item Returns these boundary values as the confidence interval limits
+}
 
 The method uses a score test with a small-sample correction factor, making it
 more accurate than normal approximation methods, especially for small samples
 or extreme proportions. The equation for the test statistics is as follows:
+
+\deqn{ T_\delta = \frac{\hat{p_x} - \hat{p_y} - \delta}{\sigma_{mn}(\delta)}}
+
+where \eqn{\hat{p_*} = s_*/n_*} represent the observed number of successes
+divided by the number of participant in that group. The \eqn{\sigma_{mn}(\delta)} is a
+function of the delta values and is create with the following equation"
+\eqn{\tilde{p_*}} represent the MLE of the proportions.
+\deqn{
+\sigma_{mn}(\delta) = \sqrt{\left[\frac{\tilde{p_y}(1-\tilde{p_y})}{n_x}+\frac{\tilde{p_x}(1-\tilde{p_x})}{n_y} \right]\left(\frac{N}{N-1}\right)}
+}
+\eqn{ \tilde{p_x} = 2p\cdot{cos(a)} - \frac{L_2}{3L_3}} and \eqn{ \tilde{p_y} = \tilde{p_x} + \delta}
+where:
+\itemize{
+ \item \eqn{p = \pm \sqrt{\frac{L_2^2}{(3L_3)^2} - \frac{L_1}{3L_3}}}
+ \item \eqn{a = 1/3[\pi + cos^{-1}(q/p^3)]}
+ \item \eqn{q = \frac{L_2^3}{(3L_3)^3} - \frac{L_1L_2}{6L_3^2} + \frac{L_0}{2L_3}}
+ \item \eqn{L_3 = n_x + n_y }
+ \item \eqn{L_2 = (n_x + 2 n_y)\delta - N - (s_x + s_y)}
+ \item \eqn{L_1 = (n_y\delta - L_3 - 2s_y)\delta + s_x + s_y}
+ \item \eqn{L_0 = s_y\delta(1-\delta)}
+}
+
+For more information about these equations see Miettinen (1985)
 }
 \examples{
 # Generate binary samples
@@ -68,6 +94,9 @@ ci_prop_diff_mn(x = responses, by = arm, conf.level = 0.99)
 # Calculate the p-value under the null hypothesis delta = -0.1
 ci_prop_diff_mn(x = responses, by = arm, delta = -0.1)
 
+# Calculate from a data.frame
+data <- data.frame(responses, arm)
+ci_prop_diff_mn(x = responses, by = arm, data = data)
 }
 \references{
 Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of

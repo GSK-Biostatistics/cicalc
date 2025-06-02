@@ -69,7 +69,7 @@ test_that("ci_prop_diff_mn_strata", {
 
   strata <- interaction(region,sex)
   strata_mn <- ci_prop_diff_mn_strata(x = response, by = trt,
-                         strata = strata, method = c("score", "summary score"),
+                         strata = strata, method = "score",
                          conf.level = 0.95, delta = -0.1)
   # The values are from running this same analysis in SAS
   expect_equal(strata_mn$conf.low, -0.16116, tolerance = 0.001)
@@ -80,9 +80,30 @@ test_that("ci_prop_diff_mn_strata", {
   expect_equal(strata_mn$p.value, 0.14526, tolerance = 0.01)
 
   null_delta <- ci_prop_diff_mn_strata(x = response, by = trt,
-                                      strata = strata, method = c("score", "summary score"),
+                                      strata = strata, method = "score",
                                       conf.level = 0.95)
   expect_null(null_delta$statistic)
   expect_null(null_delta$p.value)
+
+  vector_strata <- ci_prop_diff_mn_strata(x = response, by = trt,
+                                      strata = c(region, sex),
+                                      method = "score",
+                                      conf.level = 0.95, delta = -0.1, data = exData)
+
+  expect_equal(strata_mn, vector_strata)
+
+
+  # Test exterme values
+  responses <- expand(c(9, 3, 7, 2), c(10, 10, 10, 10))
+  arm <- rep(c("treat", "control"), each = 20)
+  strata <- rep(c("stratum1", "stratum2"), times = c(20, 20))
+
+
+  # Calculate stratified confidence interval for difference in proportions
+  extreme <- ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata)
+  expect_equal(extreme$conf.low, -1.0000)
+  expect_equal(extreme$conf.high, 1.0000)
+
+
 
 })
