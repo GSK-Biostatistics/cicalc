@@ -462,6 +462,7 @@ ci_prop_wilson_strata <- function(x,
 #' @seealso [ci_prop_wilson_strata()]
 #'
 #' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' strata_data <- table(data.frame(
@@ -474,7 +475,7 @@ ci_prop_wilson_strata <- function(x,
 #' vars <- ests * (1 - ests) / ns
 #' weights <- rep(1 / length(ns), length(ns))
 #'
-#' cardx:::.strata_normal_quantile(vars, weights, 0.95)
+#' citools:::.strata_normal_quantile(vars, weights, 0.95)
 .strata_normal_quantile <- function(vars, weights, conf.level) {
   summands <- weights^2 * vars
   # Stratified quantile
@@ -501,13 +502,14 @@ ci_prop_wilson_strata <- function(x,
 #'
 #' @seealso For references and details see [`ci_prop_wilson_strata()`].
 #'
+#' @noRd
 #' @examples
 #' vs <- c(0.011, 0.013, 0.012, 0.014, 0.017, 0.018)
 #' sq <- 0.674
 #' ws <- rep(1 / length(vs), length(vs))
 #' ns <- c(22, 18, 17, 17, 14, 12)
 #'
-#' cardx:::.update_weights_strat_wilson(vs, sq, ws, ns, 100, 0.95, 0.001)
+#' citools:::.update_weights_strat_wilson(vs, sq, ws, ns, 100, 0.95, 0.001)
 .update_weights_strat_wilson <- function(vars,
                                          strata_qnorm,
                                          initial_weights,
