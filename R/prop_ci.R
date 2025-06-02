@@ -335,15 +335,6 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #' )
 #'
 #' @export
-#' .data |>
-#'   ci_proportion_wilson(x = x,
-#'                        strata = c("f1", "f2"),
-#'                       weights = weight_col)
-#' #'
-#'
-#' ci_proportion_wilson(x = x,
-#'                          strata = c("f1", "f2"),
-#'                         weights = weight_col)
 ci_prop_wilson_strata <- function(x,
                                        strata,
                                        weights = NULL,
@@ -464,11 +455,11 @@ ci_prop_wilson_strata <- function(x,
 #' the approximation for large numbers. This is necessary only in the case
 #' proportions for each strata are unequal.
 #'
-#' @inheritParams proportion_ci_strat_wilson
+#' @inheritParams ci_prop_wilson_strata
 #'
 #' @return Stratified quantile.
 #'
-#' @seealso [proportion_ci_strat_wilson()]
+#' @seealso [ci_prop_wilson_strata()]
 #'
 #' @keywords internal
 #'
@@ -497,7 +488,7 @@ ci_prop_wilson_strata <- function(x,
 #' weighted squared length of the confidence interval.
 #'
 #' @keywords internal
-#' @inheritParams proportion_ci_strat_wilson
+#' @inheritParams ci_prop_wilson_strata
 #' @param vars (`numeric`)\cr normalized proportions for each strata.
 #' @param strata_qnorm (`numeric`)\cr initial estimation with identical weights of the quantiles.
 #' @param initial_weights (`numeric`)\cr initial weights used to calculate `strata_qnorm`. This can
@@ -508,7 +499,7 @@ ci_prop_wilson_strata <- function(x,
 #'
 #' @return A `list` of 3 elements: `n_it`, `weights`, and `diff_v`.
 #'
-#' @seealso For references and details see [`proportion_ci_strat_wilson()`].
+#' @seealso For references and details see [`ci_prop_wilson_strata()`].
 #'
 #' @examples
 #' vs <- c(0.011, 0.013, 0.012, 0.014, 0.017, 0.018)

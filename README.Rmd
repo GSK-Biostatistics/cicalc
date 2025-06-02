@@ -1,0 +1,56 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# citools
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of citools is to ...
+
+## Installation
+
+You can install the development version of citools from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("GSK-Biostatistics/citools")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(citools)
+# Example of CI for proportions
+x <- c(
+ TRUE, TRUE, TRUE, TRUE, TRUE,
+ FALSE, FALSE, FALSE, FALSE, FALSE
+)
+ci_prop_wald(x, conf.level = 0.9)
+ci_prop_wilson(x, correct = TRUE)
+ci_prop_clopper_pearson(x)
+ci_prop_agresti_coull(x)
+ci_prop_jeffreys(x)
+# Example of CI for difference of proportions 
+# Generate binary samples
+responses <- expand(c(9, 3), c(10, 10))
+arm <- rep(c("treat", "control"), times = c(10, 10))
+
+# Calculate 95% confidence interval for difference in proportions
+ci_prop_diff_mn(x = responses, by = arm)
+```
+
