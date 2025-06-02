@@ -1,6 +1,6 @@
 Package: citools
 Type: Package
-Title: Confidence Intervals For Proportions
+Title: Confidence Intervals
 Version: 0.1.0
 Authors@R: c(
     person(given = "Christina",
@@ -10,8 +10,7 @@ Authors@R: c(
                     comment = c(ORCID = "0000-0003-0595-2302")),
     person("GlaxoSmithKline Research & Development Limited", role = c("cph", "fnd"))
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: This calculates a variety of different CIs for proportions including Wald, Miettinen-Nurminen etc.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true

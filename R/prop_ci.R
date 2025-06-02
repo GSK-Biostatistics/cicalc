@@ -1,234 +1,317 @@
+
+#' Wald CI
 #'
-#' #' @describeIn proportion_ci Calculates the Wald interval by following the usual textbook definition
-#' #'   for a single proportion confidence interval using the normal approximation.
-#' #'
-#' #' \deqn{\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}}
-#' #'
-#' #' @param correct (`logical`)\cr apply continuity correction.
-#' #'
-#' #' @export
-#' ci_proportion_wald <- function(x, conf.level = 0.95, correct = FALSE) {
-#'   set_cli_abort_call()
+#' @describeIn proportion_ci Calculates the Wald interval by following the usual textbook definition
+#'   for a single proportion confidence interval using the normal approximation.
 #'
-#'   # check inputs ---------------------------------------------------------------
-#'   check_not_missing(x)
-#'   check_binary(x)
-#'   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
-#'   check_scalar(conf.level)
-#'   check_class(x = correct, "logical")
-#'   check_scalar(correct)
+#' \deqn{\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}}
 #'
-#'   x <- stats::na.omit(x)
+#' @param x (binary `numeric`/`logical`)\cr
+#'   vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`
+#' @param conf.level (scalar numeric) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95
+#' @param correct (`logical`)\cr apply continuity correction.
+#' @param data
 #'
-#'   n <- length(x)
-#'   p_hat <- mean(x)
-#'   z <- stats::qnorm((1 + conf.level) / 2)
-#'   q_hat <- 1 - p_hat
-#'   correction_factor <- ifelse(correct, 1 / (2 * n), 0)
+#' @export
+#' @examples
+#' # example code
+#'x <- c(
+#' TRUE, TRUE, TRUE, TRUE, TRUE,
+#' FALSE, FALSE, FALSE, FALSE, FALSE
+#' )
 #'
-#'   err <- z * sqrt(p_hat * q_hat) / sqrt(n) + correction_factor
-#'   l_ci <- max(0, p_hat - err)
-#'   u_ci <- min(1, p_hat + err)
+#' ci_prop_wald(x, conf.level = 0.9)
 #'
-#'   list(
-#'     N = n,
-#'     n = sum(x),
-#'     estimate = p_hat,
-#'     conf.low = l_ci,
-#'     conf.high = u_ci,
-#'     conf.level = conf.level,
-#'     method =
-#'       glue::glue("Wald Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
-#'   )
-#' }
+ci_prop_wald <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
+  set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_wald(
+        x = x ,
+        conf.level = conf.level,
+        correct = correct
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_binary(x)
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+  check_class(x = correct, "logical")
+  check_scalar(correct)
+
+  x <- stats::na.omit(x)
+
+  n <- length(x)
+  p_hat <- mean(x)
+  z <- stats::qnorm((1 + conf.level) / 2)
+  q_hat <- 1 - p_hat
+  correction_factor <- ifelse(correct, 1 / (2 * n), 0)
+
+  err <- z * sqrt(p_hat * q_hat) / sqrt(n) + correction_factor
+  l_ci <- max(0, p_hat - err)
+  u_ci <- min(1, p_hat + err)
+
+  list(
+    N = n,
+    n = sum(x),
+    estimate = p_hat,
+    conf.low = l_ci,
+    conf.high = u_ci,
+    conf.level = conf.level,
+    method =
+      glue::glue("Wald Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+  )
+}
+
+
+#' @describeIn proportion_ci Calculates the Wilson interval by calling [stats::prop.test()].
+#'  Also referred to as Wilson score interval.
+#'
+#' \deqn{\frac{\hat{p} +
+#' \frac{z^2_{\alpha/2}}{2n} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n} +
+#' \frac{z^2_{\alpha/2}}{4n^2}}}{1 + \frac{z^2_{\alpha/2}}{n}}}
+#'
+#' @export
+ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
+  set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+
+  # check installed packages ---------------------------------------------------
+  check_pkg_installed(pkg = "broom")
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_wilson(
+        x = x ,
+        conf.level = conf.level,
+        correct = correct
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_binary(x)
+  check_class(x = correct, "logical")
+  check_scalar(correct)
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+
+  x <- stats::na.omit(x)
+
+  n <- length(x)
+  y <- stats::prop.test(x = sum(x), n = n, correct = correct, conf.level = conf.level)
+
+  list(
+    N = n,
+    n = sum(x),
+    conf.level = conf.level
+  ) |>
+    utils::modifyList(val = broom::tidy(y) |> as.list()) |>
+    utils::modifyList(
+      list(
+        method =
+          glue::glue("Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+      )
+    )
+}
+
+#' @describeIn proportion_ci Calculates the Clopper-Pearson interval by calling [stats::binom.test()].
+#'   Also referred to as the `exact` method.
+#'
+#' \deqn{
+#' \left( \frac{k}{n} \pm z_{\alpha/2} \sqrt{\frac{\frac{k}{n}(1-\frac{k}{n})}{n} +
+#' \frac{z^2_{\alpha/2}}{4n^2}} \right)
+#' / \left( 1 + \frac{z^2_{\alpha/2}}{n} \right)}
+#'
+#' @export
+ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
+  set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+
+  # check installed packages ---------------------------------------------------
+  check_pkg_installed(pkg = "broom")
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_clopper_pearson(
+        x = x ,
+        conf.level = conf.level
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+
+
+
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_binary(x)
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+
+  x <- stats::na.omit(x)
+  n <- length(x)
+
+  y <- stats::binom.test(x = sum(x), n = n, conf.level = conf.level)
+
+  list(N = n, n = sum(x), conf.level = conf.level) |>
+    utils::modifyList(val = broom::tidy(y) |> as.list()) |>
+    utils::modifyList(list(method = "Clopper-Pearson Confidence Interval"))
+}
+
+#' @describeIn proportion_ci Calculates the `Agresti-Coull` interval (created by `Alan Agresti` and `Brent Coull`) by
+#'   (for 95% CI) adding two successes and two failures to the data and then using the Wald formula to construct a CI.
+#'
+#' \deqn{
+#' \left( \frac{\tilde{p} + z^2_{\alpha/2}/2}{n + z^2_{\alpha/2}} \pm
+#' z_{\alpha/2} \sqrt{\frac{\tilde{p}(1 - \tilde{p})}{n} +
+#' \frac{z^2_{\alpha/2}}{4n^2}} \right)}
+#'
+#' @export
+ci_prop_agresti_coull <- function(x, conf.level = 0.95, data = NULL) {
+  set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_agresti_coull(
+        x = x ,
+        conf.level = conf.level
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_binary(x)
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+
+  x <- stats::na.omit(x)
+
+  n <- length(x)
+  x_sum <- sum(x)
+  z <- stats::qnorm((1 + conf.level) / 2)
+
+  # Add here both z^2 / 2 successes and failures.
+  x_sum_tilde <- x_sum + z^2 / 2
+  n_tilde <- n + z^2
+
+  # Then proceed as with the Wald interval.
+  p_tilde <- x_sum_tilde / n_tilde
+  q_tilde <- 1 - p_tilde
+  err <- z * sqrt(p_tilde * q_tilde) / sqrt(n_tilde)
+  l_ci <- max(0, p_tilde - err)
+  u_ci <- min(1, p_tilde + err)
+
+  list(
+    N = n,
+    n = sum(x),
+    estimate = mean(x),
+    conf.low = l_ci,
+    conf.high = u_ci,
+    conf.level = conf.level,
+    method = "Agresti-Coull Confidence Interval"
+  )
+}
+
+#' @describeIn proportion_ci Calculates the Jeffreys interval, an equal-tailed interval based on the
+#'   non-informative Jeffreys prior for a binomial proportion.
+#'
+#' \deqn{\left( \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_\alpha,
+#' \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_{1-\alpha} \right)}
+#'
+#' @export
+ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
+  set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_jeffreys(
+        x = x ,
+        conf.level = conf.level
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_binary(x)
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+  x <- stats::na.omit(x)
+
+  n <- length(x)
+  x_sum <- sum(x)
+
+  alpha <- 1 - conf.level
+  l_ci <- ifelse(
+    x_sum == 0,
+    0,
+    stats::qbeta(alpha / 2, x_sum + 0.5, n - x_sum + 0.5)
+  )
+
+  u_ci <- ifelse(
+    x_sum == n,
+    1,
+    stats::qbeta(1 - alpha / 2, x_sum + 0.5, n - x_sum + 0.5)
+  )
+
+  list(
+    N = n,
+    n = sum(x),
+    estimate = mean(x),
+    conf.low = l_ci,
+    conf.high = u_ci,
+    conf.level = conf.level,
+    method = glue::glue("Jeffreys Interval")
+  )
+}
+
+
+#' @describeIn proportion_ci Calculates the stratified Wilson confidence
+#'   interval for unequal proportions as described in
+#'   Xin YA, Su XG. Stratified Wilson and Newcombe confidence intervals
+#'   for multiple binomial proportions. _Statistics in Biopharmaceutical Research_. 2010;2(3).
+#'
+#' \deqn{\frac{\hat{p}_j + \frac{z^2_{\alpha/2}}{2n_j} \pm
+#' z_{\alpha/2} \sqrt{\frac{\hat{p}_j(1 - \hat{p}_j)}{n_j} +
+#' \frac{z^2_{\alpha/2}}{4n_j^2}}}{1 + \frac{z^2_{\alpha/2}}{n_j}}}
 #'
 #'
-#' #' @describeIn proportion_ci Calculates the Wilson interval by calling [stats::prop.test()].
-#' #'  Also referred to as Wilson score interval.
-#' #'
-#' #' \deqn{\frac{\hat{p} +
-#' #' \frac{z^2_{\alpha/2}}{2n} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n} +
-#' #' \frac{z^2_{\alpha/2}}{4n^2}}}{1 + \frac{z^2_{\alpha/2}}{n}}}
-#' #'
-#' #' @export
-#' ci_proportion_wilson <- function(x, conf.level = 0.95, correct = FALSE) {
-#'   set_cli_abort_call()
+#' @param strata (`factor`)\cr variable with one level per stratum and same length as `x`.
+#' @param weights (`numeric`)\cr weights for each level of the strata. If `NULL`, they are
+#'   estimated using the iterative algorithm that
+#'   minimizes the weighted squared length of the confidence interval.
+#' @param max.iterations (positive `integer`)\cr maximum number of iterations for the iterative procedure used
+#'   to find estimates of optimal weights.
+#' @param correct (scalar `logical`)\cr include the continuity correction. For further information, see for example
+#'   [stats::prop.test()].
 #'
-#'   # check installed packages ---------------------------------------------------
-#'   check_pkg_installed(pkg = "broom")
+#' @examples
+#' # Stratified Wilson confidence interval with unequal probabilities
 #'
-#'   # check inputs ---------------------------------------------------------------
-#'   check_not_missing(x)
-#'   check_binary(x)
-#'   check_class(x = correct, "logical")
-#'   check_scalar(correct)
-#'   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
-#'   check_scalar(conf.level)
-#'
-#'   x <- stats::na.omit(x)
-#'
-#'   n <- length(x)
-#'   y <- stats::prop.test(x = sum(x), n = n, correct = correct, conf.level = conf.level)
-#'
-#'   list(
-#'     N = n,
-#'     n = sum(x),
-#'     conf.level = conf.level
-#'   ) |>
-#'     utils::modifyList(val = broom::tidy(y) |> as.list()) |>
-#'     utils::modifyList(
-#'       list(
-#'         method =
-#'           glue::glue("Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
-#'       )
-#'     )
-#' }
-#'
-#' #' @describeIn proportion_ci Calculates the Clopper-Pearson interval by calling [stats::binom.test()].
-#' #'   Also referred to as the `exact` method.
-#' #'
-#' #' \deqn{
-#' #' \left( \frac{k}{n} \pm z_{\alpha/2} \sqrt{\frac{\frac{k}{n}(1-\frac{k}{n})}{n} +
-#' #' \frac{z^2_{\alpha/2}}{4n^2}} \right)
-#' #' / \left( 1 + \frac{z^2_{\alpha/2}}{n} \right)}
-#' #'
-#' #' @export
-#' ci_proportion_clopper_pearson <- function(x, conf.level = 0.95) {
-#'   set_cli_abort_call()
-#'
-#'   # check installed packages ---------------------------------------------------
-#'   check_pkg_installed(pkg = "broom")
-#'
-#'   # check inputs ---------------------------------------------------------------
-#'   check_not_missing(x)
-#'   check_binary(x)
-#'   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
-#'   check_scalar(conf.level)
-#'
-#'   x <- stats::na.omit(x)
-#'   n <- length(x)
-#'
-#'   y <- stats::binom.test(x = sum(x), n = n, conf.level = conf.level)
-#'
-#'   list(N = n, n = sum(x), conf.level = conf.level) |>
-#'     utils::modifyList(val = broom::tidy(y) |> as.list()) |>
-#'     utils::modifyList(list(method = "Clopper-Pearson Confidence Interval"))
-#' }
-#'
-#' #' @describeIn proportion_ci Calculates the `Agresti-Coull` interval (created by `Alan Agresti` and `Brent Coull`) by
-#' #'   (for 95% CI) adding two successes and two failures to the data and then using the Wald formula to construct a CI.
-#' #'
-#' #' \deqn{
-#' #' \left( \frac{\tilde{p} + z^2_{\alpha/2}/2}{n + z^2_{\alpha/2}} \pm
-#' #' z_{\alpha/2} \sqrt{\frac{\tilde{p}(1 - \tilde{p})}{n} +
-#' #' \frac{z^2_{\alpha/2}}{4n^2}} \right)}
-#' #'
-#' #' @export
-#' ci_proportion_agresti_coull <- function(x, conf.level = 0.95) {
-#'   set_cli_abort_call()
-#'
-#'   # check inputs ---------------------------------------------------------------
-#'   check_not_missing(x)
-#'   check_binary(x)
-#'   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
-#'   check_scalar(conf.level)
-#'
-#'   x <- stats::na.omit(x)
-#'
-#'   n <- length(x)
-#'   x_sum <- sum(x)
-#'   z <- stats::qnorm((1 + conf.level) / 2)
-#'
-#'   # Add here both z^2 / 2 successes and failures.
-#'   x_sum_tilde <- x_sum + z^2 / 2
-#'   n_tilde <- n + z^2
-#'
-#'   # Then proceed as with the Wald interval.
-#'   p_tilde <- x_sum_tilde / n_tilde
-#'   q_tilde <- 1 - p_tilde
-#'   err <- z * sqrt(p_tilde * q_tilde) / sqrt(n_tilde)
-#'   l_ci <- max(0, p_tilde - err)
-#'   u_ci <- min(1, p_tilde + err)
-#'
-#'   list(
-#'     N = n,
-#'     n = sum(x),
-#'     estimate = mean(x),
-#'     conf.low = l_ci,
-#'     conf.high = u_ci,
-#'     conf.level = conf.level,
-#'     method = "Agresti-Coull Confidence Interval"
-#'   )
-#' }
-#'
-#' #' @describeIn proportion_ci Calculates the Jeffreys interval, an equal-tailed interval based on the
-#' #'   non-informative Jeffreys prior for a binomial proportion.
-#' #'
-#' #' \deqn{\left( \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_\alpha,
-#' #' \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_{1-\alpha} \right)}
-#' #'
-#' #' @export
-#' ci_proportion_jeffreys <- function(x, conf.level = 0.95) {
-#'   set_cli_abort_call()
-#'
-#'   # check inputs ---------------------------------------------------------------
-#'   check_not_missing(x)
-#'   check_binary(x)
-#'   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
-#'   check_scalar(conf.level)
-#'   x <- stats::na.omit(x)
-#'
-#'   n <- length(x)
-#'   x_sum <- sum(x)
-#'
-#'   alpha <- 1 - conf.level
-#'   l_ci <- ifelse(
-#'     x_sum == 0,
-#'     0,
-#'     stats::qbeta(alpha / 2, x_sum + 0.5, n - x_sum + 0.5)
-#'   )
-#'
-#'   u_ci <- ifelse(
-#'     x_sum == n,
-#'     1,
-#'     stats::qbeta(1 - alpha / 2, x_sum + 0.5, n - x_sum + 0.5)
-#'   )
-#'
-#'   list(
-#'     N = n,
-#'     n = sum(x),
-#'     estimate = mean(x),
-#'     conf.low = l_ci,
-#'     conf.high = u_ci,
-#'     conf.level = conf.level,
-#'     method = glue::glue("Jeffreys Interval")
-#'   )
-#' }
-#'
-#'
-#' #' @describeIn proportion_ci Calculates the stratified Wilson confidence
-#' #'   interval for unequal proportions as described in
-#' #'   Xin YA, Su XG. Stratified Wilson and Newcombe confidence intervals
-#' #'   for multiple binomial proportions. _Statistics in Biopharmaceutical Research_. 2010;2(3).
-#' #'
-#' #' \deqn{\frac{\hat{p}_j + \frac{z^2_{\alpha/2}}{2n_j} \pm
-#' #' z_{\alpha/2} \sqrt{\frac{\hat{p}_j(1 - \hat{p}_j)}{n_j} +
-#' #' \frac{z^2_{\alpha/2}}{4n_j^2}}}{1 + \frac{z^2_{\alpha/2}}{n_j}}}
-#' #'
-#' #'
-#' #' @param strata (`factor`)\cr variable with one level per stratum and same length as `x`.
-#' #' @param weights (`numeric`)\cr weights for each level of the strata. If `NULL`, they are
-#' #'   estimated using the iterative algorithm that
-#' #'   minimizes the weighted squared length of the confidence interval.
-#' #' @param max.iterations (positive `integer`)\cr maximum number of iterations for the iterative procedure used
-#' #'   to find estimates of optimal weights.
-#' #' @param correct (scalar `logical`)\cr include the continuity correction. For further information, see for example
-#' #'   [stats::prop.test()].
-#' #'
-#' #' @examples
-#' #' # Stratified Wilson confidence interval with unequal probabilities
-#' #'
-#' #' set.seed(1)
+#' set.seed(1)
 #' rsp <- sample(c(TRUE, FALSE), 100, TRUE)
 #' strata_data <- data.frame(
 #'   x = sample(c(TRUE, FALSE), 100, TRUE),
@@ -237,21 +320,21 @@
 #'   stringsAsFactors = TRUE
 #' )
 #' strata <- interaction(strata_data)
-#' #' n_strata <- ncol(table(rsp, strata)) # Number of strata
-#' #'
-#' #' proportion_ci_strat_wilson(
-#' #'   x = rsp, strata = strata,
-#' #'   conf.level = 0.90
-#' #' )
-#' #'
-#' #' # Not automatic setting of weights
-#' #' proportion_ci_strat_wilson(
-#' #'   x = rsp, strata = strata,
-#' #'   weights = rep(1 / n_strata, n_strata),
-#' #'   conf.level = 0.90
-#' #' )
-#' #'
-#' #' @export
+#' n_strata <- ncol(table(rsp, strata)) # Number of strata
+#'
+#' proportion_ci_strat_wilson(
+#'   x = rsp, strata = strata,
+#'   conf.level = 0.90
+#' )
+#'
+#' # Not automatic setting of weights
+#' proportion_ci_strat_wilson(
+#'   x = rsp, strata = strata,
+#'   weights = rep(1 / n_strata, n_strata),
+#'   conf.level = 0.90
+#' )
+#'
+#' @export
 #' .data |>
 #'   ci_proportion_wilson(x = x,
 #'                        strata = c("f1", "f2"),
@@ -261,202 +344,208 @@
 #' ci_proportion_wilson(x = x,
 #'                          strata = c("f1", "f2"),
 #'                         weights = weight_col)
+ci_prop_wilson_strata <- function(x,
+                                       strata,
+                                       weights = NULL,
+                                       conf.level = 0.95,
+                                       max.iterations = 10L,
+                                       correct = FALSE,
+                                  data = NULL) {
+  set_cli_abort_call()
+
+  check_data_frame(data, allow_empty = TRUE)
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_jeffreys(
+        x = x ,
+        conf.level = conf.level
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_not_missing(strata)
+  check_binary(x)
+  check_class(correct, "logical")
+  check_scalar(correct)
+  check_class(strata, "factor")
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+
+  # remove missing values from x and strata
+  is_na <- is.na(x) | is.na(strata)
+  x <- x[!is_na]
+  strata <- strata[!is_na]
+  if (!inherits(x, "logical")) x <- as.logical(x)
+  # check all TRUE/FALSE, if so, not calculable
+  if (all(x) || all(!x)) {
+    cli::cli_abort("All values in {.arg x} argument are either {.code TRUE} or {.code FALSE} and CI is not estimable.")
+  }
+
+  tbl <- table(factor(x, levels = c(FALSE, TRUE)), strata, useNA = "no")
+  n_strata <- length(unique(strata))
+
+  # Checking the weights and maximum number of iterations.
+  do_iter <- FALSE
+  if (is.null(weights)) {
+    weights <- rep(1 / n_strata, n_strata) # Initialization for iterative procedure
+    do_iter <- TRUE
+
+    # Iteration parameters
+    if (!rlang::is_scalar_integerish(max.iterations) || max.iterations < 1) {
+      cli::cli_abort("Argument {.arg max.iterations} must be a positive integer.")
+    }
+  }
+  check_range(weights, range = c(0, 1), include_bounds = c(TRUE, TRUE))
+  sum_weights <- sum(weights) |>
+    round() |>
+    as.integer()
+  if (sum_weights != 1L || abs(sum_weights - sum(weights)) > sqrt(.Machine$double.eps)) {
+    cli::cli_abort("The sum of the {.arg weights} argument must be {.val {1L}}")
+  }
+
+  xs <- tbl["TRUE", ]
+  ns <- colSums(tbl)
+  use_stratum <- (ns > 0)
+  ns <- ns[use_stratum]
+  xs <- xs[use_stratum]
+  ests <- xs / ns
+  vars <- ests * (1 - ests) / ns
+
+  strata_qnorm <- .strata_normal_quantile(vars, weights, conf.level)
+
+  # Iterative setting of weights if they were not passed in `weights` argument
+  weights_new <- if (do_iter) {
+    .update_weights_strat_wilson(vars, strata_qnorm, weights, ns, max.iterations, conf.level)$weights
+  } else {
+    weights
+  }
+
+  strata_conf.level <- 2 * stats::pnorm(strata_qnorm) - 1
+
+  ci_by_strata <- Map(
+    function(x, n) {
+      # Classic Wilson's confidence interval
+      suppressWarnings(stats::prop.test(x, n, correct = correct, conf.level = strata_conf.level)$conf.int)
+    },
+    x = xs,
+    n = ns
+  )
+  lower_by_strata <- sapply(ci_by_strata, "[", 1L)
+  upper_by_strata <- sapply(ci_by_strata, "[", 2L)
+
+  lower <- sum(weights_new * lower_by_strata)
+  upper <- sum(weights_new * upper_by_strata)
+
+  # Return values
+  list(
+    N = length(x),
+    n = sum(x),
+    estimate = mean(x),
+    conf.low = lower,
+    conf.high = upper,
+    conf.level = conf.level,
+    weights = if (do_iter) weights_new else NULL,
+    method =
+      glue::glue("Stratified Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+  ) |>
+    compact()
+}
 
 
+#' Helper Function for the Estimation of Stratified Quantiles
 #'
-#' ci_proportion_strat_wilson <- function(x,
-#'                                        strata,
-#'                                        weights = NULL,
-#'                                        conf.level = 0.95,
-#'                                        max.iterations = 10L,
-#'                                        correct = FALSE) {
-#'   set_cli_abort_call()
+#' This function wraps the estimation of stratified percentiles when we assume
+#' the approximation for large numbers. This is necessary only in the case
+#' proportions for each strata are unequal.
 #'
-#'   # check inputs ---------------------------------------------------------------
-#'   check_not_missing(x)
-#'   check_not_missing(strata)
-#'   check_binary(x)
-#'   check_class(correct, "logical")
-#'   check_scalar(correct)
-#'   check_class(strata, "factor")
-#'   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
-#'   check_scalar(conf.level)
+#' @inheritParams proportion_ci_strat_wilson
 #'
-#'   # remove missing values from x and strata
-#'   is_na <- is.na(x) | is.na(strata)
-#'   x <- x[!is_na]
-#'   strata <- strata[!is_na]
-#'   if (!inherits(x, "logical")) x <- as.logical(x)
-#'   # check all TRUE/FALSE, if so, not calculable
-#'   if (all(x) || all(!x)) {
-#'     cli::cli_abort("All values in {.arg x} argument are either {.code TRUE} or {.code FALSE} and CI is not estimable.")
-#'   }
+#' @return Stratified quantile.
 #'
-#'   tbl <- table(factor(x, levels = c(FALSE, TRUE)), strata, useNA = "no")
-#'   n_strata <- length(unique(strata))
+#' @seealso [proportion_ci_strat_wilson()]
 #'
-#'   # Checking the weights and maximum number of iterations.
-#'   do_iter <- FALSE
-#'   if (is.null(weights)) {
-#'     weights <- rep(1 / n_strata, n_strata) # Initialization for iterative procedure
-#'     do_iter <- TRUE
+#' @keywords internal
 #'
-#'     # Iteration parameters
-#'     if (!rlang::is_scalar_integerish(max.iterations) || max.iterations < 1) {
-#'       cli::cli_abort("Argument {.arg max.iterations} must be a positive integer.")
-#'     }
-#'   }
-#'   check_range(weights, range = c(0, 1), include_bounds = c(TRUE, TRUE))
-#'   sum_weights <- sum(weights) |>
-#'     round() |>
-#'     as.integer()
-#'   if (sum_weights != 1L || abs(sum_weights - sum(weights)) > sqrt(.Machine$double.eps)) {
-#'     cli::cli_abort("The sum of the {.arg weights} argument must be {.val {1L}}")
-#'   }
+#' @examples
+#' strata_data <- table(data.frame(
+#'   "f1" = sample(c(TRUE, FALSE), 100, TRUE),
+#'   "f2" = sample(c("x", "y", "z"), 100, TRUE),
+#'   stringsAsFactors = TRUE
+#' ))
+#' ns <- colSums(strata_data)
+#' ests <- strata_data["TRUE", ] / ns
+#' vars <- ests * (1 - ests) / ns
+#' weights <- rep(1 / length(ns), length(ns))
 #'
-#'   xs <- tbl["TRUE", ]
-#'   ns <- colSums(tbl)
-#'   use_stratum <- (ns > 0)
-#'   ns <- ns[use_stratum]
-#'   xs <- xs[use_stratum]
-#'   ests <- xs / ns
-#'   vars <- ests * (1 - ests) / ns
+#' cardx:::.strata_normal_quantile(vars, weights, 0.95)
+.strata_normal_quantile <- function(vars, weights, conf.level) {
+  summands <- weights^2 * vars
+  # Stratified quantile
+  sqrt(sum(summands)) / sum(sqrt(summands)) * stats::qnorm((1 + conf.level) / 2)
+}
+
+#' Helper Function for the Estimation of Weights for `proportion_ci_strat_wilson()`
 #'
-#'   strata_qnorm <- .strata_normal_quantile(vars, weights, conf.level)
+#' This function wraps the iteration procedure that allows you to estimate
+#' the weights for each proportional strata. This assumes to minimize the
+#' weighted squared length of the confidence interval.
 #'
-#'   # Iterative setting of weights if they were not passed in `weights` argument
-#'   weights_new <- if (do_iter) {
-#'     .update_weights_strat_wilson(vars, strata_qnorm, weights, ns, max.iterations, conf.level)$weights
-#'   } else {
-#'     weights
-#'   }
+#' @keywords internal
+#' @inheritParams proportion_ci_strat_wilson
+#' @param vars (`numeric`)\cr normalized proportions for each strata.
+#' @param strata_qnorm (`numeric`)\cr initial estimation with identical weights of the quantiles.
+#' @param initial_weights (`numeric`)\cr initial weights used to calculate `strata_qnorm`. This can
+#'   be optimized in the future if we need to estimate better initial weights.
+#' @param n_per_strata (`numeric`)\cr number of elements in each strata.
+#' @param max.iterations (`count`)\cr maximum number of iterations to be tried. Convergence is always checked.
+#' @param tol (`number`)\cr tolerance threshold for convergence.
 #'
-#'   strata_conf.level <- 2 * stats::pnorm(strata_qnorm) - 1
+#' @return A `list` of 3 elements: `n_it`, `weights`, and `diff_v`.
 #'
-#'   ci_by_strata <- Map(
-#'     function(x, n) {
-#'       # Classic Wilson's confidence interval
-#'       suppressWarnings(stats::prop.test(x, n, correct = correct, conf.level = strata_conf.level)$conf.int)
-#'     },
-#'     x = xs,
-#'     n = ns
-#'   )
-#'   lower_by_strata <- sapply(ci_by_strata, "[", 1L)
-#'   upper_by_strata <- sapply(ci_by_strata, "[", 2L)
+#' @seealso For references and details see [`proportion_ci_strat_wilson()`].
 #'
-#'   lower <- sum(weights_new * lower_by_strata)
-#'   upper <- sum(weights_new * upper_by_strata)
+#' @examples
+#' vs <- c(0.011, 0.013, 0.012, 0.014, 0.017, 0.018)
+#' sq <- 0.674
+#' ws <- rep(1 / length(vs), length(vs))
+#' ns <- c(22, 18, 17, 17, 14, 12)
 #'
-#'   # Return values
-#'   list(
-#'     N = length(x),
-#'     n = sum(x),
-#'     estimate = mean(x),
-#'     conf.low = lower,
-#'     conf.high = upper,
-#'     conf.level = conf.level,
-#'     weights = if (do_iter) weights_new else NULL,
-#'     method =
-#'       glue::glue("Stratified Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
-#'   ) |>
-#'     compact()
-#' }
-#'
-#' #' @describeIn proportion_ci Helper to determine if vector is binary (logical or 0/1)
-#' #'
-#' #' @export
-#' is_binary <- function(x) {
-#'   is.logical(x) || (is_integerish(x) && is_empty(setdiff(x, c(0, 1, NA))))
-#' }
-#'
-#' #' Helper Function for the Estimation of Stratified Quantiles
-#' #'
-#' #' This function wraps the estimation of stratified percentiles when we assume
-#' #' the approximation for large numbers. This is necessary only in the case
-#' #' proportions for each strata are unequal.
-#' #'
-#' #' @inheritParams proportion_ci_strat_wilson
-#' #'
-#' #' @return Stratified quantile.
-#' #'
-#' #' @seealso [proportion_ci_strat_wilson()]
-#' #'
-#' #' @keywords internal
-#' #'
-#' #' @examples
-#' #' strata_data <- table(data.frame(
-#' #'   "f1" = sample(c(TRUE, FALSE), 100, TRUE),
-#' #'   "f2" = sample(c("x", "y", "z"), 100, TRUE),
-#' #'   stringsAsFactors = TRUE
-#' #' ))
-#' #' ns <- colSums(strata_data)
-#' #' ests <- strata_data["TRUE", ] / ns
-#' #' vars <- ests * (1 - ests) / ns
-#' #' weights <- rep(1 / length(ns), length(ns))
-#' #'
-#' #' cardx:::.strata_normal_quantile(vars, weights, 0.95)
-#' .strata_normal_quantile <- function(vars, weights, conf.level) {
-#'   summands <- weights^2 * vars
-#'   # Stratified quantile
-#'   sqrt(sum(summands)) / sum(sqrt(summands)) * stats::qnorm((1 + conf.level) / 2)
-#' }
-#'
-#' #' Helper Function for the Estimation of Weights for `proportion_ci_strat_wilson()`
-#' #'
-#' #' This function wraps the iteration procedure that allows you to estimate
-#' #' the weights for each proportional strata. This assumes to minimize the
-#' #' weighted squared length of the confidence interval.
-#' #'
-#' #' @keywords internal
-#' #' @inheritParams proportion_ci_strat_wilson
-#' #' @param vars (`numeric`)\cr normalized proportions for each strata.
-#' #' @param strata_qnorm (`numeric`)\cr initial estimation with identical weights of the quantiles.
-#' #' @param initial_weights (`numeric`)\cr initial weights used to calculate `strata_qnorm`. This can
-#' #'   be optimized in the future if we need to estimate better initial weights.
-#' #' @param n_per_strata (`numeric`)\cr number of elements in each strata.
-#' #' @param max.iterations (`count`)\cr maximum number of iterations to be tried. Convergence is always checked.
-#' #' @param tol (`number`)\cr tolerance threshold for convergence.
-#' #'
-#' #' @return A `list` of 3 elements: `n_it`, `weights`, and `diff_v`.
-#' #'
-#' #' @seealso For references and details see [`proportion_ci_strat_wilson()`].
-#' #'
-#' #' @examples
-#' #' vs <- c(0.011, 0.013, 0.012, 0.014, 0.017, 0.018)
-#' #' sq <- 0.674
-#' #' ws <- rep(1 / length(vs), length(vs))
-#' #' ns <- c(22, 18, 17, 17, 14, 12)
-#' #'
-#' #' cardx:::.update_weights_strat_wilson(vs, sq, ws, ns, 100, 0.95, 0.001)
-#' .update_weights_strat_wilson <- function(vars,
-#'                                          strata_qnorm,
-#'                                          initial_weights,
-#'                                          n_per_strata,
-#'                                          max.iterations = 50,
-#'                                          conf.level = 0.95,
-#'                                          tol = 0.001) {
-#'   it <- 0
-#'   diff_v <- NULL
-#'
-#'   while (it < max.iterations) {
-#'     it <- it + 1
-#'     weights_new_t <- (1 + strata_qnorm^2 / n_per_strata)^2
-#'     weights_new_b <- (vars + strata_qnorm^2 / (4 * n_per_strata^2))
-#'     weights_new <- weights_new_t / weights_new_b
-#'     weights_new <- weights_new / sum(weights_new)
-#'     strata_qnorm <- .strata_normal_quantile(vars, weights_new, conf.level)
-#'     diff_v <- c(diff_v, sum(abs(weights_new - initial_weights)))
-#'     if (diff_v[length(diff_v)] < tol) break
-#'     initial_weights <- weights_new
-#'   }
-#'
-#'   if (it == max.iterations) {
-#'     warning("The heuristic to find weights did not converge with max.iterations = ", max.iterations)
-#'   }
-#'
-#'   list(
-#'     "n_it" = it,
-#'     "weights" = weights_new,
-#'     "diff_v" = diff_v
-#'   )
-#' }
+#' cardx:::.update_weights_strat_wilson(vs, sq, ws, ns, 100, 0.95, 0.001)
+.update_weights_strat_wilson <- function(vars,
+                                         strata_qnorm,
+                                         initial_weights,
+                                         n_per_strata,
+                                         max.iterations = 50,
+                                         conf.level = 0.95,
+                                         tol = 0.001) {
+  it <- 0
+  diff_v <- NULL
+
+  while (it < max.iterations) {
+    it <- it + 1
+    weights_new_t <- (1 + strata_qnorm^2 / n_per_strata)^2
+    weights_new_b <- (vars + strata_qnorm^2 / (4 * n_per_strata^2))
+    weights_new <- weights_new_t / weights_new_b
+    weights_new <- weights_new / sum(weights_new)
+    strata_qnorm <- .strata_normal_quantile(vars, weights_new, conf.level)
+    diff_v <- c(diff_v, sum(abs(weights_new - initial_weights)))
+    if (diff_v[length(diff_v)] < tol) break
+    initial_weights <- weights_new
+  }
+
+  if (it == max.iterations) {
+    warning("The heuristic to find weights did not converge with max.iterations = ", max.iterations)
+  }
+
+  list(
+    "n_it" = it,
+    "weights" = weights_new,
+    "diff_v" = diff_v
+  )
+}
