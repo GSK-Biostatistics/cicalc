@@ -58,13 +58,6 @@ calc_pval <- function(prob_x, delta, eq_ex_mat, n_x, n_y) {
   sum(eq_ex_mat* dbinom(0:n_x, n_x, prob_x) %o% dbinom(0:n_y, n_y, prob_y), na.rm = TRUE)
 }
 
-ci_CZ(9, 3,10, 10)
-pval_chan(delta = -0.4821265, s_x = 9 , n_x = 10, s_y = 3, n_y= 10, low= TRUE)
-
-
-alpha = 0.05
-# Domain to look at the
-p = 9/10-3/10
 
 ci_prop_diff_cz <- function(s_x , s_y, n_x, n_y){
   alpha = 0.05
@@ -84,9 +77,7 @@ ci_prop_diff_cz <- function(s_x , s_y, n_x, n_y){
     pval_chan(delta = d, s_x = s_x , n_x = n_x, s_y = s_y, n_y= n_y, low= TRUE)
   }
   )
-  # foo <- map_dbl(delta_vec, pval_chan,
-  #     s_x = s_x , n_x = n_x, s_y = s_y, n_y= n_y, low= TRUE
-  #     )
+
   lower_ci <- -1*stats::uniroot(z_distance, interval=c(max(-d_delta_low-0.3,-0.9999),min(-d_delta_low+0.3,0.9999)),
                     fx=pval_chan,
                     ref_z = (alpha / 2),
