@@ -469,7 +469,7 @@ variance_mn <- function(s_x, n_x, s_y, n_y, delta){
 
   #equation 28
   q <- (L2^3)/((3*L3)^3) - (L1*L2)/(6*(L3^2)) + L0/(2*L3)
-
+  q <- ifelse(q == 0, 1e-12, q)
   p <- sign(q)*sqrt((L2^2)/((3*L3)^2) - L1/(3*L3))
 
   temp <- pmax(pmin(q/(p^3),1),-1)

@@ -32,7 +32,7 @@ expand <- function(x, n){
   check_integerish(n)
   check_range(x, range = c(0, Inf), include_bounds = c(TRUE, FALSE))
   check_range(n, range = c(0, Inf), include_bounds = c(TRUE, FALSE))
-  check_identical_length(x, n)
+  # check_identical_length(x, n)
   if(any(x > n)){
     cli::cli_abort("{.arg x} must be smaller than {.arg n}")
   }
