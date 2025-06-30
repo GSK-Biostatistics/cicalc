@@ -5,9 +5,9 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Stratified Miettinen-Nurminen Confidence Interval for Difference in Proportions — ci_prop_diff_mn_strata"><meta name="description" content="Calculates the Stratified Miettinen-Nurminen (MN) confidence interval for the
-difference between two proportions with stratification."><meta property="og:description" content="Calculates the Stratified Miettinen-Nurminen (MN) confidence interval for the
-difference between two proportions with stratification."></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Stratified Miettinen-Nurminen Confidence Interval for Difference in Proportions — ci_prop_diff_mn_strata"><meta name="description" content="Calculates Stratified Miettinen-Nurminen (MN) confidence intervals and
+corresponding point estimates for the difference between two proportions"><meta property="og:description" content="Calculates Stratified Miettinen-Nurminen (MN) confidence intervals and
+corresponding point estimates for the difference between two proportions"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -40,8 +40,8 @@ difference between two proportions with stratification."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Calculates the Stratified Miettinen-Nurminen (MN) confidence interval for the
-difference between two proportions with stratification.</p>
+    <p>Calculates Stratified Miettinen-Nurminen (MN) confidence intervals and
+corresponding point estimates for the difference between two proportions</p>
     </div>
 
     <div class="section level2">
@@ -62,14 +62,8 @@ difference between two proportions with stratification.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A binary vector representing all responses. Can also be a column
-name if a data frame provided in the `data` argument.</p></dd>
-
-
-<dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
-<dd><p>A character or factor vector with exactly two unique levels
-identifying the two groups to compare. Can also be a column name if a data
-frame provided in the `data` argument.</p></dd>
+<dd><p>(binary `numeric`/`logical`)<br>
+vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`</p></dd>
 
 
 <dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
@@ -80,24 +74,25 @@ if a data frame provided in the `data` argument.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>String specifying how the CI's should be calculated. It must
+<dd><p>String specifying how the CIs should be calculated. It must
 equal either 'score' or 'summary score'. See details for more information
 about the implementation differences.</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
-<dd><p>A numeric value between 0 and 1 specifying the confidence
-level. Default is 0.95 (95% confidence).</p></dd>
+<dd><p>(scalar numeric) <br> a scalar in (0,1) indicating the confidence level. Default is 0.95</p></dd>
 
 
 <dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
-<dd><p>Optional numeric value(s) for hypothesis testing. If provided, the
-function returns the test statistic and p-value under the `delta`
+<dd><p>('numeric') <br> Optionally a single number or a vector of
+numbers between -1 and 1 (not inclusive) to set the difference between two
+groups under the null hypothesis. If provided, the function returns the
+test statistic and p-value under the `delta`
 hypothesis.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>Optional data frame containing the variables specified in `x` and `by`.</p></dd>
+<dd><p>(data frame) <br> Optional data frame containing the variables specified in `x` and `by`.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -116,7 +111,7 @@ hypothesis.</p></dd>
   <dt>conf.level</dt>
 <dd><p>The confidence level used</p></dd>
  <dt>delta</dt>
-<dd><p>delta value used</p></dd>
+<dd><p>delta value(s) used</p></dd>
 
   <dt>statistic</dt>
 <dd><p>Z-Statistic under the given `delta` null hypothesis</p></dd>
@@ -134,28 +129,39 @@ hypothesis.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function implements the stratified Miettinen-Nurminen method to compute
-  confidence intervals for the difference between two proportions across multiple strata.</p>
+  confidence intervals for the difference between two proportions across multiple strata.
+  $$H_0: \hat{d}-\delta &lt;= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta &gt; 0$$</p>
 <p>For the "score" method, the approach:</p><ul><li><p>Calculates weights for each stratum as \(w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}\)</p></li>
 <li><p>Computes the overall weighted difference \(\hat{\delta} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
           \frac{\sum w_i \hat{p}_{yi}}{\sum w_i}\)</p></li>
 <li><p>Uses the stratified test statistic: $$Z_{\delta} = \frac{\hat{\delta} - \delta}
-          {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \sigma_{mn}^2(\delta)}}$$</p></li>
-<li><p>Finds confidence limits where this test statistic equals critical values from the standard normal distribution</p></li>
-</ul><p>The \(\sigma_{mn}^2(\delta)\) is the Miettinen-Nurminen variance estimate.
-  See the details of ci_prop_diff_mn() for how \(\sigma_{mn}^2(\delta)\) is calculated.</p>
-<p>For the "summary score" method, the function:</p><ul><li><p>Calculates within-stratum confidence intervals using the Miettinen-Nurminen method</p></li>
-<li><p>Computes a weighted average of the midpoints of these intervals \(d_S = \sum (lower_i + width_i/2)\cdot w_i\)</p></li>
-<li><p>Weights are inversely proportional to the squared standard errors: \(w_i = \frac{1/SE_i^2}{\sum 1/SE_i^2}\)</p></li>
-<li><p>Standard errors are estimated as \(SE_i = \frac{upper_i - lower_i}{2 \cdot z_{1-\alpha/2}}\)</p></li>
-<li><p>The overall variance is \(Var(d_S) = \frac{1}{\sum 1/SE_i^2}\)</p></li>
-<li><p>The CI is \(CI = d_S \pm z_{1-\alpha/2}\cdot \sqrt{Var(d_S)}\)</p></li>
+          {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2(\delta)}}$$</p></li>
+<li><p>Finds the range of all values of \(\delta\) for which the stratified test statistic (\(Z_\delta\))
+          falls in the acceptance region \(\{ Z_\delta &lt; z_{\alpha/2}\}\)</p></li>
+</ul><p>The \(\hat{\sigma}_{mn}^2(\delta)\) is the Miettinen-Nurminen variance estimate.
+  See the details of ci_prop_diff_mn() for how \(\hat{\sigma}_{mn}^2(\delta)\) is calculated.</p>
+<p>For the "summary score" method, the function:</p><ul><li><p>The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
+    $$
+      \hat{d}_{\text{S}} = \sum_i \hat{d}_i w_i
+      $$</p></li>
+<li><p>Define \(s_i\) as the width of the CI for the `i`th stratum divided by \(2 \times z_{\alpha/2}\) and then stratum weights are given by
+  $$
+    w_i = \left( \frac{1}{s_i^2} \right) \bigg/ \sum_i \left( \frac{1}{s_i^2} \right)
+    $$</p></li>
+<li><p>The variance of \(\hat{d}_{\text{S}} \) is computed as
+  $$
+     \widehat{\text{Var}}(\hat{d}_{\text{S}}) = \frac{1}{\sum_i \left( \frac{1}{s_i^2} \right) }
+    $$</p></li>
+<li><p>Confidence limits for the stratified risk difference estimate are
+  $$
+    \hat{d}_{\text{S}} \pm \left( z_{\alpha /2} \times \widehat{\text{Var}}(\hat{d}_{\text{S}}) \right)
+    $$</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Miettinen, O. S., &amp; Nurminen, M. (1985). Comparative analysis of two rates.
 Statistics in Medicine, 4(2), 213-226.</p>
-<p>SAS Institute Inc. (2013). SAS/STAT® 13.1 User's Guide. The FREQ Procedure.
-(For the summary score method)</p>
+<p><a href="https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm" class="external-link">Common Risk Difference :: Base SAS(R) 9.4 Procedures Guide: Statistical Procedures, Third Edition</a></p>
     </div>
 
     <div class="section level2">

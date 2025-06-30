@@ -57,29 +57,24 @@ methods, especially with small sample sizes or proportions close to 0 or 1.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A binary vector representing all responses. Can also be a column
-name if a data frame provided in the `data` argument.</p></dd>
-
-
-<dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
-<dd><p>A character or factor vector with exactly two unique levels
-identifying the two groups to compare. Can also be a column name if a data
-frame provided in the `data` argument.</p></dd>
+<dd><p>(binary `numeric`/`logical`)<br>
+vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
-<dd><p>A numeric value between 0 and 1 specifying the confidence
-level. Default is 0.95 (95% confidence).</p></dd>
+<dd><p>(scalar numeric) <br> a scalar in (0,1) indicating the confidence level. Default is 0.95</p></dd>
 
 
 <dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
-<dd><p>Optional numeric value(s) for hypothesis testing. If provided, the
-function returns the test statistic and p-value under the `delta`
+<dd><p>('numeric') <br> Optionally a single number or a vector of
+numbers between -1 and 1 (not inclusive) to set the difference between two
+groups under the null hypothesis. If provided, the function returns the
+test statistic and p-value under the `delta`
 hypothesis.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>Optional data frame containing the variables specified in `x` and `by`.</p></dd>
+<dd><p>(data frame) <br> Optional data frame containing the variables specified in `x` and `by`.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -99,7 +94,7 @@ hypothesis.</p></dd>
 <dd><p>The confidence level used</p></dd>
 
   <dt>delta</dt>
-<dd><p>delta value used</p></dd>
+<dd><p>delta value(s) used</p></dd>
 
   <dt>statistic</dt>
 <dd><p>Z-Statistic under the given `delta` null hypothesis</p></dd>
@@ -124,6 +119,7 @@ value corresponding to the desired confidence level</p></li>
 </ul><p>The method uses a score test with a small-sample correction factor, making it
 more accurate than normal approximation methods, especially for small samples
 or extreme proportions. The equation for the test statistics is as follows:</p>
+<p>$$H_0: \hat{d}-\delta &lt;= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta &gt; 0$$</p>
 <p>$$ T_\delta = \frac{\hat{p_x} - \hat{p_y} - \delta}{\sigma_{mn}(\delta)}$$</p>
 <p>where \(\hat{p_*} = s_*/n_*\) represent the observed number of successes
 divided by the number of participant in that group. The \(\sigma_{mn}(\delta)\) is a
