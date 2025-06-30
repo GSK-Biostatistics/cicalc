@@ -15,27 +15,27 @@ ci_prop_diff_mn_strata(
 )
 }
 \arguments{
-\item{x}{(binary `numeric`/`logical`)\cr
+\item{x}{(`binary`/`numeric`/`logical`)\cr
 vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`}
 
-\item{strata}{A vector specifying the stratum for each observation. It needs
+\item{strata}{(`numeric`) \cr A vector specifying the stratum for each observation. It needs
 to be the length of x or a multiple of x if multiple levels of strata are
 present. Can also be a column name (or vector of column names NOT quoted)
 if a data frame provided in the `data` argument.}
 
-\item{method}{String specifying how the CIs should be calculated. It must
+\item{method}{(`string`) \cr Specifying how the CIs should be calculated. It must
 equal either 'score' or 'summary score'. See details for more information
 about the implementation differences.}
 
-\item{conf.level}{(scalar numeric) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
+\item{conf.level}{(`scalar numeric`) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
 
-\item{delta}{('numeric') \cr Optionally a single number or a vector of
+\item{delta}{(`numeric`) \cr Optionally a single number or a vector of
 numbers between -1 and 1 (not inclusive) to set the difference between two
 groups under the null hypothesis. If provided, the function returns the
 test statistic and p-value under the `delta`
 hypothesis.}
 
-\item{data}{(data frame) \cr Optional data frame containing the variables specified in `x` and `by`.}
+\item{data}{(`data.frame`) \cr Optional data frame containing the variables specified in `x` and `by`.}
 }
 \value{
 A list containing the following components:

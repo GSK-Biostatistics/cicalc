@@ -5,7 +5,7 @@
 #' methods, especially with small sample sizes or proportions close to 0 or 1.
 #'
 #' @inheritParams ci_prop_wald
-#' @param delta ('numeric') \cr Optionally a single number or a vector of
+#' @param delta (`numeric`) \cr Optionally a single number or a vector of
 #'   numbers between -1 and 1 (not inclusive) to set the difference between two
 #'   groups under the null hypothesis. If provided, the function returns the
 #'   test statistic and p-value under the `delta`
@@ -202,11 +202,11 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #' corresponding point estimates for the difference between two proportions
 #'
 #' @inheritParams ci_prop_diff_mn
-#' @param strata A vector specifying the stratum for each observation. It needs
+#' @param strata (`numeric`) \cr A vector specifying the stratum for each observation. It needs
 #'   to be the length of x or a multiple of x if multiple levels of strata are
 #'   present. Can also be a column name (or vector of column names NOT quoted)
 #'   if a data frame provided in the `data` argument.
-#' @param method String specifying how the CIs should be calculated. It must
+#' @param method (`string`) \cr Specifying how the CIs should be calculated. It must
 #'   equal either 'score' or 'summary score'. See details for more information
 #'   about the implementation differences.
 #'

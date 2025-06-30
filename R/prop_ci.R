@@ -1,16 +1,16 @@
 
 #' Wald CI
 #'
-#' @describeIn proportion_ci Calculates the Wald interval by following the usual textbook definition
+#' Calculates the Wald interval by following the usual textbook definition
 #'   for a single proportion confidence interval using the normal approximation.
 #'
 #' \deqn{\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}}
 #'
-#' @param x (binary `numeric`/`logical`)\cr
+#' @param x (`binary`/`numeric`/`logical`)\cr
 #'   vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`
-#' @param conf.level (scalar numeric) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95
+#' @param conf.level (`scalar numeric`) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95
 #' @param correct (`logical`)\cr apply continuity correction.
-#' @param data (data frame) \cr Optional data frame containing the variables specified in `x` and `by`.
+#' @param data (`data.frame`) \cr Optional data frame containing the variables specified in `x` and `by`.
 #'
 #' @export
 #' @examples
@@ -72,8 +72,14 @@ ci_prop_wald <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
 }
 
 
-#' @describeIn proportion_ci Calculates the Wilson interval by calling [stats::prop.test()].
+#' Wilson CI
+#'
+#' Calculates the Wilson interval by calling [stats::prop.test()].
 #'  Also referred to as Wilson score interval.
+#'
+#' @inheritParams ci_prop_wald
+#'
+#' @details
 #'
 #' \deqn{\frac{\hat{p} +
 #' \frac{z^2_{\alpha/2}}{2n} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n} +
@@ -127,9 +133,13 @@ ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
     )
 }
 
-#' @describeIn proportion_ci Calculates the Clopper-Pearson interval by calling [stats::binom.test()].
-#'   Also referred to as the `exact` method.
+#' Clopper-Pearson CI
 #'
+#' Calculates the Clopper-Pearson interval by calling [stats::binom.test()].
+#'   Also referred to as the `exact` method.
+#' @inheritParams ci_prop_wald
+#'
+#' @details
 #' \deqn{
 #' \left( \frac{k}{n} \pm z_{\alpha/2} \sqrt{\frac{\frac{k}{n}(1-\frac{k}{n})}{n} +
 #' \frac{z^2_{\alpha/2}}{4n^2}} \right)
@@ -173,9 +183,13 @@ ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
     utils::modifyList(list(method = "Clopper-Pearson Confidence Interval"))
 }
 
-#' @describeIn proportion_ci Calculates the `Agresti-Coull` interval (created by `Alan Agresti` and `Brent Coull`) by
-#'   (for 95% CI) adding two successes and two failures to the data and then using the Wald formula to construct a CI.
+#' Agresti-Coull CI
 #'
+#' Calculates the `Agresti-Coull` interval (created by `Alan Agresti` and `Brent Coull`) by
+#'   (for 95% CI) adding two successes and two failures to the data and then using the Wald formula to construct a CI.
+#' @inheritParams ci_prop_wald
+#'
+#' @details
 #' \deqn{
 #' \left( \frac{\tilde{p} + z^2_{\alpha/2}/2}{n + z^2_{\alpha/2}} \pm
 #' z_{\alpha/2} \sqrt{\frac{\tilde{p}(1 - \tilde{p})}{n} +
@@ -231,9 +245,14 @@ ci_prop_agresti_coull <- function(x, conf.level = 0.95, data = NULL) {
   )
 }
 
-#' @describeIn proportion_ci Calculates the Jeffreys interval, an equal-tailed interval based on the
+#' Jeffreys CI
+#'
+#' Calculates the Jeffreys interval, an equal-tailed interval based on the
 #'   non-informative Jeffreys prior for a binomial proportion.
 #'
+#' @inheritParams ci_prop_wald
+#'
+#' @details
 #' \deqn{\left( \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_\alpha,
 #' \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_{1-\alpha} \right)}
 #'
