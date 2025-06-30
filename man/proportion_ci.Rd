@@ -38,7 +38,7 @@ vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1
 \item{correct}{(scalar `logical`)\cr include the continuity correction. For further information, see for example
 [stats::prop.test()].}
 
-\item{data}{}
+\item{data}{(data frame) \cr Optional data frame containing the variables specified in `x` and `by`.}
 
 \item{strata}{(`factor`)\cr variable with one level per stratum and same length as `x`.}
 

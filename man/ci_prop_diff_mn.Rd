@@ -7,21 +7,18 @@
 ci_prop_diff_mn(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 }
 \arguments{
-\item{x}{A binary vector representing all responses. Can also be a column
-name if a data frame provided in the `data` argument.}
+\item{x}{(binary `numeric`/`logical`)\cr
+vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`}
 
-\item{by}{A character or factor vector with exactly two unique levels
-identifying the two groups to compare. Can also be a column name if a data
-frame provided in the `data` argument.}
+\item{conf.level}{(scalar numeric) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
 
-\item{conf.level}{A numeric value between 0 and 1 specifying the confidence
-level. Default is 0.95 (95\% confidence).}
-
-\item{delta}{Optional numeric value(s) for hypothesis testing. If provided, the
-function returns the test statistic and p-value under the `delta`
+\item{delta}{('numeric') \cr Optionally a single number or a vector of
+numbers between -1 and 1 (not inclusive) to set the difference between two
+groups under the null hypothesis. If provided, the function returns the
+test statistic and p-value under the `delta`
 hypothesis.}
 
-\item{data}{Optional data frame containing the variables specified in `x` and `by`.}
+\item{data}{(data frame) \cr Optional data frame containing the variables specified in `x` and `by`.}
 }
 \value{
 A list containing the following components:
@@ -30,7 +27,7 @@ A list containing the following components:
   \item{conf.low}{Lower bound of the confidence interval}
   \item{conf.high}{Upper bound of the confidence interval}
   \item{conf.level}{The confidence level used}
-  \item{delta}{delta value used}
+  \item{delta}{delta value(s) used}
   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
   \item{p.value}{p-value under the given `delta` null hypothesis}
   \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
@@ -56,6 +53,8 @@ value corresponding to the desired confidence level
 The method uses a score test with a small-sample correction factor, making it
 more accurate than normal approximation methods, especially for small samples
 or extreme proportions. The equation for the test statistics is as follows:
+
+\deqn{H_0: \hat{d}-\delta <= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta > 0}
 
 \deqn{ T_\delta = \frac{\hat{p_x} - \hat{p_y} - \delta}{\sigma_{mn}(\delta)}}
 

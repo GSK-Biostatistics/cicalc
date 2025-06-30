@@ -10,7 +10,7 @@
 #'   vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`
 #' @param conf.level (scalar numeric) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95
 #' @param correct (`logical`)\cr apply continuity correction.
-#' @param data
+#' @param data (data frame) \cr Optional data frame containing the variables specified in `x` and `by`.
 #'
 #' @export
 #' @examples

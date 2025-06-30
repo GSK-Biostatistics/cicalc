@@ -4,18 +4,12 @@
 #' between two proportions. This method can be more accurate than traditional
 #' methods, especially with small sample sizes or proportions close to 0 or 1.
 #'
-#' @param x A binary vector representing all responses. Can also be a column
-#'   name if a data frame provided in the `data` argument.
-#' @param by A character or factor vector with exactly two unique levels
-#'   identifying the two groups to compare. Can also be a column name if a data
-#'   frame provided in the `data` argument.
-#' @param conf.level A numeric value between 0 and 1 specifying the confidence
-#'   level. Default is 0.95 (95\% confidence).
-#' @param delta Optional numeric value(s) for hypothesis testing. If provided, the
-#'   function returns the test statistic and p-value under the `delta`
+#' @inheritParams ci_prop_wald
+#' @param delta ('numeric') \cr Optionally a single number or a vector of
+#'   numbers between -1 and 1 (not inclusive) to set the difference between two
+#'   groups under the null hypothesis. If provided, the function returns the
+#'   test statistic and p-value under the `delta`
 #'   hypothesis.
-#' @param data Optional data frame containing the variables specified in `x` and `by`.
-#
 #'
 #' @return A list containing the following components:
 #'
@@ -23,7 +17,7 @@
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
-#'   \item{delta}{delta value used}
+#'   \item{delta}{delta value(s) used}
 #'   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
 #'   \item{p.value}{p-value under the given `delta` null hypothesis}
 #'   \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
@@ -44,6 +38,8 @@
 #' The method uses a score test with a small-sample correction factor, making it
 #' more accurate than normal approximation methods, especially for small samples
 #' or extreme proportions. The equation for the test statistics is as follows:
+#'
+#' \deqn{H_0: \hat{d}-\delta <= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta > 0}
 #'
 #' \deqn{ T_\delta = \frac{\hat{p_x} - \hat{p_y} - \delta}{\sigma_{mn}(\delta)}}
 #'
@@ -202,15 +198,15 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 
 #' Stratified Miettinen-Nurminen Confidence Interval for Difference in Proportions
 #'
-#' Calculates the Stratified Miettinen-Nurminen (MN) confidence interval for the
-#' difference between two proportions with stratification.
+#' Calculates Stratified Miettinen-Nurminen (MN) confidence intervals and
+#' corresponding point estimates for the difference between two proportions
 #'
 #' @inheritParams ci_prop_diff_mn
 #' @param strata A vector specifying the stratum for each observation. It needs
 #'   to be the length of x or a multiple of x if multiple levels of strata are
 #'   present. Can also be a column name (or vector of column names NOT quoted)
 #'   if a data frame provided in the `data` argument.
-#' @param method String specifying how the CI's should be calculated. It must
+#' @param method String specifying how the CIs should be calculated. It must
 #'   equal either 'score' or 'summary score'. See details for more information
 #'   about the implementation differences.
 #'
@@ -220,7 +216,7 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'   \item{estimate}{The point estimate of the difference in proportions (p_x -
 #'   p_y)} \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
-#'   \item{conf.level}{The confidence level used} \item{delta}{delta value used}
+#'   \item{conf.level}{The confidence level used} \item{delta}{delta value(s) used}
 #'   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
 #'   \item{p.value}{p-value under the given `delta` null hypothesis}
 #'   \item{method}{Description of the method used ("Stratified
@@ -231,6 +227,7 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'
 #' @details The function implements the stratified Miettinen-Nurminen method to compute
 #'   confidence intervals for the difference between two proportions across multiple strata.
+#'   \deqn{H_0: \hat{d}-\delta <= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta > 0}
 #'
 #'   For the "score" method, the approach:
 #'   \itemize{
@@ -238,29 +235,41 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'     \item Computes the overall weighted difference \eqn{\hat{\delta} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
 #'           \frac{\sum w_i \hat{p}_{yi}}{\sum w_i}}
 #'     \item Uses the stratified test statistic: \deqn{Z_{\delta} = \frac{\hat{\delta} - \delta}
-#'           {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \sigma_{mn}^2(\delta)}}}
-#'     \item Finds confidence limits where this test statistic equals critical values from the standard normal distribution
+#'           {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2(\delta)}}}
+#'     \item Finds the range of all values of \eqn{\delta} for which the stratified test statistic (\eqn{Z_\delta})
+#'           falls in the acceptance region \eqn{\{ Z_\delta < z_{\alpha/2}\}}
 #'   }
 #'
-#'   The \eqn{\sigma_{mn}^2(\delta)} is the Miettinen-Nurminen variance estimate.
-#'   See the details of ci_prop_diff_mn() for how \eqn{\sigma_{mn}^2(\delta)} is calculated.
+#'   The \eqn{\hat{\sigma}_{mn}^2(\delta)} is the Miettinen-Nurminen variance estimate.
+#'   See the details of ci_prop_diff_mn() for how \eqn{\hat{\sigma}_{mn}^2(\delta)} is calculated.
 #'
 #'   For the "summary score" method, the function:
 #'   \itemize{
-#'     \item Calculates within-stratum confidence intervals using the Miettinen-Nurminen method
-#'     \item Computes a weighted average of the midpoints of these intervals \eqn{d_S = \sum (lower_i + width_i/2)\cdot w_i}
-#'     \item Weights are inversely proportional to the squared standard errors: \eqn{w_i = \frac{1/SE_i^2}{\sum 1/SE_i^2}}
-#'     \item Standard errors are estimated as \eqn{SE_i = \frac{upper_i - lower_i}{2 \cdot z_{1-\alpha/2}}}
-#'     \item The overall variance is \eqn{Var(d_S) = \frac{1}{\sum 1/SE_i^2}}
-#'     \item The CI is \eqn{CI = d_S \pm z_{1-\alpha/2}\cdot \sqrt{Var(d_S)}}
+#'   \item The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
+#'     \deqn{
+#'       \hat{d}_{\text{S}} = \sum_i \hat{d}_i w_i
+#'       }
+#'   \item Define \eqn{s_i} as the width of the CI for the `i`th stratum divided by \eqn{2 \times z_{\alpha/2}} and then stratum weights are given by
+#'   \deqn{
+#'     w_i = \left( \frac{1}{s_i^2} \right) \bigg/ \sum_i \left( \frac{1}{s_i^2} \right)
+#'     }
+#'   \item The variance of \eqn{\hat{d}_{\text{S}} } is computed as
+#'   \deqn{
+#'      \widehat{\text{Var}}(\hat{d}_{\text{S}}) = \frac{1}{\sum_i \left( \frac{1}{s_i^2} \right) }
+#'     }
+#'   \item Confidence limits for the stratified risk difference estimate are
+#'   \deqn{
+#'     \hat{d}_{\text{S}} \pm \left( z_{\alpha /2} \times \widehat{\text{Var}}(\hat{d}_{\text{S}}) \right)
+#'     }
 #'   }
+#'
 #'
 #' @references
 #' Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of two rates.
 #' Statistics in Medicine, 4(2), 213-226.
 #'
-#' SAS Institute Inc. (2013). SAS/STAT® 13.1 User's Guide. The FREQ Procedure.
-#' (For the summary score method)
+#' \href{https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm}{Common Risk Difference :: Base SAS(R) 9.4 Procedures Guide: Statistical Procedures, Third Edition}
+#'
 #'
 #' @examples
 #' # Generate binary samples with strata
@@ -355,8 +364,10 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
                         s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
 
     if(!is.null(delta)){
-      statistic <- test_score_mn_weighted(s_x = s_x, n_x = n_x,
-                                        s_y = s_y, n_y = n_y, w = w, delta = delta)
+      statistic <- purrr::map_dbl(delta, \(d){
+        test_score_mn_weighted(s_x = s_x, n_x = n_x,
+                               s_y = s_y, n_y = n_y, w = w, delta = d)
+      })
       p.value <- (1 - stats::pnorm(abs(statistic)))
     }
   } else if(method == "summary score") {
