@@ -120,7 +120,7 @@ test_that("check the ci_prop_*() functions work", {
 
 test_that("check the ci_prop_strat_wilson() function works", {
   # check Stratified Wilson CIs ----------------------------------------------------------
-  withr::local_seed(1)
+  set.seed(1)
   rsp <- c(
     sample(c(TRUE, FALSE), size = 40, prob = c(3 / 4, 1 / 4), replace = TRUE),
     sample(c(TRUE, FALSE), size = 40, prob = c(1 / 2, 1 / 2), replace = TRUE)
