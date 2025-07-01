@@ -304,7 +304,7 @@
 ---
 
     Code
-      ci_prop_wilson(x_true)
+      ci_prop_clopper_pearson(x_true)
     Output
       $N
       [1] 32
@@ -316,39 +316,39 @@
       [1] 0.95
       
       $estimate
-      p 
-      1 
+      probability of success 
+                           1 
       
       $statistic
-      X-squared 
-             32 
+      number of successes 
+                       32 
       
       $p.value
-      [1] 1.541726e-08
+      [1] 4.656613e-10
       
       $parameter
-      df 
-       1 
+      number of trials 
+                    32 
       
       $conf.low
-      [1] 0.8928208
+      [1] 0.8911188
       
       $conf.high
       [1] 1
       
       $method
-      Wilson Confidence Interval without continuity correction
+      [1] "Clopper-Pearson Confidence Interval"
       
       $alternative
       [1] "two.sided"
       
       attr(,"class")
-      [1] "wilson"      "prop_ci_uni" "cicada"     
+      [1] "clopper-pearson" "prop_ci_uni"     "cicada"         
 
 ---
 
     Code
-      ci_prop_wilson(x_false)
+      ci_prop_clopper_pearson(x_false)
     Output
       $N
       [1] 32
@@ -360,34 +360,34 @@
       [1] 0.95
       
       $estimate
-      p 
-      0 
+      probability of success 
+                           0 
       
       $statistic
-      X-squared 
-             32 
+      number of successes 
+                        0 
       
       $p.value
-      [1] 1.541726e-08
+      [1] 4.656613e-10
       
       $parameter
-      df 
-       1 
+      number of trials 
+                    32 
       
       $conf.low
       [1] 0
       
       $conf.high
-      [1] 0.1071792
+      [1] 0.1088812
       
       $method
-      Wilson Confidence Interval without continuity correction
+      [1] "Clopper-Pearson Confidence Interval"
       
       $alternative
       [1] "two.sided"
       
       attr(,"class")
-      [1] "wilson"      "prop_ci_uni" "cicada"     
+      [1] "clopper-pearson" "prop_ci_uni"     "cicada"         
 
 ---
 

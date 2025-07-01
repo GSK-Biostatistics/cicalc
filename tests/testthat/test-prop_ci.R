@@ -6,10 +6,13 @@ test_that("check the ci_prop_*() functions work", {
   x_true <- rep_len(TRUE, 32)
   x_false <- rep_len(FALSE, 32)
 
+  df <- data.frame(x_val = x_rsp)
+
   # check Wilson CIs ----------------------------------------------------------
   expect_snapshot(
     wilson_dbl <- ci_prop_wilson(x_dbl, conf.level = 0.9, correct = FALSE)
   )
+
   expect_equal(
     wilson_dbl[c("conf.low", "conf.high")],
     prop.test(x = sum(x_dbl, na.rm = TRUE), n = 32, conf.level = 0.9, correct = FALSE)$conf.int |>
@@ -37,6 +40,10 @@ test_that("check the ci_prop_*() functions work", {
       setNames(c("conf.low", "conf.high"))
   )
 
+  wilson_dbl <- ci_prop_wilson(x_rsp, conf.level = 0.9, correct = FALSE)
+  wilson_dbl_df <- ci_prop_wilson(x_val, conf.level = 0.9, correct = FALSE, data = df)
+  expect_equal(wilson_dbl, wilson_dbl_df)
+
   expect_snapshot(ci_prop_wilson(x_rsp, conf.level = 0.9))
   expect_snapshot(ci_prop_wilson(x_true))
   expect_snapshot(ci_prop_wilson(x_false))
@@ -51,6 +58,12 @@ test_that("check the ci_prop_*() functions work", {
   expect_snapshot(
     wald_lgl <- ci_prop_wald(x_lgl, conf.level = 0.9, correct = FALSE)
   )
+
+  # Check data input
+  wald_dbl <- ci_prop_wald(x_rsp, conf.level = 0.9, correct = FALSE)
+  wald_dbl_df <- ci_prop_wald(x_val, conf.level = 0.9, correct = FALSE, data = df)
+  expect_equal(wald_dbl, wald_dbl_df)
+
 
   expect_snapshot(ci_prop_wald(x_rsp, conf.level = 0.95, correct = TRUE))
   expect_snapshot(ci_prop_wald(x_true))
@@ -77,9 +90,13 @@ test_that("check the ci_prop_*() functions work", {
       setNames(c("conf.low", "conf.high"))
   )
 
+  cp_dbl <- ci_prop_clopper_pearson(x_rsp, conf.level = 0.9)
+  cp_dbl_df <- ci_prop_clopper_pearson(x_val, conf.level = 0.9, data = df)
+  expect_equal(cp_dbl, cp_dbl_df)
+
   expect_snapshot(ci_prop_clopper_pearson(x_rsp, conf.level = 0.95))
-  expect_snapshot(ci_prop_wilson(x_true))
-  expect_snapshot(ci_prop_wilson(x_false))
+  expect_snapshot(ci_prop_clopper_pearson(x_true))
+  expect_snapshot(ci_prop_clopper_pearson(x_false))
 
   # check Agresti-Coull CIs ----------------------------------------------------------
   expect_snapshot(
@@ -88,6 +105,12 @@ test_that("check the ci_prop_*() functions work", {
   expect_snapshot(
     agresti_coull_lgl <- ci_prop_agresti_coull(x_lgl, conf.level = 0.9)
   )
+
+
+  ac_dbl <- ci_prop_agresti_coull(x_rsp, conf.level = 0.9)
+  ac_dbl_df <- ci_prop_agresti_coull(x_val, conf.level = 0.9, data = df)
+  expect_equal(ac_dbl, ac_dbl_df)
+
 
   expect_snapshot(ci_prop_agresti_coull(x_rsp, conf.level = 0.95))
   expect_snapshot(ci_prop_agresti_coull(x_true))
@@ -100,6 +123,10 @@ test_that("check the ci_prop_*() functions work", {
   expect_snapshot(
     jeffreys_lgl <- ci_prop_jeffreys(x_lgl, conf.level = 0.9)
   )
+
+  jeff_dbl <- ci_prop_jeffreys(x_rsp, conf.level = 0.9)
+  jeff_dbl_df <- ci_prop_jeffreys(x_val, conf.level = 0.9, data = df)
+  expect_equal(jeff_dbl, jeff_dbl_df)
 
   expect_snapshot(ci_prop_jeffreys(x_rsp, conf.level = 0.95))
   expect_snapshot(ci_prop_jeffreys(x_true))
