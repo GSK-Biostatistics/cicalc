@@ -8,13 +8,18 @@ Authors@R: c(
                     role = c("aut", "cre"),
                     email = "christina.e.fillmore@gsk.com",
                     comment = c(ORCID = "0000-0003-0595-2302")),
-    person("GlaxoSmithKline Research & Development Limited", role = c("cph", "fnd"))
+    person("GlaxoSmithKline Research & Development Limited", role = c("cph", "fnd")),
+    person(given = "Dan",
+                    family = "Lyrhgoe",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0002-4682-772X"))
   )
 Description: This calculates a variety of different CIs for proportions including Wald, Miettinen-Nurminen etc.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    broom,
     cli,
     dplyr,
     glue,
@@ -26,3 +31,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://gsk-biostatistics.github.io/citools/
+Roxygen: list(markdown = TRUE)
