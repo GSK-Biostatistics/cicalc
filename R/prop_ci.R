@@ -77,14 +77,11 @@ ci_prop_wald <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
 #' Calculates the Wilson interval by calling [stats::prop.test()].
 #'  Also referred to as Wilson score interval.
 #'
-#' @inheritParams ci_prop_wald
-#'
-#' @details
 #'
 #' \deqn{\frac{\hat{p} +
 #' \frac{z^2_{\alpha/2}}{2n} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n} +
 #' \frac{z^2_{\alpha/2}}{4n^2}}}{1 + \frac{z^2_{\alpha/2}}{n}}}
-#'
+#' @inheritParams ci_prop_wald
 #' @export
 ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
   set_cli_abort_call()
@@ -308,7 +305,9 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 }
 
 
-#' @describeIn proportion_ci Calculates the stratified Wilson confidence
+#' Stratified Wilson CI
+#'
+#' Calculates the stratified Wilson confidence
 #'   interval for unequal proportions as described in
 #'   Xin YA, Su XG. Stratified Wilson and Newcombe confidence intervals
 #'   for multiple binomial proportions. _Statistics in Biopharmaceutical Research_. 2010;2(3).
@@ -317,8 +316,7 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #' z_{\alpha/2} \sqrt{\frac{\hat{p}_j(1 - \hat{p}_j)}{n_j} +
 #' \frac{z^2_{\alpha/2}}{4n_j^2}}}{1 + \frac{z^2_{\alpha/2}}{n_j}}}
 #'
-#'
-#' @param strata (`factor`)\cr variable with one level per stratum and same length as `x`.
+#' @inheritParams ci_prop_diff_mn_strata
 #' @param weights (`numeric`)\cr weights for each level of the strata. If `NULL`, they are
 #'   estimated using the iterative algorithm that
 #'   minimizes the weighted squared length of the confidence interval.
@@ -341,13 +339,13 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #' strata <- interaction(strata_data)
 #' n_strata <- ncol(table(rsp, strata)) # Number of strata
 #'
-#' proportion_ci_strat_wilson(
+#' ci_prop_wilson_strata(
 #'   x = rsp, strata = strata,
 #'   conf.level = 0.90
 #' )
 #'
 #' # Not automatic setting of weights
-#' proportion_ci_strat_wilson(
+#' ci_prop_wilson_strata(
 #'   x = rsp, strata = strata,
 #'   weights = rep(1 / n_strata, n_strata),
 #'   conf.level = 0.90
@@ -355,7 +353,7 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #'
 #' @export
 ci_prop_wilson_strata <- function(x,
-                                       strata,
+                                  strata,
                                        weights = NULL,
                                        conf.level = 0.95,
                                        max.iterations = 10L,
@@ -383,19 +381,20 @@ ci_prop_wilson_strata <- function(x,
   check_binary(x)
   check_class(correct, "logical")
   check_scalar(correct)
-  check_class(strata, "factor")
   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
   check_scalar(conf.level)
+  # Change strata to be a the same length as x
+  strata <- combine_strata(x, strata)
+  if(!is.null(weights))
+    check_identical_length(unique(strata), weights)
 
-  # remove missing values from x and strata
-  is_na <- is.na(x) | is.na(strata)
-  x <- x[!is_na]
-  strata <- strata[!is_na]
   if (!inherits(x, "logical")) x <- as.logical(x)
   # check all TRUE/FALSE, if so, not calculable
   if (all(x) || all(!x)) {
     cli::cli_abort("All values in {.arg x} argument are either {.code TRUE} or {.code FALSE} and CI is not estimable.")
   }
+
+
 
   tbl <- table(factor(x, levels = c(FALSE, TRUE)), strata, useNA = "no")
   n_strata <- length(unique(strata))
@@ -460,11 +459,10 @@ ci_prop_wilson_strata <- function(x,
     conf.low = lower,
     conf.high = upper,
     conf.level = conf.level,
-    weights = if (do_iter) weights_new else NULL,
+    weights = if (do_iter) weights_new else weights,
     method =
       glue::glue("Stratified Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
-  ) |>
-    compact()
+  )
 }
 
 
