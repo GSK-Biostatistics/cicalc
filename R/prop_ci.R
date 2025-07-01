@@ -59,15 +59,18 @@ ci_prop_wald <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
   l_ci <- max(0, p_hat - err)
   u_ci <- min(1, p_hat + err)
 
-  list(
-    N = n,
-    n = sum(x),
-    estimate = p_hat,
-    conf.low = l_ci,
-    conf.high = u_ci,
-    conf.level = conf.level,
-    method =
-      glue::glue("Wald Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+  structure(
+    list(
+      N = n,
+      n = sum(x),
+      estimate = p_hat,
+      conf.low = l_ci,
+      conf.high = u_ci,
+      conf.level = conf.level,
+      method =
+        glue::glue("Wald Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+    ),
+    class = c("wald", "prop_ci_uni", "cicada")
   )
 }
 
@@ -116,18 +119,21 @@ ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
   n <- length(x)
   y <- stats::prop.test(x = sum(x), n = n, correct = correct, conf.level = conf.level)
 
-  list(
-    N = n,
-    n = sum(x),
-    conf.level = conf.level
-  ) |>
-    utils::modifyList(val = broom::tidy(y) |> as.list()) |>
-    utils::modifyList(
-      list(
-        method =
-          glue::glue("Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
-      )
-    )
+  structure(
+    list(
+      N = n,
+      n = sum(x),
+      conf.level = conf.level
+    ) |>
+      utils::modifyList(val = broom::tidy(y) |> as.list()) |>
+      utils::modifyList(
+        list(
+          method =
+            glue::glue("Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+        )
+      ),
+    class = c("wilson", "prop_ci_uni", "cicada")
+  )
 }
 
 #' Clopper-Pearson CI
@@ -163,7 +169,6 @@ ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
   }
 
 
-
   # check inputs ---------------------------------------------------------------
   check_not_missing(x)
   check_binary(x)
@@ -175,9 +180,12 @@ ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
 
   y <- stats::binom.test(x = sum(x), n = n, conf.level = conf.level)
 
-  list(N = n, n = sum(x), conf.level = conf.level) |>
-    utils::modifyList(val = broom::tidy(y) |> as.list()) |>
-    utils::modifyList(list(method = "Clopper-Pearson Confidence Interval"))
+  structure(
+    list(N = n, n = sum(x), conf.level = conf.level) |>
+      utils::modifyList(val = broom::tidy(y) |> as.list()) |>
+      utils::modifyList(list(method = "Clopper-Pearson Confidence Interval")),
+    class = c("clopper-pearson", "prop_ci_uni", "cicada")
+  )
 }
 
 #' Agresti-Coull CI
@@ -231,14 +239,17 @@ ci_prop_agresti_coull <- function(x, conf.level = 0.95, data = NULL) {
   l_ci <- max(0, p_tilde - err)
   u_ci <- min(1, p_tilde + err)
 
-  list(
-    N = n,
-    n = sum(x),
-    estimate = mean(x),
-    conf.low = l_ci,
-    conf.high = u_ci,
-    conf.level = conf.level,
-    method = "Agresti-Coull Confidence Interval"
+  structure(
+    list(
+      N = n,
+      n = sum(x),
+      estimate = mean(x),
+      conf.low = l_ci,
+      conf.high = u_ci,
+      conf.level = conf.level,
+      method = "Agresti-Coull Confidence Interval"
+    ),
+    class = c("agresti-coull", "prop_ci_uni", "cicada")
   )
 }
 
@@ -293,14 +304,17 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
     stats::qbeta(1 - alpha / 2, x_sum + 0.5, n - x_sum + 0.5)
   )
 
-  list(
-    N = n,
-    n = sum(x),
-    estimate = mean(x),
-    conf.low = l_ci,
-    conf.high = u_ci,
-    conf.level = conf.level,
-    method = glue::glue("Jeffreys Interval")
+  structure(
+    list(
+      N = n,
+      n = sum(x),
+      estimate = mean(x),
+      conf.low = l_ci,
+      conf.high = u_ci,
+      conf.level = conf.level,
+      method = glue::glue("Jeffreys Interval")
+    ),
+    class = c("jeffreys", "prop_ci_uni", "cicada")
   )
 }
 
@@ -354,10 +368,10 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #' @export
 ci_prop_wilson_strata <- function(x,
                                   strata,
-                                       weights = NULL,
-                                       conf.level = 0.95,
-                                       max.iterations = 10L,
-                                       correct = FALSE,
+                                  weights = NULL,
+                                  conf.level = 0.95,
+                                  max.iterations = 10L,
+                                  correct = FALSE,
                                   data = NULL) {
   set_cli_abort_call()
 
@@ -452,16 +466,19 @@ ci_prop_wilson_strata <- function(x,
   upper <- sum(weights_new * upper_by_strata)
 
   # Return values
-  list(
-    N = length(x),
-    n = sum(x),
-    estimate = mean(x),
-    conf.low = lower,
-    conf.high = upper,
-    conf.level = conf.level,
-    weights = if (do_iter) weights_new else weights,
-    method =
-      glue::glue("Stratified Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+  structure(
+    list(
+      N = length(x),
+      n = sum(x),
+      estimate = mean(x),
+      conf.low = lower,
+      conf.high = upper,
+      conf.level = conf.level,
+      weights = if (do_iter) weights_new else weights,
+      method =
+        glue::glue("Stratified Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+    ),
+    class = c("stratified-wilson", "prop_ci_uni", "cicada")
   )
 }
 

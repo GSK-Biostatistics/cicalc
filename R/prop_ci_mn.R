@@ -126,19 +126,19 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 
   lower_ci <- ifelse( df$response_1 > 0,
                       stats::uniroot(z_distance, interval=c(-0.999,0.999),
-                      fx=test_score_mn,
-                      ref_z = stats::qnorm(1 - alpha / 2),
-                      s_x = df$response_1, n_x = df$n_1,
-                      s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
+                                     fx=test_score_mn,
+                                     ref_z = stats::qnorm(1 - alpha / 2),
+                                     s_x = df$response_1, n_x = df$n_1,
+                                     s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
                       -1 )
 
   upper_ci <- ifelse( df$response_2 > 0,
-    stats::uniroot(z_distance, interval=c(lower_ci,0.999999),
-                      fx=test_score_mn,
-                      ref_z = stats::qnorm(alpha / 2),
-                      s_x = df$response_1, n_x = df$n_1,
-                      s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
-    1)
+                      stats::uniroot(z_distance, interval=c(lower_ci,0.999999),
+                                     fx=test_score_mn,
+                                     ref_z = stats::qnorm(alpha / 2),
+                                     s_x = df$response_1, n_x = df$n_1,
+                                     s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
+                      1)
 
   statistic = NULL
   p.value = NULL
@@ -151,16 +151,19 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   }
 
   # Output
-  list(
-    estimate = df$response_1/df$n_1 - df$response_2/ df$n_2,
-    conf.low = lower_ci,
-    conf.high = upper_ci,
-    conf.level = conf.level,
-    delta = delta,
-    statistic = statistic,
-    p.value = p.value,
-    method =
-      glue::glue("Miettinen-Nurminen Confidence Interval")
+  structure(
+    list(
+      estimate = df$response_1/df$n_1 - df$response_2/ df$n_2,
+      conf.low = lower_ci,
+      conf.high = upper_ci,
+      conf.level = conf.level,
+      delta = delta,
+      statistic = statistic,
+      p.value = p.value,
+      method =
+        glue::glue("Miettinen-Nurminen Confidence Interval")
+    ),
+    class = c("miettinen-nurminen", "prop_ci_bi", "cicada")
   )
 
 }
@@ -353,18 +356,18 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
     # Calculate confidence interval
     lower_ci <- ifelse(any(response_df$response_1 == 0), -1,
-      stats::uniroot(z_distance, interval=c(-0.999,0.999),
-                        fx=test_score_mn_weighted,
-                        ref_z = stats::qnorm(1 - alpha / 2),
-                        s_x = s_x, n_x = n_x,
-                        s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
+                       stats::uniroot(z_distance, interval=c(-0.999,0.999),
+                                      fx=test_score_mn_weighted,
+                                      ref_z = stats::qnorm(1 - alpha / 2),
+                                      s_x = s_x, n_x = n_x,
+                                      s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
 
     upper_ci <- ifelse(any(response_df$response_2 == 0), 1,
-      stats::uniroot(z_distance, interval=c(-0.999,0.999),
-                        fx=test_score_mn_weighted,
-                        ref_z = stats::qnorm(alpha / 2),
-                        s_x = s_x, n_x = n_x,
-                        s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
+                       stats::uniroot(z_distance, interval=c(-0.999,0.999),
+                                      fx=test_score_mn_weighted,
+                                      ref_z = stats::qnorm(alpha / 2),
+                                      s_x = s_x, n_x = n_x,
+                                      s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
 
     if(!is.null(delta)){
       statistic <- purrr::map_dbl(delta, \(d){
@@ -384,13 +387,13 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
       dplyr::group_by(strata) |>
       dplyr::summarise(mn = list(ci_prop_diff_mn(x, by, conf.level =conf.level))) |>
       dplyr::mutate(
-             low = purrr::map_dbl(.data$mn, "conf.low"),
-             high = purrr::map_dbl(.data$mn, "conf.high"),
-             width = .data$high - .data$low,
-             dh = .data$low + .data$width/2,
-             sh = .data$width/(2*stats::qnorm(1-alpha/2)),
-             w = (1/.data$sh^2)/sum(1/.data$sh^2)
-        ) |>
+        low = purrr::map_dbl(.data$mn, "conf.low"),
+        high = purrr::map_dbl(.data$mn, "conf.high"),
+        width = .data$high - .data$low,
+        dh = .data$low + .data$width/2,
+        sh = .data$width/(2*stats::qnorm(1-alpha/2)),
+        w = (1/.data$sh^2)/sum(1/.data$sh^2)
+      ) |>
       dplyr::summarise(dS = sum(.data$dh*.data$w),
                        var_ds = 1/sum(1/.data$sh^2))
 
@@ -401,22 +404,25 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     diff <- estimate$dS
     if(!is.null(delta)){
       statistic <- test_score_mn_weighted(s_x = s_x, n_x = n_x,
-                                        s_y = s_y, n_y = n_y, w = w, delta = delta)
+                                          s_y = s_y, n_y = n_y, w = w, delta = delta)
       p.value <- (1 - stats::pnorm(abs(statistic)))
     }
 
   }
 
-  list(
-    estimate = diff,
-    conf.low = lower_ci,
-    conf.high = upper_ci,
-    conf.level = conf.level,
-    delta = delta,
-    statistic = statistic,
-    p.value = p.value,
-    method =
-      glue::glue("Stratified {stringr::str_to_title(method)} Miettinen-Nurminen Confidence Interval")
+  structure(
+    list(
+      estimate = diff,
+      conf.low = lower_ci,
+      conf.high = upper_ci,
+      conf.level = conf.level,
+      delta = delta,
+      statistic = statistic,
+      p.value = p.value,
+      method =
+        glue::glue("Stratified {stringr::str_to_title(method)} Miettinen-Nurminen Confidence Interval")
+    ),
+    class = c("stratified-miettinen-nurminen", "prop_ci_bi", "cicada")
   )
 
 }
