@@ -12,6 +12,7 @@ reference:
     - ci_prop_jeffreys
     - ci_prop_wald
     - ci_prop_wilson
+    - ci_prop_wilson_strata
   - subtitle: "Bivariate"
   - contents:
     - ci_prop_diff_mn
