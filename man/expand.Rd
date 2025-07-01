@@ -13,7 +13,7 @@ expand(x, n)
 }
 \value{
 A logical vector where TRUE represents a success and FALSE represents a failure.
-  The length of the vector equals the sum of all sample sizes.
+The length of the vector equals the sum of all sample sizes.
 }
 \description{
 Converts count data (number of successes and total sample size) into a binary vector
@@ -21,8 +21,8 @@ of TRUE/FALSE values. This is useful for converting summary statistics back into
 raw data format for analysis functions that require individual-level data.
 }
 \details{
-For each pair of values in `x` and `n`, the function creates a vector with `x` TRUE values
-followed by `n-x` FALSE values. If multiple pairs are provided, the resulting vectors are
+For each pair of values in \code{x} and \code{n}, the function creates a vector with \code{x} TRUE values
+followed by \code{n-x} FALSE values. If multiple pairs are provided, the resulting vectors are
 concatenated in order.
 }
 \examples{

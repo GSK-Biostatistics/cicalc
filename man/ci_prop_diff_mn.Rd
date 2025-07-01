@@ -7,32 +7,36 @@
 ci_prop_diff_mn(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 }
 \arguments{
-\item{x}{(`binary`/`numeric`/`logical`)\cr
-vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`}
+\item{x}{(\code{binary}/\code{numeric}/\code{logical})\cr
+vector of a binary values, i.e. a logical vector, or numeric with values \code{c(0, 1)}}
 
-\item{conf.level}{(`scalar numeric`) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
+\item{by}{(\code{string}) \cr A character or factor vector with exactly two unique levels
+identifying the two groups to compare. Can also be a column name if a data
+frame provided in the \code{data} argument.}
 
-\item{delta}{(`numeric`) \cr Optionally a single number or a vector of
+\item{conf.level}{(\verb{scalar numeric}) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
+
+\item{delta}{(\code{numeric}) \cr Optionally a single number or a vector of
 numbers between -1 and 1 (not inclusive) to set the difference between two
 groups under the null hypothesis. If provided, the function returns the
-test statistic and p-value under the `delta`
+test statistic and p-value under the \code{delta}
 hypothesis.}
 
-\item{data}{(`data.frame`) \cr Optional data frame containing the variables specified in `x` and `by`.}
+\item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
 A list containing the following components:
 
-  \item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
-  \item{conf.low}{Lower bound of the confidence interval}
-  \item{conf.high}{Upper bound of the confidence interval}
-  \item{conf.level}{The confidence level used}
-  \item{delta}{delta value(s) used}
-  \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
-  \item{p.value}{p-value under the given `delta` null hypothesis}
-  \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
+\item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
+\item{conf.low}{Lower bound of the confidence interval}
+\item{conf.high}{Upper bound of the confidence interval}
+\item{conf.level}{The confidence level used}
+\item{delta}{delta value(s) used}
+\item{statistic}{Z-Statistic under the null hypothesis based on the given 'delta'}
+\item{p.value}{p-value under the null hypothesis based on the given 'delta'}
+\item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
 
-If `delta` is not provided statistic and p.value will be NULL
+If \code{delta} is not provided statistic and p.value will be NULL
 }
 \description{
 Calculates the Miettinen-Nurminen (MN) confidence interval for the difference
@@ -68,13 +72,13 @@ function of the delta values and is create with the following equation"
 \eqn{ \tilde{p_x} = 2p\cdot{cos(a)} - \frac{L_2}{3L_3}} and \eqn{ \tilde{p_y} = \tilde{p_x} + \delta}
 where:
 \itemize{
- \item \eqn{p = \pm \sqrt{\frac{L_2^2}{(3L_3)^2} - \frac{L_1}{3L_3}}}
- \item \eqn{a = 1/3[\pi + cos^{-1}(q/p^3)]}
- \item \eqn{q = \frac{L_2^3}{(3L_3)^3} - \frac{L_1L_2}{6L_3^2} + \frac{L_0}{2L_3}}
- \item \eqn{L_3 = n_x + n_y }
- \item \eqn{L_2 = (n_x + 2 n_y)\delta - N - (s_x + s_y)}
- \item \eqn{L_1 = (n_y\delta - L_3 - 2s_y)\delta + s_x + s_y}
- \item \eqn{L_0 = s_y\delta(1-\delta)}
+\item \eqn{p = \pm \sqrt{\frac{L_2^2}{(3L_3)^2} - \frac{L_1}{3L_3}}}
+\item \eqn{a = 1/3[\pi + cos^{-1}(q/p^3)]}
+\item \eqn{q = \frac{L_2^3}{(3L_3)^3} - \frac{L_1L_2}{6L_3^2} + \frac{L_0}{2L_3}}
+\item \eqn{L_3 = n_x + n_y }
+\item \eqn{L_2 = (n_x + 2 n_y)\delta - N - (s_x + s_y)}
+\item \eqn{L_1 = (n_y\delta - L_3 - 2s_y)\delta + s_x + s_y}
+\item \eqn{L_0 = s_y\delta(1-\delta)}
 }
 
 For more information about these equations see Miettinen (1985)

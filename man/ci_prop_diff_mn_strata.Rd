@@ -15,41 +15,45 @@ ci_prop_diff_mn_strata(
 )
 }
 \arguments{
-\item{x}{(`binary`/`numeric`/`logical`)\cr
-vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`}
+\item{x}{(\code{binary}/\code{numeric}/\code{logical})\cr
+vector of a binary values, i.e. a logical vector, or numeric with values \code{c(0, 1)}}
 
-\item{strata}{(`numeric`) \cr A vector specifying the stratum for each observation. It needs
+\item{by}{(\code{string}) \cr A character or factor vector with exactly two unique levels
+identifying the two groups to compare. Can also be a column name if a data
+frame provided in the \code{data} argument.}
+
+\item{strata}{(\code{numeric}) \cr A vector specifying the stratum for each observation. It needs
 to be the length of x or a multiple of x if multiple levels of strata are
 present. Can also be a column name (or vector of column names NOT quoted)
-if a data frame provided in the `data` argument.}
+if a data frame provided in the \code{data} argument.}
 
-\item{method}{(`string`) \cr Specifying how the CIs should be calculated. It must
+\item{method}{(\code{string}) \cr Specifying how the CIs should be calculated. It must
 equal either 'score' or 'summary score'. See details for more information
 about the implementation differences.}
 
-\item{conf.level}{(`scalar numeric`) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
+\item{conf.level}{(\verb{scalar numeric}) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
 
-\item{delta}{(`numeric`) \cr Optionally a single number or a vector of
+\item{delta}{(\code{numeric}) \cr Optionally a single number or a vector of
 numbers between -1 and 1 (not inclusive) to set the difference between two
 groups under the null hypothesis. If provided, the function returns the
-test statistic and p-value under the `delta`
+test statistic and p-value under the \code{delta}
 hypothesis.}
 
-\item{data}{(`data.frame`) \cr Optional data frame containing the variables specified in `x` and `by`.}
+\item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
 A list containing the following components:
 
-  \item{estimate}{The point estimate of the difference in proportions (p_x -
-  p_y)} \item{conf.low}{Lower bound of the confidence interval}
-  \item{conf.high}{Upper bound of the confidence interval}
-  \item{conf.level}{The confidence level used} \item{delta}{delta value(s) used}
-  \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
-  \item{p.value}{p-value under the given `delta` null hypothesis}
-  \item{method}{Description of the method used ("Stratified
-  Miettinen-Nurminen Confidence Interval")}
+\item{estimate}{The point estimate of the difference in proportions (p_x -
+p_y)} \item{conf.low}{Lower bound of the confidence interval}
+\item{conf.high}{Upper bound of the confidence interval}
+\item{conf.level}{The confidence level used} \item{delta}{delta value(s) used}
+\item{statistic}{Z-Statistic under the null hypothesis based on the given 'delta'}
+\item{p.value}{p-value under the null hypothesis based on the given 'delta'}
+\item{method}{Description of the method used ("Stratified \{method\}
+Miettinen-Nurminen Confidence Interval")}
 
-  If `delta` is not provided statistic and p.value will be NULL
+If \code{delta} is not provided statistic and p.value will be NULL
 }
 \description{
 Calculates Stratified Miettinen-Nurminen (MN) confidence intervals and
@@ -57,42 +61,42 @@ corresponding point estimates for the difference between two proportions
 }
 \details{
 The function implements the stratified Miettinen-Nurminen method to compute
-  confidence intervals for the difference between two proportions across multiple strata.
-  \deqn{H_0: \hat{d}-\delta <= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta > 0}
+confidence intervals for the difference between two proportions across multiple strata.
+\deqn{H_0: \hat{d}-\delta <= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta > 0}
 
-  For the "score" method, the approach:
-  \itemize{
-    \item Calculates weights for each stratum as \eqn{w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}}
-    \item Computes the overall weighted difference \eqn{\hat{\delta} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
+For the "score" method, the approach:
+\itemize{
+\item Calculates weights for each stratum as \eqn{w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}}
+\item Computes the overall weighted difference \eqn{\hat{d} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
           \frac{\sum w_i \hat{p}_{yi}}{\sum w_i}}
-    \item Uses the stratified test statistic: \deqn{Z_{\delta} = \frac{\hat{\delta} - \delta}
-          {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2(\delta)}}}
-    \item Finds the range of all values of \eqn{\delta} for which the stratified test statistic (\eqn{Z_\delta})
-          falls in the acceptance region \eqn{\{ Z_\delta < z_{\alpha/2}\}}
-  }
+\item Uses the stratified test statistic: \deqn{Z_{\delta} = \frac{\hat{d} - \delta}
+          {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2({d})}}}
+\item Finds the range of all values of \eqn{\delta} for which the stratified test statistic (\eqn{Z_\delta})
+falls in the acceptance region \eqn{\{ Z_\delta < z_{\alpha/2}\}}
+}
 
-  The \eqn{\hat{\sigma}_{mn}^2(\delta)} is the Miettinen-Nurminen variance estimate.
-  See the details of ci_prop_diff_mn() for how \eqn{\hat{\sigma}_{mn}^2(\delta)} is calculated.
+The \eqn{\hat{\sigma}_{mn}^2(\hat{d})} is the Miettinen-Nurminen variance estimate.
+See the details of \code{\link[=ci_prop_diff_mn]{ci_prop_diff_mn()}} for how \eqn{\hat{\sigma}_{mn}^2(\delta)} is calculated.
 
-  For the "summary score" method, the function:
-  \itemize{
-  \item The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
-    \deqn{
+For the "summary score" method, the function:
+\itemize{
+\item The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
+\deqn{
       \hat{d}_{\text{S}} = \sum_i \hat{d}_i w_i
       }
-  \item Define \eqn{s_i} as the width of the CI for the `i`th stratum divided by \eqn{2 \times z_{\alpha/2}} and then stratum weights are given by
-  \deqn{
+\item Define \eqn{s_i} as the width of the CI for the \eqn{i}th stratum divided by \eqn{2 \times z_{\alpha/2}} and then stratum weights are given by
+\deqn{
     w_i = \left( \frac{1}{s_i^2} \right) \bigg/ \sum_i \left( \frac{1}{s_i^2} \right)
     }
-  \item The variance of \eqn{\hat{d}_{\text{S}} } is computed as
-  \deqn{
+\item The variance of \eqn{\hat{d}_{\text{S}} } is computed as
+\deqn{
      \widehat{\text{Var}}(\hat{d}_{\text{S}}) = \frac{1}{\sum_i \left( \frac{1}{s_i^2} \right) }
     }
-  \item Confidence limits for the stratified risk difference estimate are
-  \deqn{
+\item Confidence limits for the stratified risk difference estimate are
+\deqn{
     \hat{d}_{\text{S}} \pm \left( z_{\alpha /2} \times \widehat{\text{Var}}(\hat{d}_{\text{S}}) \right)
     }
-  }
+}
 }
 \examples{
 # Generate binary samples with strata

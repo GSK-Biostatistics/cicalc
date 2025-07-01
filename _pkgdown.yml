@@ -3,3 +3,19 @@ template:
   bootstrap: 5
   math-rendering: mathjax
 
+reference:
+  - title: "Confidence Intervals"
+  - subtitle: "Univariate"
+  - contents:
+    - ci_prop_agresti_coull
+    - ci_prop_clopper_pearson
+    - ci_prop_jeffreys
+    - ci_prop_wald
+    - ci_prop_wilson
+  - subtitle: "Bivariate"
+  - contents:
+    - ci_prop_diff_mn
+    - ci_prop_diff_mn_strata
+  - subtitle: "Utilities"
+  - contents:
+    - expand
