@@ -3,12 +3,17 @@
 <url><loc>https://gsk-biostatistics.github.io/citools/LICENSE.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/authors.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/index.html</loc></url>
+<url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_agresti_coull.html</loc></url>
+<url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_clopper_pearson.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_diff_mn.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_diff_mn_strata.html</loc></url>
+<url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_jeffreys.html</loc></url>
+<url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_wald.html</loc></url>
+<url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_wilson.html</loc></url>
+<url><loc>https://gsk-biostatistics.github.io/citools/reference/ci_prop_wilson_strata.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/reference/combine_strata.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/reference/expand.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/reference/get_counts.html</loc></url>
 <url><loc>https://gsk-biostatistics.github.io/citools/reference/index.html</loc></url>
-<url><loc>https://gsk-biostatistics.github.io/citools/reference/proportion_ci.html</loc></url>
 </urlset>
 

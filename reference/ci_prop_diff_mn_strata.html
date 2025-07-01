@@ -62,98 +62,103 @@ corresponding point estimates for the difference between two proportions</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>(`binary`/`numeric`/`logical`)<br>
-vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`</p></dd>
+<dd><p>(<code>binary</code>/<code>numeric</code>/<code>logical</code>)<br>
+vector of a binary values, i.e. a logical vector, or numeric with values <code>c(0, 1)</code></p></dd>
+
+
+<dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
+<dd><p>(<code>string</code>) <br> A character or factor vector with exactly two unique levels
+identifying the two groups to compare. Can also be a column name if a data
+frame provided in the <code>data</code> argument.</p></dd>
 
 
 <dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
-<dd><p>(`numeric`) <br> A vector specifying the stratum for each observation. It needs
+<dd><p>(<code>numeric</code>) <br> A vector specifying the stratum for each observation. It needs
 to be the length of x or a multiple of x if multiple levels of strata are
 present. Can also be a column name (or vector of column names NOT quoted)
-if a data frame provided in the `data` argument.</p></dd>
+if a data frame provided in the <code>data</code> argument.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>(`string`) <br> Specifying how the CIs should be calculated. It must
+<dd><p>(<code>string</code>) <br> Specifying how the CIs should be calculated. It must
 equal either 'score' or 'summary score'. See details for more information
 about the implementation differences.</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
-<dd><p>(`scalar numeric`) <br> a scalar in (0,1) indicating the confidence level. Default is 0.95</p></dd>
+<dd><p>(<code>scalar numeric</code>) <br> a scalar in (0,1) indicating the confidence level. Default is 0.95</p></dd>
 
 
 <dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
-<dd><p>(`numeric`) <br> Optionally a single number or a vector of
+<dd><p>(<code>numeric</code>) <br> Optionally a single number or a vector of
 numbers between -1 and 1 (not inclusive) to set the difference between two
 groups under the null hypothesis. If provided, the function returns the
-test statistic and p-value under the `delta`
+test statistic and p-value under the <code>delta</code>
 hypothesis.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>(`data.frame`) <br> Optional data frame containing the variables specified in `x` and `by`.</p></dd>
+<dd><p>(<code>data.frame</code>) <br> Optional data frame containing the variables specified in <code>x</code> and <code>by</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list containing the following components:</p>
-<p></p>
 <dl><dt>estimate</dt>
 <dd><p>The point estimate of the difference in proportions (p_x -
-  p_y)</p></dd>
+p_y)</p></dd>
  <dt>conf.low</dt>
 <dd><p>Lower bound of the confidence interval</p></dd>
 
-  <dt>conf.high</dt>
+<dt>conf.high</dt>
 <dd><p>Upper bound of the confidence interval</p></dd>
 
-  <dt>conf.level</dt>
+<dt>conf.level</dt>
 <dd><p>The confidence level used</p></dd>
  <dt>delta</dt>
 <dd><p>delta value(s) used</p></dd>
 
-  <dt>statistic</dt>
-<dd><p>Z-Statistic under the given `delta` null hypothesis</p></dd>
+<dt>statistic</dt>
+<dd><p>Z-Statistic under the null hypothesis based on the given 'delta'</p></dd>
 
-  <dt>p.value</dt>
-<dd><p>p-value under the given `delta` null hypothesis</p></dd>
+<dt>p.value</dt>
+<dd><p>p-value under the null hypothesis based on the given 'delta'</p></dd>
 
-  <dt>method</dt>
-<dd><p>Description of the method used ("Stratified
-  Miettinen-Nurminen Confidence Interval")</p></dd>
+<dt>method</dt>
+<dd><p>Description of the method used ("Stratified {method}
+Miettinen-Nurminen Confidence Interval")</p></dd>
 
 
-</dl><p>If `delta` is not provided statistic and p.value will be NULL</p>
+</dl><p>If <code>delta</code> is not provided statistic and p.value will be NULL</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function implements the stratified Miettinen-Nurminen method to compute
-  confidence intervals for the difference between two proportions across multiple strata.
-  $$H_0: \hat{d}-\delta &lt;= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta &gt; 0$$</p>
+confidence intervals for the difference between two proportions across multiple strata.
+$$H_0: \hat{d}-\delta &lt;= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta &gt; 0$$</p>
 <p>For the "score" method, the approach:</p><ul><li><p>Calculates weights for each stratum as \(w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}\)</p></li>
-<li><p>Computes the overall weighted difference \(\hat{\delta} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
+<li><p>Computes the overall weighted difference \(\hat{d} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
           \frac{\sum w_i \hat{p}_{yi}}{\sum w_i}\)</p></li>
-<li><p>Uses the stratified test statistic: $$Z_{\delta} = \frac{\hat{\delta} - \delta}
-          {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2(\delta)}}$$</p></li>
+<li><p>Uses the stratified test statistic: $$Z_{\delta} = \frac{\hat{d} - \delta}
+          {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2({d})}}$$</p></li>
 <li><p>Finds the range of all values of \(\delta\) for which the stratified test statistic (\(Z_\delta\))
-          falls in the acceptance region \(\{ Z_\delta &lt; z_{\alpha/2}\}\)</p></li>
-</ul><p>The \(\hat{\sigma}_{mn}^2(\delta)\) is the Miettinen-Nurminen variance estimate.
-  See the details of ci_prop_diff_mn() for how \(\hat{\sigma}_{mn}^2(\delta)\) is calculated.</p>
+falls in the acceptance region \(\{ Z_\delta &lt; z_{\alpha/2}\}\)</p></li>
+</ul><p>The \(\hat{\sigma}_{mn}^2(\hat{d})\) is the Miettinen-Nurminen variance estimate.
+See the details of <code><a href="ci_prop_diff_mn.html">ci_prop_diff_mn()</a></code> for how \(\hat{\sigma}_{mn}^2(\delta)\) is calculated.</p>
 <p>For the "summary score" method, the function:</p><ul><li><p>The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
-    $$
+$$
       \hat{d}_{\text{S}} = \sum_i \hat{d}_i w_i
       $$</p></li>
-<li><p>Define \(s_i\) as the width of the CI for the `i`th stratum divided by \(2 \times z_{\alpha/2}\) and then stratum weights are given by
-  $$
+<li><p>Define \(s_i\) as the width of the CI for the \(i\)th stratum divided by \(2 \times z_{\alpha/2}\) and then stratum weights are given by
+$$
     w_i = \left( \frac{1}{s_i^2} \right) \bigg/ \sum_i \left( \frac{1}{s_i^2} \right)
     $$</p></li>
 <li><p>The variance of \(\hat{d}_{\text{S}} \) is computed as
-  $$
+$$
      \widehat{\text{Var}}(\hat{d}_{\text{S}}) = \frac{1}{\sum_i \left( \frac{1}{s_i^2} \right) }
     $$</p></li>
 <li><p>Confidence limits for the stratified risk difference estimate are
-  $$
+$$
     \hat{d}_{\text{S}} \pm \left( z_{\alpha /2} \times \widehat{\text{Var}}(\hat{d}_{\text{S}}) \right)
     $$</p></li>
 </ul></div>
@@ -195,8 +200,11 @@ Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Miettinen-Nurminen Confidence Interval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Score Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Using the summary score method</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
@@ -223,8 +231,11 @@ Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Miettinen-Nurminen Confidence Interval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Summary Score Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate 99% confidence interval</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
@@ -251,8 +262,11 @@ Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Miettinen-Nurminen Confidence Interval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Score Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate p-value under null hypothesis delta = 0.2</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
@@ -279,8 +293,11 @@ Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01308862</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Miettinen-Nurminen Confidence Interval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Score Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -289,7 +306,7 @@ Statistics in Medicine, 4(2), 213-226.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Christina Fillmore, GlaxoSmithKline Research &amp; Development Limited.</p>
+  <p>Developed by Christina Fillmore, GlaxoSmithKline Research &amp; Development Limited, Dan Lyrhgoe.</p>
 </div>
 
 <div class="pkgdown-footer-right">

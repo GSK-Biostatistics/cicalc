@@ -57,56 +57,61 @@ methods, especially with small sample sizes or proportions close to 0 or 1.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>(`binary`/`numeric`/`logical`)<br>
-vector of a binary values, i.e. a logical vector, or numeric with values `c(0, 1)`</p></dd>
+<dd><p>(<code>binary</code>/<code>numeric</code>/<code>logical</code>)<br>
+vector of a binary values, i.e. a logical vector, or numeric with values <code>c(0, 1)</code></p></dd>
+
+
+<dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
+<dd><p>(<code>string</code>) <br> A character or factor vector with exactly two unique levels
+identifying the two groups to compare. Can also be a column name if a data
+frame provided in the <code>data</code> argument.</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
-<dd><p>(`scalar numeric`) <br> a scalar in (0,1) indicating the confidence level. Default is 0.95</p></dd>
+<dd><p>(<code>scalar numeric</code>) <br> a scalar in (0,1) indicating the confidence level. Default is 0.95</p></dd>
 
 
 <dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
-<dd><p>(`numeric`) <br> Optionally a single number or a vector of
+<dd><p>(<code>numeric</code>) <br> Optionally a single number or a vector of
 numbers between -1 and 1 (not inclusive) to set the difference between two
 groups under the null hypothesis. If provided, the function returns the
-test statistic and p-value under the `delta`
+test statistic and p-value under the <code>delta</code>
 hypothesis.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>(`data.frame`) <br> Optional data frame containing the variables specified in `x` and `by`.</p></dd>
+<dd><p>(<code>data.frame</code>) <br> Optional data frame containing the variables specified in <code>x</code> and <code>by</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list containing the following components:</p>
-<p></p>
 <dl><dt>estimate</dt>
 <dd><p>The point estimate of the difference in proportions (p_x - p_y)</p></dd>
 
-  <dt>conf.low</dt>
+<dt>conf.low</dt>
 <dd><p>Lower bound of the confidence interval</p></dd>
 
-  <dt>conf.high</dt>
+<dt>conf.high</dt>
 <dd><p>Upper bound of the confidence interval</p></dd>
 
-  <dt>conf.level</dt>
+<dt>conf.level</dt>
 <dd><p>The confidence level used</p></dd>
 
-  <dt>delta</dt>
+<dt>delta</dt>
 <dd><p>delta value(s) used</p></dd>
 
-  <dt>statistic</dt>
-<dd><p>Z-Statistic under the given `delta` null hypothesis</p></dd>
+<dt>statistic</dt>
+<dd><p>Z-Statistic under the null hypothesis based on the given 'delta'</p></dd>
 
-  <dt>p.value</dt>
-<dd><p>p-value under the given `delta` null hypothesis</p></dd>
+<dt>p.value</dt>
+<dd><p>p-value under the null hypothesis based on the given 'delta'</p></dd>
 
-  <dt>method</dt>
+<dt>method</dt>
 <dd><p>Description of the method used ("Miettinen-Nurminen Confidence Interval")</p></dd>
 
 
-</dl><p>If `delta` is not provided statistic and p.value will be NULL</p>
+</dl><p>If <code>delta</code> is not provided statistic and p.value will be NULL</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -176,6 +181,8 @@ two rates. Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miettinen-nurminen" "prop_ci_bi"         "cicada"            </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate 99% confidence interval</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, conf.level <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span></span></span>
@@ -203,6 +210,8 @@ two rates. Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miettinen-nurminen" "prop_ci_bi"         "cicada"            </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate the p-value under the null hypothesis delta = -0.1</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, delta <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">)</span></span></span>
@@ -230,6 +239,8 @@ two rates. Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miettinen-nurminen" "prop_ci_bi"         "cicada"            </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate from a data.frame</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">responses</span>, <span class="va">arm</span><span class="op">)</span></span></span>
@@ -258,6 +269,8 @@ two rates. Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Miettinen-Nurminen Confidence Interval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "miettinen-nurminen" "prop_ci_bi"         "cicada"            </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -265,7 +278,7 @@ two rates. Statistics in Medicine, 4(2), 213-226.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Christina Fillmore, GlaxoSmithKline Research &amp; Development Limited.</p>
+  <p>Developed by Christina Fillmore, GlaxoSmithKline Research &amp; Development Limited, Dan Lyrhgoe.</p>
 </div>
 
 <div class="pkgdown-footer-right">
