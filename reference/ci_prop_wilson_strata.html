@@ -129,35 +129,15 @@ z_{\alpha/2} \sqrt{\frac{\hat{p}_j(1 - \hat{p}_j)}{n_j} +
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">rsp</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
 <span class="r-in"><span>  conf.level <span class="op">=</span> <span class="fl">0.90</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.low</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4155214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5688645</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  FALSE.a.x   TRUE.a.x  FALSE.b.x   TRUE.b.x  FALSE.a.y   TRUE.a.y  FALSE.b.y </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.05427889 0.09489946 0.10553017 0.15063103 0.06078328 0.06426116 0.07170396 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   TRUE.b.y  FALSE.a.z   TRUE.a.z  FALSE.b.z   TRUE.b.z </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.09489946 0.08912903 0.08139635 0.06078328 0.07170396 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Wilson Confidence Interval without continuity correction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-wilson" "prop_ci_uni"       "cicada"           </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Stratified Wilson Confidence Interval without continuity correction</span> <span style="color: #00BBBB;">─────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 49 responses out of 100</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="font-weight: bold;">Weights</span>: FALSE.a.x = 0.054, TRUE.a.x = 0.095, FALSE.b.x = 0.106, TRUE.b.x =</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.151, FALSE.a.y = 0.061, TRUE.a.y = 0.064, FALSE.b.y = 0.072, TRUE.b.y =</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.095, FALSE.a.z = 0.089, TRUE.a.z = 0.081, FALSE.b.z = 0.061, TRUE.b.z = 0.072</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="font-weight: bold;">Estimate</span>: 0.49</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 90% Confidence Interval:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (0.4155, 0.5689)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Not automatic setting of weights</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_wilson_strata</span><span class="op">(</span></span></span>
@@ -165,33 +145,14 @@ z_{\alpha/2} \sqrt{\frac{\hat{p}_j(1 - \hat{p}_j)}{n_j} +
 <span class="r-in"><span>  weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="va">n_strata</span>, <span class="va">n_strata</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  conf.level <span class="op">=</span> <span class="fl">0.90</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.low</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.423117</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5827359</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.08333333 0.08333333 0.08333333 0.08333333 0.08333333 0.08333333</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.08333333 0.08333333 0.08333333 0.08333333 0.08333333 0.08333333</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Wilson Confidence Interval without continuity correction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-wilson" "prop_ci_uni"       "cicada"           </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Stratified Wilson Confidence Interval without continuity correction</span> <span style="color: #00BBBB;">─────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 49 responses out of 100</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="font-weight: bold;">Weights</span>: = 0.083, = 0.083, = 0.083, = 0.083, = 0.083, = 0.083, = 0.083, =</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0.083, = 0.083, = 0.083, = 0.083, = 0.083</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="font-weight: bold;">Estimate</span>: 0.49</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 90% Confidence Interval:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (0.4231, 0.5827)</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
