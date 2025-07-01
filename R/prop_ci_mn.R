@@ -5,6 +5,9 @@
 #' methods, especially with small sample sizes or proportions close to 0 or 1.
 #'
 #' @inheritParams ci_prop_wald
+#' @param by (`string`) \cr A character or factor vector with exactly two unique levels
+#'   identifying the two groups to compare. Can also be a column name if a data
+#'   frame provided in the `data` argument.
 #' @param delta (`numeric`) \cr Optionally a single number or a vector of
 #'   numbers between -1 and 1 (not inclusive) to set the difference between two
 #'   groups under the null hypothesis. If provided, the function returns the
@@ -18,8 +21,8 @@
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
 #'   \item{delta}{delta value(s) used}
-#'   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
-#'   \item{p.value}{p-value under the given `delta` null hypothesis}
+#'   \item{statistic}{Z-Statistic under the null hypothesis based on the given 'delta'}
+#'   \item{p.value}{p-value under the null hypothesis based on the given 'delta'}
 #'   \item{method}{Description of the method used ("Miettinen-Nurminen Confidence Interval")}
 #'
 #' If `delta` is not provided statistic and p.value will be NULL
@@ -217,9 +220,9 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'   p_y)} \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used} \item{delta}{delta value(s) used}
-#'   \item{statistic}{Z-Statistic under the given `delta` null hypothesis}
-#'   \item{p.value}{p-value under the given `delta` null hypothesis}
-#'   \item{method}{Description of the method used ("Stratified
+#'   \item{statistic}{Z-Statistic under the null hypothesis based on the given 'delta'}
+#'   \item{p.value}{p-value under the null hypothesis based on the given 'delta'}
+#'   \item{method}{Description of the method used ("Stratified \{method\}
 #'   Miettinen-Nurminen Confidence Interval")}
 #'
 #'   If `delta` is not provided statistic and p.value will be NULL
@@ -232,16 +235,16 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'   For the "score" method, the approach:
 #'   \itemize{
 #'     \item Calculates weights for each stratum as \eqn{w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}}
-#'     \item Computes the overall weighted difference \eqn{\hat{\delta} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
+#'     \item Computes the overall weighted difference \eqn{\hat{d} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
 #'           \frac{\sum w_i \hat{p}_{yi}}{\sum w_i}}
-#'     \item Uses the stratified test statistic: \deqn{Z_{\delta} = \frac{\hat{\delta} - \delta}
-#'           {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2(\delta)}}}
+#'     \item Uses the stratified test statistic: \deqn{Z_{\delta} = \frac{\hat{d} - \delta}
+#'           {\sqrt{\sum_{i=1}^k \left(\frac{w_i}{\sum w_i}\right)^2 \cdot \hat{\sigma}_{mn}^2({d})}}}
 #'     \item Finds the range of all values of \eqn{\delta} for which the stratified test statistic (\eqn{Z_\delta})
 #'           falls in the acceptance region \eqn{\{ Z_\delta < z_{\alpha/2}\}}
 #'   }
 #'
-#'   The \eqn{\hat{\sigma}_{mn}^2(\delta)} is the Miettinen-Nurminen variance estimate.
-#'   See the details of ci_prop_diff_mn() for how \eqn{\hat{\sigma}_{mn}^2(\delta)} is calculated.
+#'   The \eqn{\hat{\sigma}_{mn}^2(\hat{d})} is the Miettinen-Nurminen variance estimate.
+#'   See the details of [ci_prop_diff_mn()] for how \eqn{\hat{\sigma}_{mn}^2(\delta)} is calculated.
 #'
 #'   For the "summary score" method, the function:
 #'   \itemize{
@@ -249,7 +252,7 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'     \deqn{
 #'       \hat{d}_{\text{S}} = \sum_i \hat{d}_i w_i
 #'       }
-#'   \item Define \eqn{s_i} as the width of the CI for the `i`th stratum divided by \eqn{2 \times z_{\alpha/2}} and then stratum weights are given by
+#'   \item Define \eqn{s_i} as the width of the CI for the \eqn{i}th stratum divided by \eqn{2 \times z_{\alpha/2}} and then stratum weights are given by
 #'   \deqn{
 #'     w_i = \left( \frac{1}{s_i^2} \right) \bigg/ \sum_i \left( \frac{1}{s_i^2} \right)
 #'     }
@@ -413,9 +416,8 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     statistic = statistic,
     p.value = p.value,
     method =
-      glue::glue("Stratified Miettinen-Nurminen Confidence Interval")
+      glue::glue("Stratified {stringr::str_to_title(method)} Miettinen-Nurminen Confidence Interval")
   )
-
 
 }
 
