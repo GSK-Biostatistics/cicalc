@@ -26,6 +26,12 @@ test_that("ci_prop_diff_mn matches the values in the paper", {
   expect_equal(extreme$conf.low, 0.7156, tolerance = 0.02)
   expect_equal(extreme$conf.high, 1.0000, tolerance = 0.02)
 
+  # testing with data input
+  df <- dplyr::tibble(response = resp,
+               treat = trt
+               )
+  extreme_w_df <- ci_prop_diff_mn(response, treat, data = df)
+  expect_equal(extreme_w_df, extreme)
 })
 
 test_that("delta argument works", {
@@ -67,6 +73,7 @@ test_that("ci_prop_diff_mn_strata", {
 
   exData<-data.frame(trt,response,region,sex)
 
+  # SCORE METHOD
   strata <- interaction(region,sex)
   strata_mn <- ci_prop_diff_mn_strata(x = response, by = trt,
                          strata = strata, method = "score",
@@ -78,6 +85,33 @@ test_that("ci_prop_diff_mn_strata", {
   # Check the values based on the delta = -0.1
   expect_equal(strata_mn$statistic, 1.05697, tolerance = 0.01)
   expect_equal(strata_mn$p.value, 0.14526, tolerance = 0.01)
+
+  # SUMMARY SCORE METHOD
+  # proc freq data=exRdata;
+  # table region * sex * trt * response/COMMONRISKDIFF(CL=(score) column=2 test=(score));
+  # ods output CommonPdiff=CommonPdiff CommonPdiffTests=CommonPdiffTests;
+  # run;
+  #
+  # data output_mn;
+  # merge CommonPdiff(where=(Method="Summary Score")) CommonPdiffTests(where=(Method="Summary Score"));
+  # riskdiff=RiskDifference;
+  # Z_inf=(RiskDifference--0.1)/StdErr; /*NI margin of -10%*/
+  #   p_inf_1tail=1-cdf("NORMAL", Z_inf);
+  # LowerCI=LowerCL;
+  # UpperCI=UpperCL;
+  # keep riskdiff Z_inf p_inf_1tail LowerCI UpperCI;
+  # run;
+  #
+  # proc print data=output_mn; run;
+
+  ss_strata_mn <- ci_prop_diff_mn_strata(x = response, by = trt,
+                                      strata = strata, method = "summary score",
+                                      conf.level = 0.95, delta = -0.1)
+
+  # The values are from running this same analysis in SAS
+  expect_equal(ss_strata_mn$conf.low, -0.15440, tolerance = 0.001)
+  expect_equal(ss_strata_mn$conf.high, 0.10902, tolerance = 0.001)
+
 
   null_delta <- ci_prop_diff_mn_strata(x = response, by = trt,
                                       strata = strata, method = "score",
@@ -91,6 +125,15 @@ test_that("ci_prop_diff_mn_strata", {
                                       conf.level = 0.95, delta = -0.1, data = exData)
 
   expect_equal(strata_mn, vector_strata)
+
+  # Test improper strata length
+  expect_error(
+    ci_prop_diff_mn_strata(x = response, by = trt,
+                           strata = c(region[1:54], sex),
+                           method = "score",
+                           conf.level = 0.95, delta = -0.1, data = exData)
+
+  )
 
 
   # Test exterme values

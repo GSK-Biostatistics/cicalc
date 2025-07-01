@@ -377,6 +377,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
       p.value <- (1 - stats::pnorm(abs(statistic)))
     }
   } else if(method == "summary score") {
+
     #SAS PROC FREQ Summary Score Estimate of the Common Risk Difference
     #https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm
     estimate <- dplyr::tibble(
@@ -403,6 +404,15 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     upper_ci <- estimate$dS + stats::qnorm(1-alpha/2)*sqrt(estimate$var_ds)
     diff <- estimate$dS
     if(!is.null(delta)){
+      response_df <- get_counts(x = x, by = by, strata = strata)
+      n_x <- response_df$n_1
+      s_x <- response_df$response_1
+
+      n_y <- response_df$n_2
+      s_y <- response_df$response_2
+      # Calculate weights and diff in weighted proportions
+      w <-(n_x * n_y) / (n_x + n_y)
+
       statistic <- test_score_mn_weighted(s_x = s_x, n_x = n_x,
                                           s_y = s_y, n_y = n_y, w = w, delta = delta)
       p.value <- (1 - stats::pnorm(abs(statistic)))
