@@ -1,1 +1,1 @@
-globalVariables(c( ".data"))
+globalVariables(c( ".data", ".env"))
