@@ -68,7 +68,7 @@ ci_prop_wald <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
       conf.high = u_ci,
       conf.level = conf.level,
       method =
-        glue::glue("Wald Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+        glue::glue("Wald Confidence Interval {ifelse(correct, 'with', 'without')} Continuity Correction")
     ),
     class = c("wald", "prop_ci_uni", "cicada")
   )
@@ -184,7 +184,7 @@ ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
     list(N = n, n = sum(x), conf.level = conf.level) |>
       utils::modifyList(val = broom::tidy(y) |> as.list()) |>
       utils::modifyList(list(method = "Clopper-Pearson Confidence Interval")),
-    class = c("clopper-pearson", "prop_ci_uni", "cicada")
+    class = c("clopper_pearson", "prop_ci_uni", "cicada")
   )
 }
 
@@ -249,7 +249,7 @@ ci_prop_agresti_coull <- function(x, conf.level = 0.95, data = NULL) {
       conf.level = conf.level,
       method = "Agresti-Coull Confidence Interval"
     ),
-    class = c("agresti-coull", "prop_ci_uni", "cicada")
+    class = c("agresti_coull", "prop_ci_uni", "cicada")
   )
 }
 
@@ -478,7 +478,7 @@ ci_prop_wilson_strata <- function(x,
       method =
         glue::glue("Stratified Wilson Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
     ),
-    class = c("stratified-wilson", "prop_ci_uni", "cicada")
+    class = c("stratified_wilson", "prop_ci_uni", "cicada")
   )
 }
 
