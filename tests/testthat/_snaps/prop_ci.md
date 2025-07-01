@@ -17,133 +17,37 @@
 
     Code
       ci_prop_wilson(x_rsp, conf.level = 0.9)
-    Output
-      $N
-      [1] 10
+    Message
       
-      $n
-      [1] 5
-      
-      $conf.level
-      [1] 0.9
-      
-      $estimate
-        p 
-      0.5 
-      
-      $statistic
-      X-squared 
-              0 
-      
-      $p.value
-      [1] 1
-      
-      $parameter
-      df 
-       1 
-      
-      $conf.low
-      [1] 0.2692718
-      
-      $conf.high
-      [1] 0.7307282
-      
-      $method
-      Wilson Confidence Interval without continuity correction
-      
-      $alternative
-      [1] "two.sided"
-      
-      attr(,"class")
-      [1] "wilson"      "prop_ci_uni" "cicada"     
+      -- Wilson Confidence Interval without continuity correction --------------------
+      * 5 responses out of 10
+      * Estimate: 0.5
+      * 90% Confidence Interval:
+        (0.2693, 0.7307)
 
 ---
 
     Code
       ci_prop_wilson(x_true)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 32
-      
-      $conf.level
-      [1] 0.95
-      
-      $estimate
-      p 
-      1 
-      
-      $statistic
-      X-squared 
-             32 
-      
-      $p.value
-      [1] 1.541726e-08
-      
-      $parameter
-      df 
-       1 
-      
-      $conf.low
-      [1] 0.8928208
-      
-      $conf.high
-      [1] 1
-      
-      $method
-      Wilson Confidence Interval without continuity correction
-      
-      $alternative
-      [1] "two.sided"
-      
-      attr(,"class")
-      [1] "wilson"      "prop_ci_uni" "cicada"     
+      -- Wilson Confidence Interval without continuity correction --------------------
+      * 32 responses out of 32
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (0.8928, 1)
 
 ---
 
     Code
       ci_prop_wilson(x_false)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 0
-      
-      $conf.level
-      [1] 0.95
-      
-      $estimate
-      p 
-      0 
-      
-      $statistic
-      X-squared 
-             32 
-      
-      $p.value
-      [1] 1.541726e-08
-      
-      $parameter
-      df 
-       1 
-      
-      $conf.low
-      [1] 0
-      
-      $conf.high
-      [1] 0.1071792
-      
-      $method
-      Wilson Confidence Interval without continuity correction
-      
-      $alternative
-      [1] "two.sided"
-      
-      attr(,"class")
-      [1] "wilson"      "prop_ci_uni" "cicada"     
+      -- Wilson Confidence Interval without continuity correction --------------------
+      * 0 responses out of 32
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0.1072)
 
 ---
 
@@ -164,88 +68,37 @@
 
     Code
       ci_prop_wald(x_rsp, conf.level = 0.95, correct = TRUE)
-    Output
-      $N
-      [1] 10
+    Message
       
-      $n
-      [1] 5
-      
-      $estimate
-      [1] 0.5
-      
-      $conf.low
-      [1] 0.1401025
-      
-      $conf.high
-      [1] 0.8598975
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      Wald Confidence Interval with continuity correction
-      
-      attr(,"class")
-      [1] "wald"        "prop_ci_uni" "cicada"     
+      -- Wald Confidence Interval with Continuity Correction -------------------------
+      * 5 responses out of 10
+      * Estimate: 0.5
+      * 95% Confidence Interval:
+        (0.1401, 0.8599)
 
 ---
 
     Code
       ci_prop_wald(x_true)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 32
-      
-      $estimate
-      [1] 1
-      
-      $conf.low
-      [1] 1
-      
-      $conf.high
-      [1] 1
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      Wald Confidence Interval without continuity correction
-      
-      attr(,"class")
-      [1] "wald"        "prop_ci_uni" "cicada"     
+      -- Wald Confidence Interval without Continuity Correction ----------------------
+      * 32 responses out of 32
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (1, 1)
 
 ---
 
     Code
       ci_prop_wald(x_false)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 0
-      
-      $estimate
-      [1] 0
-      
-      $conf.low
-      [1] 0
-      
-      $conf.high
-      [1] 0
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      Wald Confidence Interval without continuity correction
-      
-      attr(,"class")
-      [1] "wald"        "prop_ci_uni" "cicada"     
+      -- Wald Confidence Interval without Continuity Correction ----------------------
+      * 0 responses out of 32
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0)
 
 ---
 
@@ -261,133 +114,37 @@
 
     Code
       ci_prop_clopper_pearson(x_rsp, conf.level = 0.95)
-    Output
-      $N
-      [1] 10
+    Message
       
-      $n
-      [1] 5
-      
-      $conf.level
-      [1] 0.95
-      
-      $estimate
-      probability of success 
-                         0.5 
-      
-      $statistic
-      number of successes 
-                        5 
-      
-      $p.value
-      [1] 1
-      
-      $parameter
-      number of trials 
-                    10 
-      
-      $conf.low
-      [1] 0.187086
-      
-      $conf.high
-      [1] 0.812914
-      
-      $method
-      [1] "Clopper-Pearson Confidence Interval"
-      
-      $alternative
-      [1] "two.sided"
-      
-      attr(,"class")
-      [1] "clopper-pearson" "prop_ci_uni"     "cicada"         
+      -- Clopper-Pearson Confidence Interval -----------------------------------------
+      * 5 responses out of 10
+      * Estimate: 0.5
+      * 95% Confidence Interval:
+        (0.1871, 0.8129)
 
 ---
 
     Code
       ci_prop_clopper_pearson(x_true)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 32
-      
-      $conf.level
-      [1] 0.95
-      
-      $estimate
-      probability of success 
-                           1 
-      
-      $statistic
-      number of successes 
-                       32 
-      
-      $p.value
-      [1] 4.656613e-10
-      
-      $parameter
-      number of trials 
-                    32 
-      
-      $conf.low
-      [1] 0.8911188
-      
-      $conf.high
-      [1] 1
-      
-      $method
-      [1] "Clopper-Pearson Confidence Interval"
-      
-      $alternative
-      [1] "two.sided"
-      
-      attr(,"class")
-      [1] "clopper-pearson" "prop_ci_uni"     "cicada"         
+      -- Clopper-Pearson Confidence Interval -----------------------------------------
+      * 32 responses out of 32
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (0.8911, 1)
 
 ---
 
     Code
       ci_prop_clopper_pearson(x_false)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 0
-      
-      $conf.level
-      [1] 0.95
-      
-      $estimate
-      probability of success 
-                           0 
-      
-      $statistic
-      number of successes 
-                        0 
-      
-      $p.value
-      [1] 4.656613e-10
-      
-      $parameter
-      number of trials 
-                    32 
-      
-      $conf.low
-      [1] 0
-      
-      $conf.high
-      [1] 0.1088812
-      
-      $method
-      [1] "Clopper-Pearson Confidence Interval"
-      
-      $alternative
-      [1] "two.sided"
-      
-      attr(,"class")
-      [1] "clopper-pearson" "prop_ci_uni"     "cicada"         
+      -- Clopper-Pearson Confidence Interval -----------------------------------------
+      * 0 responses out of 32
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0.1089)
 
 ---
 
@@ -403,88 +160,37 @@
 
     Code
       ci_prop_agresti_coull(x_rsp, conf.level = 0.95)
-    Output
-      $N
-      [1] 10
+    Message
       
-      $n
-      [1] 5
-      
-      $estimate
-      [1] 0.5
-      
-      $conf.low
-      [1] 0.2365931
-      
-      $conf.high
-      [1] 0.7634069
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      [1] "Agresti-Coull Confidence Interval"
-      
-      attr(,"class")
-      [1] "agresti-coull" "prop_ci_uni"   "cicada"       
+      -- Agresti-Coull Confidence Interval -------------------------------------------
+      * 5 responses out of 10
+      * Estimate: 0.5
+      * 95% Confidence Interval:
+        (0.2366, 0.7634)
 
 ---
 
     Code
       ci_prop_agresti_coull(x_true)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 32
-      
-      $estimate
-      [1] 1
-      
-      $conf.low
-      [1] 0.8726819
-      
-      $conf.high
-      [1] 1
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      [1] "Agresti-Coull Confidence Interval"
-      
-      attr(,"class")
-      [1] "agresti-coull" "prop_ci_uni"   "cicada"       
+      -- Agresti-Coull Confidence Interval -------------------------------------------
+      * 32 responses out of 32
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (0.8727, 1)
 
 ---
 
     Code
       ci_prop_agresti_coull(x_false)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 0
-      
-      $estimate
-      [1] 0
-      
-      $conf.low
-      [1] 0
-      
-      $conf.high
-      [1] 0.1273181
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      [1] "Agresti-Coull Confidence Interval"
-      
-      attr(,"class")
-      [1] "agresti-coull" "prop_ci_uni"   "cicada"       
+      -- Agresti-Coull Confidence Interval -------------------------------------------
+      * 0 responses out of 32
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0.1273)
 
 ---
 
@@ -500,88 +206,37 @@
 
     Code
       ci_prop_jeffreys(x_rsp, conf.level = 0.95)
-    Output
-      $N
-      [1] 10
+    Message
       
-      $n
-      [1] 5
-      
-      $estimate
-      [1] 0.5
-      
-      $conf.low
-      [1] 0.2235287
-      
-      $conf.high
-      [1] 0.7764713
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      Jeffreys Interval
-      
-      attr(,"class")
-      [1] "jeffreys"    "prop_ci_uni" "cicada"     
+      -- Jeffreys Interval -----------------------------------------------------------
+      * 5 responses out of 10
+      * Estimate: 0.5
+      * 95% Confidence Interval:
+        (0.2235, 0.7765)
 
 ---
 
     Code
       ci_prop_jeffreys(x_true)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 32
-      
-      $estimate
-      [1] 1
-      
-      $conf.low
-      [1] 0.9250722
-      
-      $conf.high
-      [1] 1
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      Jeffreys Interval
-      
-      attr(,"class")
-      [1] "jeffreys"    "prop_ci_uni" "cicada"     
+      -- Jeffreys Interval -----------------------------------------------------------
+      * 32 responses out of 32
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (0.9251, 1)
 
 ---
 
     Code
       ci_prop_jeffreys(x_false)
-    Output
-      $N
-      [1] 32
+    Message
       
-      $n
-      [1] 0
-      
-      $estimate
-      [1] 0
-      
-      $conf.low
-      [1] 0
-      
-      $conf.high
-      [1] 0.07492776
-      
-      $conf.level
-      [1] 0.95
-      
-      $method
-      Jeffreys Interval
-      
-      attr(,"class")
-      [1] "jeffreys"    "prop_ci_uni" "cicada"     
+      -- Jeffreys Interval -----------------------------------------------------------
+      * 0 responses out of 32
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0.0749)
 
 ---
 
@@ -603,130 +258,54 @@
 
     Code
       ci_prop_wilson_strata(x = rsp, strata = strata, weights = weights, correct = FALSE)
-    Output
-      $N
-      [1] 80
+    Message
       
-      $n
-      [1] 50
-      
-      $estimate
-      [1] 0.625
-      
-      $conf.low
-      [1] 0.4867191
-      
-      $conf.high
-      [1] 0.7186381
-      
-      $conf.level
-      [1] 0.95
-      
-      $weights
-      [1] 0.04761905 0.09523810 0.14285714 0.19047619 0.23809524 0.28571429
-      
-      $method
-      Stratified Wilson Confidence Interval without continuity correction
-      
-      attr(,"class")
-      [1] "stratified-wilson" "prop_ci_uni"       "cicada"           
+      -- Stratified Wilson Confidence Interval without continuity correction ---------
+      * 50 responses out of 80
+      * Weights: = 0.048, = 0.095, = 0.143, = 0.19, = 0.238, = 0.286
+      * Estimate: 0.625
+      * 95% Confidence Interval:
+        (0.4867, 0.7186)
 
 ---
 
     Code
       ci_prop_wilson_strata(x = rsp, strata = strata, weights = weights, correct = TRUE)
-    Output
-      $N
-      [1] 80
+    Message
       
-      $n
-      [1] 50
-      
-      $estimate
-      [1] 0.625
-      
-      $conf.low
-      [1] 0.4482566
-      
-      $conf.high
-      [1] 0.7531474
-      
-      $conf.level
-      [1] 0.95
-      
-      $weights
-      [1] 0.04761905 0.09523810 0.14285714 0.19047619 0.23809524 0.28571429
-      
-      $method
-      Stratified Wilson Confidence Interval with continuity correction
-      
-      attr(,"class")
-      [1] "stratified-wilson" "prop_ci_uni"       "cicada"           
+      -- Stratified Wilson Confidence Interval with continuity correction ------------
+      * 50 responses out of 80
+      * Weights: = 0.048, = 0.095, = 0.143, = 0.19, = 0.238, = 0.286
+      * Estimate: 0.625
+      * 95% Confidence Interval:
+        (0.4483, 0.7531)
 
 ---
 
     Code
       ci_prop_wilson_strata(x = as.numeric(rsp), strata = strata, weights = weights)
-    Output
-      $N
-      [1] 80
+    Message
       
-      $n
-      [1] 50
-      
-      $estimate
-      [1] 0.625
-      
-      $conf.low
-      [1] 0.4867191
-      
-      $conf.high
-      [1] 0.7186381
-      
-      $conf.level
-      [1] 0.95
-      
-      $weights
-      [1] 0.04761905 0.09523810 0.14285714 0.19047619 0.23809524 0.28571429
-      
-      $method
-      Stratified Wilson Confidence Interval without continuity correction
-      
-      attr(,"class")
-      [1] "stratified-wilson" "prop_ci_uni"       "cicada"           
+      -- Stratified Wilson Confidence Interval without continuity correction ---------
+      * 50 responses out of 80
+      * Weights: = 0.048, = 0.095, = 0.143, = 0.19, = 0.238, = 0.286
+      * Estimate: 0.625
+      * 95% Confidence Interval:
+        (0.4867, 0.7186)
 
 ---
 
     Code
       ci_prop_wilson_strata(x = as.numeric(rsp), strata = strata)
-    Output
-      $N
-      [1] 80
+    Message
       
-      $n
-      [1] 50
-      
-      $estimate
-      [1] 0.625
-      
-      $conf.low
-      [1] 0.5242016
-      
-      $conf.high
-      [1] 0.7268788
-      
-      $conf.level
-      [1] 0.95
-      
-      $weights
-            a.x       b.x       a.y       b.y       a.z       b.z 
-      0.2111332 0.1890860 0.1180990 0.1544903 0.1737106 0.1534809 
-      
-      $method
-      Stratified Wilson Confidence Interval without continuity correction
-      
-      attr(,"class")
-      [1] "stratified-wilson" "prop_ci_uni"       "cicada"           
+      -- Stratified Wilson Confidence Interval without continuity correction ---------
+      * 50 responses out of 80
+      * Weights: a.x = 0.211, b.x = 0.189, a.y = 0.118, b.y = 0.154, a.z = 0.174, b.z
+      = 0.153
+      * Estimate: 0.625
+      * 95% Confidence Interval:
+        (0.5242, 0.7269)
 
 ---
 
