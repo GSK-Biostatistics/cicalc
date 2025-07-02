@@ -30,140 +30,40 @@ x <- c(
  FALSE, FALSE, FALSE, FALSE, FALSE
 )
 ci_prop_wald(x, conf.level = 0.9)
-#> $N
-#> [1] 10
 #> 
-#> $n
-#> [1] 5
-#> 
-#> $estimate
-#> [1] 0.5
-#> 
-#> $conf.low
-#> [1] 0.2399258
-#> 
-#> $conf.high
-#> [1] 0.7600742
-#> 
-#> $conf.level
-#> [1] 0.9
-#> 
-#> $method
-#> Wald Confidence Interval without continuity correction
+#> ── Wald Confidence Interval without Continuity Correction ──────────────────────
+#> • 5 responses out of 10
+#> • Estimate: 0.5
+#> • 90% Confidence Interval:
+#>   (0.2399, 0.7601)
 ci_prop_wilson(x, correct = TRUE)
-#> $N
-#> [1] 10
 #> 
-#> $n
-#> [1] 5
-#> 
-#> $conf.level
-#> [1] 0.95
-#> 
-#> $estimate
-#>   p 
-#> 0.5 
-#> 
-#> $statistic
-#> X-squared 
-#>         0 
-#> 
-#> $p.value
-#> [1] 1
-#> 
-#> $parameter
-#> df 
-#>  1 
-#> 
-#> $conf.low
-#> [1] 0.2365931
-#> 
-#> $conf.high
-#> [1] 0.7634069
-#> 
-#> $method
-#> Wilson Confidence Interval with continuity correction
-#> 
-#> $alternative
-#> [1] "two.sided"
+#> ── Wilson Confidence Interval with continuity correction ───────────────────────
+#> • 5 responses out of 10
+#> • Estimate: 0.5
+#> • 95% Confidence Interval:
+#>   (0.2366, 0.7634)
 ci_prop_clopper_pearson(x)
-#> $N
-#> [1] 10
 #> 
-#> $n
-#> [1] 5
-#> 
-#> $conf.level
-#> [1] 0.95
-#> 
-#> $estimate
-#> probability of success 
-#>                    0.5 
-#> 
-#> $statistic
-#> number of successes 
-#>                   5 
-#> 
-#> $p.value
-#> [1] 1
-#> 
-#> $parameter
-#> number of trials 
-#>               10 
-#> 
-#> $conf.low
-#> [1] 0.187086
-#> 
-#> $conf.high
-#> [1] 0.812914
-#> 
-#> $method
-#> [1] "Clopper-Pearson Confidence Interval"
-#> 
-#> $alternative
-#> [1] "two.sided"
+#> ── Clopper-Pearson Confidence Interval ─────────────────────────────────────────
+#> • 5 responses out of 10
+#> • Estimate: 0.5
+#> • 95% Confidence Interval:
+#>   (0.1871, 0.8129)
 ci_prop_agresti_coull(x)
-#> $N
-#> [1] 10
 #> 
-#> $n
-#> [1] 5
-#> 
-#> $estimate
-#> [1] 0.5
-#> 
-#> $conf.low
-#> [1] 0.2365931
-#> 
-#> $conf.high
-#> [1] 0.7634069
-#> 
-#> $conf.level
-#> [1] 0.95
-#> 
-#> $method
-#> [1] "Agresti-Coull Confidence Interval"
+#> ── Agresti-Coull Confidence Interval ───────────────────────────────────────────
+#> • 5 responses out of 10
+#> • Estimate: 0.5
+#> • 95% Confidence Interval:
+#>   (0.2366, 0.7634)
 ci_prop_jeffreys(x)
-#> $N
-#> [1] 10
 #> 
-#> $n
-#> [1] 5
-#> 
-#> $estimate
-#> [1] 0.5
-#> 
-#> $conf.low
-#> [1] 0.2235287
-#> 
-#> $conf.high
-#> [1] 0.7764713
-#> 
-#> $conf.level
-#> [1] 0.95
-#> 
-#> $method
-#> Jeffreys Interval
+#> ── Jeffreys Interval ───────────────────────────────────────────────────────────
+#> • 5 responses out of 10
+#> • Estimate: 0.5
+#> • 95% Confidence Interval:
+#>   (0.2235, 0.7765)
 # Example of CI for difference of proportions 
 # Generate binary samples
 responses <- expand(c(9, 3), c(10, 10))
@@ -171,27 +71,10 @@ arm <- rep(c("treat", "control"), times = c(10, 10))
 
 # Calculate 95% confidence interval for difference in proportions
 ci_prop_diff_mn(x = responses, by = arm)
-#> $estimate
-#> [1] -0.6
 #> 
-#> $conf.low
-#> [1] -0.8406495
-#> 
-#> $conf.high
-#> [1] -0.170025
-#> 
-#> $conf.level
-#> [1] 0.95
-#> 
-#> $delta
-#> NULL
-#> 
-#> $statistic
-#> NULL
-#> 
-#> $p.value
-#> NULL
-#> 
-#> $method
-#> Miettinen-Nurminen Confidence Interval
+#> ── Miettinen-Nurminen Confidence Interval ──────────────────────────────────────
+#> • 3/10 - 9/10
+#> • Estimate: -0.6
+#> • 95% Confidence Interval:
+#>   (-0.8406, -0.17)
 ```
