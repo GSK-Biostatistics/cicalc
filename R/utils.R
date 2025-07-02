@@ -87,11 +87,65 @@ print.prop_ci_uni <- function(x, ...){
 
 #' @export
 print.stratified_wilson <- function(x, ...){
-  weight_str <- paste0(names(x$weights), " = ", round(x$weights, 3), collapse = ", ")
+  if(!is.null(names(x$weights))){
+    name_str <- paste0(names(x$weights), " = ")
+  } else {
+    name_str <- ""
+  }
+  weight_str <- paste0(name_str, round(x$weights, 3), collapse = ", ")
   cli::cli_h1(x$method)
   cli::cli_li("{x$n} response{?s} out of {x$N}")
   cli::cli_li("Weights: {weight_str}")
-  cli::cli_li("Estimate: {x$estimate}")
+  cli::cli_li("Estimate: {round(x$estimate, 3)}")
   cli::cli_li("{x$conf.level*100}% Confidence Interval:")
   cli::cli_text("\u00a0\u00a0({round(x$conf.low, 4)}, {round(x$conf.high, 4)})")
+}
+
+#' @export
+print.prop_ci_bi <- function(x, ...){
+  diff_str <- paste0(x$n, "/", x$N, collapse = " - ")
+  cli::cli_h1(x$method)
+  cli::cli_li("{diff_str}")
+  cli::cli_li("Estimate: {round(x$estimate, 3)}")
+  cli::cli_li("{x$conf.level*100}% Confidence Interval:")
+  cli::cli_text("\u00a0\u00a0({round(x$conf.low, 4)}, {round(x$conf.high, 4)})")
+  if(!is.null(x$delta)){
+    cli::cli_h3("Delta")
+    dplyr::tibble(d = x$delta,
+                  s = x$statistic,
+                  p = x$p.value) |>
+      purrr::pmap(\(d,s,p){
+        cli::cli_li("At {d} the statistic is {round(s, 3)} and the p-value is {round(p, 4)}")
+      })
+  }
+}
+
+
+#' @export
+print.stratified_miettinen_nurminen <- function(x, ...){
+
+  if(!is.null(names(x$weights))){
+    name_str <- paste0(names(x$weights), " = ")
+  } else {
+    name_str <- ""
+  }
+
+  weight_str <- paste0(name_str, round(x$weights, 3), collapse = ", ")
+
+  diff_str <- paste0(x$n, "/", x$N, collapse = " - ")
+  cli::cli_h1(x$method)
+  cli::cli_li("{diff_str}")
+  cli::cli_li("Weights: {weight_str}")
+  cli::cli_li("Estimate: {round(x$estimate, 3)}")
+  cli::cli_li("{x$conf.level*100}% Confidence Interval:")
+  cli::cli_text("\u00a0\u00a0({round(x$conf.low, 4)}, {round(x$conf.high, 4)})")
+  if(!is.null(x$delta)){
+    cli::cli_h3("Delta")
+    dplyr::tibble(d = x$delta,
+                  s = x$statistic,
+                  p = x$p.value) |>
+      purrr::pmap(\(d,s,p){
+        cli::cli_li("At {d} the statistic is {round(s, 3)} and the p-value is {round(p, 4)}")
+      })
+  }
 }

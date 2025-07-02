@@ -153,6 +153,8 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   # Output
   structure(
     list(
+      n = c(df$response_1, df$response_2),
+      N = c(df$n_1, df$n_2),
       estimate = df$response_1/df$n_1 - df$response_2/ df$n_2,
       conf.low = lower_ci,
       conf.high = upper_ci,
@@ -346,13 +348,13 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     response_df <- get_counts(x = x, by = by, strata = strata)
     n_x <- response_df$n_1
     s_x <- response_df$response_1
-
     n_y <- response_df$n_2
     s_y <- response_df$response_2
     # Calculate weights and diff in weighted proportions
-    w <-(n_x * n_y) / (n_x + n_y)
-    tot_w <- sum(w)
-    diff <- sum(s_x/n_x*w)/tot_w - sum(s_y/n_y*w)/tot_w
+    weights <-(n_x * n_y) / (n_x + n_y)
+    names(weights) <- response_df$strata
+    tot_w <- sum(weights)
+    diff <- sum(s_x/n_x*weights)/tot_w - sum(s_y/n_y*weights)/tot_w
 
     # Calculate confidence interval
     lower_ci <- ifelse(any(response_df$response_1 == 0), -1,
@@ -360,19 +362,19 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
                                       fx=test_score_mn_weighted,
                                       ref_z = stats::qnorm(1 - alpha / 2),
                                       s_x = s_x, n_x = n_x,
-                                      s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
+                                      s_y = s_y, n_y = n_y, w = weights, tol=1e-08)$root)
 
     upper_ci <- ifelse(any(response_df$response_2 == 0), 1,
                        stats::uniroot(z_distance, interval=c(-0.999,0.999),
                                       fx=test_score_mn_weighted,
                                       ref_z = stats::qnorm(alpha / 2),
                                       s_x = s_x, n_x = n_x,
-                                      s_y = s_y, n_y = n_y, w = w, tol=1e-08)$root)
+                                      s_y = s_y, n_y = n_y, w = weights, tol=1e-08)$root)
 
     if(!is.null(delta)){
       statistic <- purrr::map_dbl(delta, \(d){
         test_score_mn_weighted(s_x = s_x, n_x = n_x,
-                               s_y = s_y, n_y = n_y, w = w, delta = d)
+                               s_y = s_y, n_y = n_y, w = weights, delta = d)
       })
       p.value <- (1 - stats::pnorm(abs(statistic)))
     }
@@ -380,7 +382,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
     #SAS PROC FREQ Summary Score Estimate of the Common Risk Difference
     #https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm
-    estimate <- dplyr::tibble(
+    estimate_df <- dplyr::tibble(
       x = x,
       by = as.numeric(as.factor(by)),
       strata = strata
@@ -394,7 +396,11 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
         dh = .data$low + .data$width/2,
         sh = .data$width/(2*stats::qnorm(1-alpha/2)),
         w = (1/.data$sh^2)/sum(1/.data$sh^2)
-      ) |>
+      )
+    weights <- estimate_df$w
+    names(weights) <- estimate_df$strata
+
+    estimate <- estimate_df |>
       dplyr::summarise(dS = sum(.data$dh*.data$w),
                        var_ds = 1/sum(1/.data$sh^2))
 
@@ -419,9 +425,12 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     }
 
   }
-
+  df <- get_counts(x = x, by = by)
   structure(
     list(
+      n = c(df$response_1, df$response_2),
+      N = c(df$n_1, df$n_2),
+      weights = weights,
       estimate = diff,
       conf.low = lower_ci,
       conf.high = upper_ci,
@@ -432,7 +441,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
       method =
         glue::glue("Stratified {stringr::str_to_title(method)} Miettinen-Nurminen Confidence Interval")
     ),
-    class = c("stratified-miettinen-nurminen", "prop_ci_bi", "cicada")
+    class = c("stratified_miettinen_nurminen", "prop_ci_bi", "cicada")
   )
 
 }

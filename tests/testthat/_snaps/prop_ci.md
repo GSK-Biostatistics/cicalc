@@ -262,7 +262,7 @@
       
       -- Stratified Wilson Confidence Interval without continuity correction ---------
       * 50 responses out of 80
-      * Weights: = 0.048, = 0.095, = 0.143, = 0.19, = 0.238, = 0.286
+      * Weights: 0.048, 0.095, 0.143, 0.19, 0.238, 0.286
       * Estimate: 0.625
       * 95% Confidence Interval:
         (0.4867, 0.7186)
@@ -275,7 +275,7 @@
       
       -- Stratified Wilson Confidence Interval with continuity correction ------------
       * 50 responses out of 80
-      * Weights: = 0.048, = 0.095, = 0.143, = 0.19, = 0.238, = 0.286
+      * Weights: 0.048, 0.095, 0.143, 0.19, 0.238, 0.286
       * Estimate: 0.625
       * 95% Confidence Interval:
         (0.4483, 0.7531)
@@ -288,7 +288,7 @@
       
       -- Stratified Wilson Confidence Interval without continuity correction ---------
       * 50 responses out of 80
-      * Weights: = 0.048, = 0.095, = 0.143, = 0.19, = 0.238, = 0.286
+      * Weights: 0.048, 0.095, 0.143, 0.19, 0.238, 0.286
       * Estimate: 0.625
       * 95% Confidence Interval:
         (0.4867, 0.7186)
