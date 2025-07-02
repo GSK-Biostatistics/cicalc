@@ -276,7 +276,7 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #' Miettinen, O. S., & Nurminen, M. (1985). Comparative analysis of two rates.
 #' Statistics in Medicine, 4(2), 213-226.
 #'
-#' \href{https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm}{Common Risk Difference :: Base SAS(R) 9.4 Procedures Guide: Statistical Procedures, Third Edition}
+#' \href{https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.html}{Common Risk Difference :: Base SAS(R) 9.4 Procedures Guide: Statistical Procedures, Third Edition}
 #'
 #'
 #' @examples

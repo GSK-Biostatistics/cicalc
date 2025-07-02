@@ -15,6 +15,10 @@ reference:
     - ci_prop_wilson_strata
   - subtitle: "Bivariate"
   - contents:
+    - ci_prop_diff_wald
+    - ci_prop_diff_haldane
+    - ci_prop_diff_jp
+    - ci_prop_diff_mee
     - ci_prop_diff_mn
     - ci_prop_diff_mn_strata
   - subtitle: "Utilities"

@@ -32,6 +32,11 @@ test_that("ci_prop_diff_mn matches the values in the paper", {
                )
   extreme_w_df <- ci_prop_diff_mn(response, treat, data = df)
   expect_equal(extreme_w_df, extreme)
+
+  # Add print test
+  expect_snapshot(
+    ci_prop_diff_mn(response, treat, data = df)
+  )
 })
 
 test_that("delta argument works", {

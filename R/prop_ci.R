@@ -516,7 +516,7 @@ ci_prop_wilson_strata <- function(x,
   sqrt(sum(summands)) / sum(sqrt(summands)) * stats::qnorm((1 + conf.level) / 2)
 }
 
-#' Helper Function for the Estimation of Weights for `proportion_ci_strat_wilson()`
+#' Helper Function for the Estimation of Weights for `ci_prop_wilson_strata()`
 #'
 #' This function wraps the iteration procedure that allows you to estimate
 #' the weights for each proportional strata. This assumes to minimize the

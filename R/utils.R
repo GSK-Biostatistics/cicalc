@@ -118,6 +118,7 @@ print.prop_ci_bi <- function(x, ...){
         cli::cli_li("At {d} the statistic is {round(s, 3)} and the p-value is {round(p, 4)}")
       })
   }
+  invisible(x)
 }
 
 
@@ -148,4 +149,5 @@ print.stratified_miettinen_nurminen <- function(x, ...){
         cli::cli_li("At {d} the statistic is {round(s, 3)} and the p-value is {round(p, 4)}")
       })
   }
+  invisible(x)
 }
