@@ -178,126 +178,50 @@ Statistics in Medicine, 4(2), 213-226.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate stratified confidence interval for difference in proportions</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.low</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4337594</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1605688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $delta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Score Miettinen-Nurminen Confidence Interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Stratified Score Miettinen-Nurminen Confidence Interval</span> <span style="color: #00BBBB;">─────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 9/20 - 12/20</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Weights: stratum1 = 5, stratum2 = 5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Estimate: -0.15</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 95% Confidence Interval:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (-0.4338, 0.1606)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Using the summary score method</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
 <span class="r-in"><span>                      method <span class="op">=</span> <span class="st">"summary score"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.1263657</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.low</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4113263</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.158595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $delta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Summary Score Miettinen-Nurminen Confidence Interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Stratified Summary Score Miettinen-Nurminen Confidence Interval</span> <span style="color: #00BBBB;">─────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 9/20 - 12/20</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Weights: stratum1 = 0.511, stratum2 = 0.489</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Estimate: -0.126</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 95% Confidence Interval:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (-0.4113, 0.1586)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate 99% confidence interval</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
 <span class="r-in"><span>                      conf.level <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.low</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.5072331</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2509363</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.99</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $delta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Score Miettinen-Nurminen Confidence Interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Stratified Score Miettinen-Nurminen Confidence Interval</span> <span style="color: #00BBBB;">─────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 9/20 - 12/20</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Weights: stratum1 = 5, stratum2 = 5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Estimate: -0.15</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 99% Confidence Interval:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (-0.5072, 0.2509)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate p-value under null hypothesis delta = 0.2</span></span></span>
 <span class="r-in"><span><span class="fu">ci_prop_diff_mn_strata</span><span class="op">(</span>x <span class="op">=</span> <span class="va">responses</span>, by <span class="op">=</span> <span class="va">arm</span>, strata <span class="op">=</span> <span class="va">strata</span>,</span></span>
 <span class="r-in"><span>                      delta <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.low</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4337594</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1605688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $conf.level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $delta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -2.223572</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01308862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stratified Score Miettinen-Nurminen Confidence Interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stratified-miettinen-nurminen" "prop_ci_bi"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "cicada"                       </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Stratified Score Miettinen-Nurminen Confidence Interval</span> <span style="color: #00BBBB;">─────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 9/20 - 12/20</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Weights: stratum1 = 5, stratum2 = 5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Estimate: -0.15</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • 95% Confidence Interval:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (-0.4338, 0.1606)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Delta </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • At 0.2 the statistic is -2.224 and the p-value is 0.0131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cli-150-444</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -306,7 +230,7 @@ Statistics in Medicine, 4(2), 213-226.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Christina Fillmore, GlaxoSmithKline Research &amp; Development Limited, Dan Lyrhgoe.</p>
+  <p>Developed by Christina Fillmore, GlaxoSmithKline Research &amp; Development Limited, Mike Sprys, Dan Lyrhgoe.</p>
 </div>
 
 <div class="pkgdown-footer-right">
