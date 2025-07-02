@@ -76,7 +76,7 @@ combine_strata <- function(x, strata){
 }
 
 #' @export
-print.prop_ci_uni <- function(x){
+print.prop_ci_uni <- function(x, ...){
   cli::cli_h1(x$method)
   cli::cli_li("{x$n} response{?s} out of {x$N}")
   cli::cli_li("Estimate: {x$estimate}")
@@ -86,12 +86,12 @@ print.prop_ci_uni <- function(x){
 
 
 #' @export
-print.stratified_wilson <- function(x){
+print.stratified_wilson <- function(x, ...){
   weight_str <- paste0(names(x$weights), " = ", round(x$weights, 3), collapse = ", ")
   cli::cli_h1(x$method)
   cli::cli_li("{x$n} response{?s} out of {x$N}")
-  cli::cli_li("{.strong Weights}: {weight_str}")
-  cli::cli_li("{.strong Estimate}: {x$estimate}")
+  cli::cli_li("Weights: {weight_str}")
+  cli::cli_li("Estimate: {x$estimate}")
   cli::cli_li("{x$conf.level*100}% Confidence Interval:")
   cli::cli_text("\u00a0\u00a0({round(x$conf.low, 4)}, {round(x$conf.high, 4)})")
 }
