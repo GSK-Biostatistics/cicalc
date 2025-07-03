@@ -26,7 +26,6 @@
 #'
 #' @export
 expand <- function(x, n){
-
   # check inputs ---------------------------------------------------------------
   check_integerish(x)
   check_integerish(n)
@@ -51,7 +50,7 @@ expand <- function(x, n){
 get_counts <- function(x, by, strata = 1) {
   dplyr::tibble(
     x = x,
-    by = as.numeric(as.factor(by)),
+    by = as.numeric(forcats::as_factor(by)),
     strata = strata
   ) |>
     dplyr::group_by(by, strata) |>

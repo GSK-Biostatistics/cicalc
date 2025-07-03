@@ -141,17 +141,30 @@ test_that("ci_prop_diff_mn_strata", {
   )
 
 
-  # Test exterme values
+  # Test when strata and by are teh same
   responses <- expand(c(9, 3, 7, 2), c(10, 10, 10, 10))
   arm <- rep(c("treat", "control"), each = 20)
-  strata <- rep(c("stratum1", "stratum2"), times = c(20, 20))
-
+  strata <- rep(c("stratum1", "stratum2"), each = 20)
 
   # Calculate stratified confidence interval for difference in proportions
-  extreme <- ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata)
-  expect_equal(extreme$conf.low, -1.0000)
-  expect_equal(extreme$conf.high, 1.0000)
-
-
-
+  expect_error(
+    ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata)
+  )
 })
+
+test_that("Test 0 response", {
+  responses <- expand(c(3, 0), c(83, 46))
+  arm <- rep(c("treat", "control"), c(83, 46))
+  non_1_zero <- ci_prop_diff_mn(x = responses, by = arm)
+  # Expected valeus from SAS
+  expect_equal(non_1_zero$conf.low, -0.043, tolerance = 0.02)
+  expect_equal(non_1_zero$conf.high, 0.101, tolerance = 0.02)
+
+
+  # responses <- expand(c(9, 3, 7, 0), c(10, 83, 10, 46))
+  # arm <- rep(c("treat", "control"), c(93, 56))
+  # strata <- c(rep(c("stratum1", "stratum2"), c(10, 83)),
+  #             rep(c("stratum1", "stratum2"), c(10, 46))
+  # )
+  # ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata)
+  })

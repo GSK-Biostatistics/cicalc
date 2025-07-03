@@ -124,21 +124,30 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
 
   alpha <- 1 - conf.level
 
-  lower_ci <- ifelse( df$response_1 > 0,
-                      stats::uniroot(z_distance, interval=c(-0.999,0.999),
-                                     fx=test_score_mn,
-                                     ref_z = stats::qnorm(1 - alpha / 2),
-                                     s_x = df$response_1, n_x = df$n_1,
-                                     s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
-                      -1 )
+  if(df$response_1 == 0 | df$response_2 == 0){
+    # Manually count at 0
+    z <- stats::qnorm((1 + conf.level) / 2)
 
-  upper_ci <- ifelse( df$response_2 > 0,
-                      stats::uniroot(z_distance, interval=c(lower_ci,0.999999),
-                                     fx=test_score_mn,
-                                     ref_z = stats::qnorm(alpha / 2),
-                                     s_x = df$response_1, n_x = df$n_1,
-                                     s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root,
-                      1)
+    delta_vec <- seq(-0.99999, 0.99999, length.out = 1000000)
+    T_scores <- test_score_mn(s_x = df$response_1, n_x = df$n_1,
+                              s_y = df$response_2, n_y = df$n_2, delta = delta_vec)
+    potential_vals <- delta_vec[which(-z < T_scores & T_scores < z)]
+    lower_ci <- min(potential_vals)
+    upper_ci <- max(potential_vals)
+  } else {
+    lower_ci <- stats::uniroot(z_distance, interval=c(-0.999,0.999),
+                                       fx=test_score_mn,
+                                       ref_z = stats::qnorm(1 - alpha / 2),
+                                       s_x = df$response_1, n_x = df$n_1,
+                                       s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root
+
+    upper_ci <- stats::uniroot(z_distance, interval=c(lower_ci,0.999999),
+                                       fx=test_score_mn,
+                                       ref_z = stats::qnorm(alpha / 2),
+                                       s_x = df$response_1, n_x = df$n_1,
+                                       s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root
+
+  }
 
   statistic = NULL
   p.value = NULL
@@ -345,6 +354,11 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
   p.value <- NULL
   if(method == "score"){
     # Get the n and response for each by and strata
+    by_strata <- interaction(by, strata) |>
+      unique()
+    if(length(by_strata) == 2){
+      cli::cli_abort("{.arg by} and {.arg strata} are non-unique check inputs")
+    }
     response_df <- get_counts(x = x, by = by, strata = strata)
     n_x <- response_df$n_1
     s_x <- response_df$response_1
@@ -357,19 +371,17 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     diff <- sum(s_x/n_x*weights)/tot_w - sum(s_y/n_y*weights)/tot_w
 
     # Calculate confidence interval
-    lower_ci <- ifelse(any(response_df$response_1 == 0), -1,
-                       stats::uniroot(z_distance, interval=c(-0.999,0.999),
+    lower_ci <- stats::uniroot(z_distance, interval=c(-0.999,0.999),
                                       fx=test_score_mn_weighted,
                                       ref_z = stats::qnorm(1 - alpha / 2),
                                       s_x = s_x, n_x = n_x,
-                                      s_y = s_y, n_y = n_y, w = weights, tol=1e-08)$root)
+                                      s_y = s_y, n_y = n_y, w = weights, tol=1e-08)$root
 
-    upper_ci <- ifelse(any(response_df$response_2 == 0), 1,
-                       stats::uniroot(z_distance, interval=c(-0.999,0.999),
+    upper_ci <- stats::uniroot(z_distance, interval=c(-0.999,0.999),
                                       fx=test_score_mn_weighted,
                                       ref_z = stats::qnorm(alpha / 2),
                                       s_x = s_x, n_x = n_x,
-                                      s_y = s_y, n_y = n_y, w = weights, tol=1e-08)$root)
+                                      s_y = s_y, n_y = n_y, w = weights, tol=1e-08)$root
 
     if(!is.null(delta)){
       statistic <- purrr::map_dbl(delta, \(d){
