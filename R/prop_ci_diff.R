@@ -9,6 +9,7 @@
 #' \sqrt{\frac{\hat{p}_1(1 - \hat{p}_1)}{n_1}+\frac{\hat{p}_2(1 - \hat{p}_2)}{n_2}}}
 #'
 #' @inheritParams ci_prop_diff_mn
+#' @param correct (`logical`)\cr apply continuity correction.
 #'
 #' @return A list containing the following components:
 #'

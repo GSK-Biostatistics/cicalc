@@ -16,6 +16,8 @@ frame provided in the \code{data} argument.}
 
 \item{conf.level}{(\verb{scalar numeric}) \cr a scalar in (0,1) indicating the confidence level. Default is 0.95}
 
+\item{correct}{(\code{logical})\cr apply continuity correction.}
+
 \item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
