@@ -51,6 +51,7 @@ test_that("delta argument works", {
   expect_equal(single_del$p.value, multi_del$p.value[1])
 })
 
+
 test_that("ci_prop_diff_mn validates inputs correctly", {
   # Non-binary x
   expect_error(ci_prop_diff_mn(x = c(1, 2, 3), by = c("A", "B", "A")))
@@ -168,3 +169,25 @@ test_that("Test 0 response", {
   # )
   # ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata)
   })
+
+test_that("Data argument works", {
+  set.seed(123)
+
+  test_df <- data.frame(
+    trt = c(rep(1, 100),rep(2, 100)),
+    response = rbinom(200,1,.6),
+    region = 1+rbinom(200,1,.5),
+    sex = 1+rbinom(200,1,.5)
+  )
+  by_data <- ci_prop_diff_mn_strata(x = response,  by = trt, strata = c(region, sex),
+                         method = "summary score", conf.level = 0.95, data=test_df)
+
+  by_vector <- ci_prop_diff_mn_strata(x = test_df$response,  by = test_df$trt, strata = c(test_df$region, test_df$sex),
+                                method = "summary score", conf.level = 0.95)
+
+
+  expect_equal(by_data, by_vector)
+
+
+
+})

@@ -315,8 +315,18 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
   set_cli_abort_call()
   check_data_frame(data, allow_empty = TRUE)
   if(is.data.frame(data)){
-    with(data, ci_prop_diff_mn_strata(x = x, by = by, strata = strata,
-                                      conf.level = conf.level, delta = delta))
+    return(
+      ci_prop_diff_mn_strata(
+        x = x ,
+        by = by ,
+        strata = strata,
+        method = method,
+        conf.level = conf.level,
+        delta = delta
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
   }
   # check inputs ---------------------------------------------------------------
   check_not_missing(x)
