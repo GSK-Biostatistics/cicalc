@@ -3,6 +3,11 @@ template:
   bootstrap: 5
   math-rendering: mathjax
 
+navbar:
+  structure:
+    left:  [reference, news]
+    right: [search, github]
+
 reference:
   - title: "Confidence Intervals"
   - subtitle: "Univariate"
