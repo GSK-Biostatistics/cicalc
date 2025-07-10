@@ -4,9 +4,18 @@
 # cicalc <a href='https://gsk-biostatistics.github.io/cicalc/'><img src="man/figures/cicalc.PNG" align="right" style="height:139px;"/></a>
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/cicalc)](https://CRAN.R-project.org/package=cicalc)
+[![codecov](https://codecov.io/gh/GSK-Biostatistics/cicalc/graph/badge.svg?token=jIF57l72pj)](https://codecov.io/gh/GSK-Biostatistics/cicalc)
+
 <!-- badges: end -->
 
-The goal of cicalc is to …
+{cicalc} contains a number of common confidence intervals commonly used
+in the pharma industry. For a full list of avialiable methods see the
+[package
+index](https://gsk-biostatistics.github.io/cicalc/reference/index.html)
 
 ## Installation
 
@@ -73,8 +82,8 @@ arm <- rep(c("treat", "control"), times = c(10, 10))
 ci_prop_diff_mn(x = responses, by = arm)
 #> 
 #> ── Miettinen-Nurminen Confidence Interval ──────────────────────────────────────
-#> • 3/10 - 9/10
-#> • Estimate: -0.6
+#> • 9/10 - 3/10
+#> • Estimate: 0.6
 #> • 95% Confidence Interval:
-#>   (-0.8406, -0.17)
+#>   (0.17, 0.8406)
 ```

@@ -18,13 +18,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) 
 [![CRAN status](https://www.r-pkg.org/badges/version/cicalc)](https://CRAN.R-project.org/package=cicalc) 
-[![codecov](https://codecov.io/gh/GSK-Biostatistics/beastt/graph/badge.svg?token=UVH8SF4OXT)](https://app.codecov.io/gh/GSK-Biostatistics/beastt)
+[![codecov](https://codecov.io/gh/GSK-Biostatistics/cicalc/graph/badge.svg?token=jIF57l72pj)](https://codecov.io/gh/GSK-Biostatistics/cicalc)
 
 <!-- badges: end -->
 
-The goal of cicalc is to ...
+{cicalc} contains a number of common confidence intervals commonly used in the pharma industry. For a full list of avialiable methods see the [package index](https://gsk-biostatistics.github.io/cicalc/reference/index.html)
 
 ## Installation
 
