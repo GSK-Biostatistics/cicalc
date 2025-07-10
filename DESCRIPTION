@@ -15,6 +15,8 @@ Description: This calculates a variety of different CIs for proportions
     pharmaceutical industry including Wald, Miettinen-Nurminen etc.
 License: Apache License (>= 2)
 URL: https://gsk-biostatistics.github.io/cicalc/
+Depends:
+    R (>= 4.1.0)
 Imports: 
     broom,
     cli,
@@ -22,7 +24,6 @@ Imports:
     forcats,
     glue,
     purrr,
-    R (>= 4.1.0),
     rlang,
     tidyr
 Suggests: 
