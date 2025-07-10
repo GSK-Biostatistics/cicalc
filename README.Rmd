@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-{cicalc} contains a number of common confidence intervals commonly used in the pharma industry. For a full list of available methods see the [package index](https://gsk-biostatistics.github.io/cicalc/reference/index.html)
+{cicalc} contains a number of confidence intervals commonly used in the pharma industry. For a full list of available methods see the [package index](https://gsk-biostatistics.github.io/cicalc/reference/index.html)
 
 ## Installation
 

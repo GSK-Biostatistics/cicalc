@@ -12,9 +12,8 @@ status](https://www.r-pkg.org/badges/version/cicalc)](https://CRAN.R-project.org
 
 <!-- badges: end -->
 
-{cicalc} contains a number of common confidence intervals commonly used
-in the pharma industry. For a full list of available methods see the
-[package
+{cicalc} contains a number of confidence intervals commonly used in the
+pharma industry. For a full list of available methods see the [package
 index](https://gsk-biostatistics.github.io/cicalc/reference/index.html)
 
 ## Installation
