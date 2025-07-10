@@ -509,7 +509,7 @@ ci_prop_wilson_strata <- function(x,
 #' vars <- ests * (1 - ests) / ns
 #' weights <- rep(1 / length(ns), length(ns))
 #'
-#' citools:::.strata_normal_quantile(vars, weights, 0.95)
+#' cicalc:::.strata_normal_quantile(vars, weights, 0.95)
 .strata_normal_quantile <- function(vars, weights, conf.level) {
   summands <- weights^2 * vars
   # Stratified quantile
@@ -543,7 +543,7 @@ ci_prop_wilson_strata <- function(x,
 #' ws <- rep(1 / length(vs), length(vs))
 #' ns <- c(22, 18, 17, 17, 14, 12)
 #'
-#' citools:::.update_weights_strat_wilson(vs, sq, ws, ns, 100, 0.95, 0.001)
+#' cicalc:::.update_weights_strat_wilson(vs, sq, ws, ns, 100, 0.95, 0.001)
 .update_weights_strat_wilson <- function(vars,
                                          strata_qnorm,
                                          initial_weights,

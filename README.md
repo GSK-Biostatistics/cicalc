@@ -1,21 +1,21 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# citools
+# cicalc <a href='https://gsk-biostatistics.github.io/cicalc/'><img src="man/figures/cicalc.PNG" align="right" style="height:139px;"/></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of citools is to …
+The goal of cicalc is to …
 
 ## Installation
 
-You can install the development version of citools from
+You can install the development version of cicalc from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("GSK-Biostatistics/citools")
+devtools::install_github("GSK-Biostatistics/cicalc")
 ```
 
 ## Example
@@ -23,7 +23,7 @@ devtools::install_github("GSK-Biostatistics/citools")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(citools)
+library(cicalc)
 # Example of CI for proportions
 x <- c(
  TRUE, TRUE, TRUE, TRUE, TRUE,

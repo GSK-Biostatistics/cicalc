@@ -1,4 +1,4 @@
-url: https://gsk-biostatistics.github.io/citools/
+url: https://gsk-biostatistics.github.io/cicalc/
 template:
   bootstrap: 5
   math-rendering: mathjax

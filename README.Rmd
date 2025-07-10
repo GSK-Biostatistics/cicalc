@@ -13,20 +13,26 @@ knitr::opts_chunk$set(
 )
 ```
 
-# citools
+# cicalc <a href='https://gsk-biostatistics.github.io/cicalc/'><img src="man/figures/cicalc.PNG" align="right" style="height:139px;"/></a>
+
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) 
+[![CRAN status](https://www.r-pkg.org/badges/version/cicalc)](https://CRAN.R-project.org/package=cicalc) 
+[![codecov](https://codecov.io/gh/GSK-Biostatistics/beastt/graph/badge.svg?token=UVH8SF4OXT)](https://app.codecov.io/gh/GSK-Biostatistics/beastt)
+
 <!-- badges: end -->
 
-The goal of citools is to ...
+The goal of cicalc is to ...
 
 ## Installation
 
-You can install the development version of citools from [GitHub](https://github.com/) with:
+You can install the development version of cicalc from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("GSK-Biostatistics/citools")
+devtools::install_github("GSK-Biostatistics/cicalc")
 ```
 
 ## Example
@@ -34,7 +40,7 @@ devtools::install_github("GSK-Biostatistics/citools")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(citools)
+library(cicalc)
 # Example of CI for proportions
 x <- c(
  TRUE, TRUE, TRUE, TRUE, TRUE,

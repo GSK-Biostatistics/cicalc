@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(citools)
+library(cicalc)
 
-test_check("citools")
+test_check("cicalc")
