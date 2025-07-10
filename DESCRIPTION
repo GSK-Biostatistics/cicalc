@@ -18,7 +18,7 @@ Authors@R: c(
                     comment = c(ORCID = "0000-0002-4682-772X"))
   )
 Description: This calculates a variety of different CIs for proportions and difference of proportions that are 
-  commonly used in the pharamcutical industry including Wald, Miettinen-Nurminen etc.
+  commonly used in the pharmaceutical industry including Wald, Miettinen-Nurminen etc.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
