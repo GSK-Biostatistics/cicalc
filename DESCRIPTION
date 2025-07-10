@@ -1,27 +1,20 @@
-Package: cicalc
 Type: Package
-Title: Calculate Confidence Intervals 
+Package: cicalc
+Title: Calculate Confidence Intervals
 Version: 0.1.0
 Authors@R: c(
-    person(given = "Christina",
-                    family = "Fillmore",
-                    role = c("aut", "cre"),
-                    email = "christina.e.fillmore@gsk.com",
-                    comment = c(ORCID = "0000-0003-0595-2302")),
+    person("Christina", "Fillmore", , "christina.e.fillmore@gsk.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0595-2302")),
     person("GlaxoSmithKline Research & Development Limited", role = c("cph", "fnd")),
-    person(given = "Mike",
-                    family = "Sprys",
-                    role = c("aut")),
-    person(given = "Dan",
-                    family = "Lythgoe",
-                    role = c("aut"),
-                    comment = c(ORCID = "0000-0002-4682-772X"))
+    person("Mike", "Sprys", role = "aut"),
+    person("Dan", "Lythgoe", role = "aut",
+           comment = c(ORCID = "0000-0002-4682-772X"))
   )
-Description: This calculates a variety of different CIs for proportions and difference of proportions that are 
-  commonly used in the pharmaceutical industry including Wald, Miettinen-Nurminen etc.
+Description: This calculates a variety of different CIs for proportions
+    and difference of proportions that are commonly used in the
+    pharmaceutical industry including Wald, Miettinen-Nurminen etc.
 License: Apache License (>= 2)
-Encoding: UTF-8
-LazyData: true
+URL: https://gsk-biostatistics.github.io/cicalc/
 Imports: 
     broom,
     cli,
@@ -29,11 +22,13 @@ Imports:
     forcats,
     glue,
     purrr,
+    R (>= 4.1.0),
     rlang,
     tidyr
-RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-URL: https://gsk-biostatistics.github.io/cicalc/
+Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
