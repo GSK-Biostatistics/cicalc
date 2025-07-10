@@ -29,14 +29,14 @@ devtools::install_github("GSK-Biostatistics/cicalc")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+A subsection of common CI’s avaliable in this package are below:
 
 ``` r
 library(cicalc)
 # Example of CI for proportions
 x <- c(
- TRUE, TRUE, TRUE, TRUE, TRUE,
- FALSE, FALSE, FALSE, FALSE, FALSE
+  TRUE, TRUE, TRUE, TRUE, TRUE,
+  FALSE, FALSE, FALSE, FALSE, FALSE
 )
 ci_prop_wald(x, conf.level = 0.9)
 #> 
@@ -86,4 +86,20 @@ ci_prop_diff_mn(x = responses, by = arm)
 #> • Estimate: 0.6
 #> • 95% Confidence Interval:
 #>   (0.17, 0.8406)
+
+# Stratified 
+strat_df <- dplyr::tibble(
+  responses = expand(c(9, 3, 7, 2), c(10, 10, 10, 10)),
+  arm = rep(c("treat", "control"), 20),
+  strata = rep(c("stratum1", "stratum2"), times = c(20, 20))
+)
+
+ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata, data = strat_df)
+#> 
+#> ── Stratified Score Miettinen-Nurminen Confidence Interval ─────────────────────
+#> • 12/20 - 9/20
+#> • Weights: stratum1 = 5, stratum2 = 5
+#> • Estimate: 0.15
+#> • 95% Confidence Interval:
+#>   (-0.1606, 0.4338)
 ```
