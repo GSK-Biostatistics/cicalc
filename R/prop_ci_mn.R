@@ -246,7 +246,8 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'   confidence intervals for the difference between two proportions across multiple strata.
 #'   \deqn{H_0: \hat{d}-\delta <= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta > 0}
 #'
-#'   The "score" method is a weighted mn score first described in the original 1985 paper. The formula is:
+#'   The "score" method is a weighted MN score first described in the original 1985
+#'   paper. The formula is:
 #'   \itemize{
 #'     \item Calculates weights for each stratum as \eqn{w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}}
 #'     \item Computes the overall weighted difference \eqn{\hat{d} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
@@ -260,7 +261,9 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'   The \eqn{\hat{\sigma}_{mn}^2(\hat{d})} is the Miettinen-Nurminen variance estimate.
 #'   See the details of [ci_prop_diff_mn()] for how \eqn{\hat{\sigma}_{mn}^2(\delta)} is calculated.
 #'
-#'   The "summary score" method matches the method used in SAS. The formula is:
+#'   The "summary score" method follows the meta-analyses proposed in Agresti
+#'   2013 and is consistent with the "Summary Score Confidence Limits" method
+#'   used in SAS. The formula is:
 #'   \itemize{
 #'   \item The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
 #'     \deqn{
@@ -287,6 +290,7 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'
 #' \href{https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/procstat/procstat_freq_details63.htm}{Common Risk Difference :: Base SAS(R) 9.4 Procedures Guide: Statistical Procedures, Third Edition}
 #'
+#' Agresti, A. (2013). Categorical Data Analysis. 3rd Edition. John Wiley & Sons, Hoboken, NJ
 #'
 #' @examples
 #' # Generate binary samples with strata
