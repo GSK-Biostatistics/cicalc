@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GSK-Biostatistics/cicalc/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/cicalc)](https://CRAN.R-project.org/package=cicalc) 
-[![codecov](https://codecov.io/gh/GSK-Biostatistics/cicalc/graph/badge.svg?token=jIF57l72pj)](https://codecov.io/gh/GSK-Biostatistics/cicalc)
+[![codecov](https://codecov.io/gh/GSK-Biostatistics/cicalc/graph/badge.svg?token=jIF57l72pj)](https://app.codecov.io/gh/GSK-Biostatistics/cicalc)
 
 <!-- badges: end -->
 
