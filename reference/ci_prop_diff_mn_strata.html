@@ -137,7 +137,8 @@ Miettinen-Nurminen Confidence Interval")</p></dd>
     <p>The function implements the stratified Miettinen-Nurminen method to compute
 confidence intervals for the difference between two proportions across multiple strata.
 $$H_0: \hat{d}-\delta &lt;= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta &gt; 0$$</p>
-<p>The "score" method is a weighted mn score first described in the original 1985 paper. The formula is:</p><ul><li><p>Calculates weights for each stratum as \(w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}\)</p></li>
+<p>The "score" method is a weighted MN score first described in the original 1985
+paper. The formula is:</p><ul><li><p>Calculates weights for each stratum as \(w_i = \frac{n_{xi} \cdot n_{yi}}{n_{xi} + n_{yi}}\)</p></li>
 <li><p>Computes the overall weighted difference \(\hat{d} = \frac{\sum w_i \hat{p}_{xi}}{\sum w_i} -
           \frac{\sum w_i \hat{p}_{yi}}{\sum w_i}\)</p></li>
 <li><p>Uses the stratified test statistic: $$Z_{\delta} = \frac{\hat{d} - \delta}
@@ -146,7 +147,9 @@ $$H_0: \hat{d}-\delta &lt;= 0 \qquad \text{vs.} \qquad H_1: \hat{d}-\delta &gt; 
 falls in the acceptance region \(\{ Z_\delta &lt; z_{\alpha/2}\}\)</p></li>
 </ul><p>The \(\hat{\sigma}_{mn}^2(\hat{d})\) is the Miettinen-Nurminen variance estimate.
 See the details of <code><a href="ci_prop_diff_mn.html">ci_prop_diff_mn()</a></code> for how \(\hat{\sigma}_{mn}^2(\delta)\) is calculated.</p>
-<p>The "summary score" method matches the method used in SAS. The formula is:</p><ul><li><p>The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
+<p>The "summary score" method follows the meta-analyses proposed in Agresti
+2013 and is consistent with the "Summary Score Confidence Limits" method
+used in SAS. The formula is:</p><ul><li><p>The point estimate of the stratified risk difference is a weighted average of the midpoints of the within-stratum MN confidence intervals:
 $$
       \hat{d}_{\text{S}} = \sum_i \hat{d}_i w_i
       $$</p></li>
@@ -168,6 +171,7 @@ $$
     <p>Miettinen, O. S., &amp; Nurminen, M. (1985). Comparative analysis of two rates.
 Statistics in Medicine, 4(2), 213-226.</p>
 <p><a href="https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.5/procstat/procstat_freq_details63.htm" class="external-link">Common Risk Difference :: Base SAS(R) 9.4 Procedures Guide: Statistical Procedures, Third Edition</a></p>
+<p>Agresti, A. (2013). Categorical Data Analysis. 3rd Edition. John Wiley &amp; Sons, Hoboken, NJ</p>
     </div>
 
     <div class="section level2">
