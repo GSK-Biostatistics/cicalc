@@ -105,6 +105,35 @@ to find estimates of optimal weights.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>An object containing the following components:</p>
+<dl><dt>n</dt>
+<dd><p>Number of responses</p></dd>
+
+<dt>N</dt>
+<dd><p>Total number</p></dd>
+
+<dt>estimate</dt>
+<dd><p>The point estimate of the proportion</p></dd>
+
+<dt>conf.low</dt>
+<dd><p>Lower bound of the confidence interval</p></dd>
+
+<dt>conf.high</dt>
+<dd><p>Upper bound of the confidence interval</p></dd>
+
+<dt>conf.level</dt>
+<dd><p>The confidence level used</p></dd>
+
+<dt>weights</dt>
+<dd><p>Weights of each strata, will be the same as the input unless
+unspecified, then it will be the dynamically calculated weights.</p></dd>
+
+<dt>method</dt>
+<dd><p>Type of method used</p></dd>
+
+</dl></div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>$$\frac{\hat{p}_j + \frac{z^2_{\alpha/2}}{2n_j} \pm
 z_{\alpha/2} \sqrt{\frac{\hat{p}_j(1 - \hat{p}_j)}{n_j} +

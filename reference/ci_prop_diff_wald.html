@@ -79,9 +79,15 @@ frame provided in the <code>data</code> argument.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list containing the following components:</p>
-<dl><dt>estimate</dt>
-<dd><p>The point estimate of the difference in proportions (p_x - p_y)</p></dd>
+    <p>An object containing the following components:</p>
+<dl><dt>n</dt>
+<dd><p>Number of responses in each by group</p></dd>
+
+<dt>N</dt>
+<dd><p>Total number in each by group</p></dd>
+
+<dt>estimate</dt>
+<dd><p>The point estimate of the difference in proportions (p_1 - p_2)</p></dd>
 
 <dt>conf.low</dt>
 <dd><p>Lower bound of the confidence interval</p></dd>
@@ -91,6 +97,9 @@ frame provided in the <code>data</code> argument.</p></dd>
 
 <dt>conf.level</dt>
 <dd><p>The confidence level used</p></dd>
+
+<dt>method</dt>
+<dd><p>Type of method used</p></dd>
 
 </dl></div>
     <div class="section level2">
