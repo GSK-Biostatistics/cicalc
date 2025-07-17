@@ -19,7 +19,7 @@ frame provided in the \code{data} argument.}
 \item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
-A list containing the following components:
+An object containing the following components:
 
 \item{n}{The number of responses for each group}
 \item{N}{The total number in each group}
@@ -27,6 +27,7 @@ A list containing the following components:
 \item{conf.low}{Lower bound of the confidence interval}
 \item{conf.high}{Upper bound of the confidence interval}
 \item{conf.level}{The confidence level used}
+\item{method}{Jeffreys-Perks Confidence Interval}
 }
 \description{
 Jeffreys-Perks Confidence Interval for Difference in Proportions

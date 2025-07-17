@@ -21,12 +21,14 @@ frame provided in the \code{data} argument.}
 \item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
-A list containing the following components:
-
-\item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
+An object containing the following components:
+\item{n}{Number of responses in each by group}
+\item{N}{Total number in each by group}
+\item{estimate}{The point estimate of the difference in proportions (p_1 - p_2)}
 \item{conf.low}{Lower bound of the confidence interval}
 \item{conf.high}{Upper bound of the confidence interval}
 \item{conf.level}{The confidence level used}
+\item{method}{Type of method used}
 }
 \description{
 Calculates the Wald interval by following the usual textbook definition

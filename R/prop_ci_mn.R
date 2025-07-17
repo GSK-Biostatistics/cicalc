@@ -14,7 +14,7 @@
 #'   test statistic and p-value under the `delta`
 #'   hypothesis.
 #'
-#' @return A list containing the following components:
+#' @return An object containing the following components:
 #'
 #'   \item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
 #'   \item{conf.low}{Lower bound of the confidence interval}
@@ -228,7 +228,7 @@ test_score_mn <- function(s_x, n_x, s_y, n_y, delta){
 #'   about the implementation differences.
 #'
 #'
-#' @return A list containing the following components:
+#' @return An object containing the following components:
 #'
 #'   \item{estimate}{The point estimate of the difference in proportions (p_x -
 #'   p_y)} \item{conf.low}{Lower bound of the confidence interval}

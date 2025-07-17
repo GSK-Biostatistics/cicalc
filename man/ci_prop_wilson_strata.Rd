@@ -37,6 +37,19 @@ to find estimates of optimal weights.}
 
 \item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
+\value{
+An object containing the following components:
+
+\item{n}{Number of responses}
+\item{N}{Total number}
+\item{estimate}{The point estimate of the proportion}
+\item{conf.low}{Lower bound of the confidence interval}
+\item{conf.high}{Upper bound of the confidence interval}
+\item{conf.level}{The confidence level used}
+\item{weights}{Weights of each strata, will be the same as the input unless
+unspecified, then it will be the dynamically calculated weights.}
+\item{method}{Type of method used}
+}
 \description{
 Calculates the stratified Wilson confidence
 interval for unequal proportions as described in

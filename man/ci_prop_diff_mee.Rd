@@ -25,14 +25,15 @@ hypothesis.}
 \item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
-A list containing the following components:
+An object containing the following components:
 
 \item{n}{The number of responses for each group}
 \item{N}{The total number in each group}
-\item{estimate}{The point estimate of the difference in proportions (theta*)}
+\item{estimate}{The point estimate of the difference in proportions (p1-p2)}
 \item{conf.low}{Lower bound of the confidence interval}
 \item{conf.high}{Upper bound of the confidence interval}
 \item{conf.level}{The confidence level used}
+\item{method}{Mee Confidence Interval}
 }
 \description{
 Mee Confidence Interval for Difference in Proportions

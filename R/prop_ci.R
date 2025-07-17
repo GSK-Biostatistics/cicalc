@@ -12,6 +12,16 @@
 #' @param correct (`logical`)\cr apply continuity correction.
 #' @param data (`data.frame`) \cr Optional data frame containing the variables specified in `x` and `by`.
 #'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
+#'
 #' @export
 #' @examples
 #' # example code
@@ -85,6 +95,17 @@ ci_prop_wald <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
 #' \frac{z^2_{\alpha/2}}{2n} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n} +
 #' \frac{z^2_{\alpha/2}}{4n^2}}}{1 + \frac{z^2_{\alpha/2}}{n}}}
 #' @inheritParams ci_prop_wald
+#'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
+#'
 #' @export
 ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
   set_cli_abort_call()
@@ -148,6 +169,16 @@ ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
 #' \frac{z^2_{\alpha/2}}{4n^2}} \right)
 #' / \left( 1 + \frac{z^2_{\alpha/2}}{n} \right)}
 #'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
+#'
 #' @export
 ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
   set_cli_abort_call()
@@ -193,6 +224,16 @@ ci_prop_clopper_pearson <- function(x, conf.level = 0.95, data = NULL) {
 #' Calculates the `Agresti-Coull` interval (created by `Alan Agresti` and `Brent Coull`) by
 #'   (for 95% CI) adding two successes and two failures to the data and then using the Wald formula to construct a CI.
 #' @inheritParams ci_prop_wald
+#'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
 #'
 #' @details
 #' \deqn{
@@ -259,6 +300,16 @@ ci_prop_agresti_coull <- function(x, conf.level = 0.95, data = NULL) {
 #'   non-informative Jeffreys prior for a binomial proportion.
 #'
 #' @inheritParams ci_prop_wald
+#'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
 #'
 #' @details
 #' \deqn{\left( \text{Beta}\left(\frac{k}{2} + \frac{1}{2}, \frac{n - k}{2} + \frac{1}{2}\right)_\alpha,
@@ -338,6 +389,18 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #'   to find estimates of optimal weights.
 #' @param correct (scalar `logical`)\cr include the continuity correction. For further information, see for example
 #'   [stats::prop.test()].
+#'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{weights}{Weights of each strata, will be the same as the input unless
+#'   unspecified, then it will be the dynamically calculated weights.}
+#'   \item{method}{Type of method used}
 #'
 #' @examples
 #' # Stratified Wilson confidence interval with unequal probabilities

@@ -11,12 +11,14 @@
 #' @inheritParams ci_prop_diff_mn
 #' @param correct (`logical`)\cr apply continuity correction.
 #'
-#' @return A list containing the following components:
-#'
-#'   \item{estimate}{The point estimate of the difference in proportions (p_x - p_y)}
+#' @return An object containing the following components:
+#'   \item{n}{Number of responses in each by group}
+#'   \item{N}{Total number in each by group}
+#'   \item{estimate}{The point estimate of the difference in proportions (p_1 - p_2)}
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
 #'
 #' @export
 #'
@@ -100,7 +102,7 @@ ci_prop_diff_wald <- function(x, by, conf.level = 0.95, correct = FALSE, data = 
 #' \deqn{u = \frac{1/n_1 + 1/n_2}{4}}
 #' \deqn{v = \frac{1/n_1 - 1/n_2}{4}}
 #'
-#' @return A list containing the following components:
+#' @return An object containing the following components:
 #'
 #'   \item{n}{The number of responses for each group}
 #'   \item{N}{The total number in each group}
@@ -108,6 +110,7 @@ ci_prop_diff_wald <- function(x, by, conf.level = 0.95, correct = FALSE, data = 
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Haldane Confidence Interval}
 #'
 #' @export
 #'
@@ -203,7 +206,7 @@ ci_prop_diff_haldane <- function(x, by, conf.level = 0.95, data = NULL) {
 #' \deqn{u = \frac{1/n_1 + 1/n_2}{4}}
 #' \deqn{v = \frac{1/n_1 - 1/n_2}{4}}
 #'
-#' @return A list containing the following components:
+#' @return An object containing the following components:
 #'
 #'   \item{n}{The number of responses for each group}
 #'   \item{N}{The total number in each group}
@@ -211,6 +214,7 @@ ci_prop_diff_haldane <- function(x, by, conf.level = 0.95, data = NULL) {
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Jeffreys-Perks Confidence Interval}
 #'
 #' @export
 #'
@@ -308,14 +312,15 @@ ci_prop_diff_jp <- function(x, by, conf.level = 0.95, data = NULL) {
 #' \deqn{u = \frac{1/n_1 + 1/n_2}{4}}
 #' \deqn{v = \frac{1/n_1 - 1/n_2}{4}}
 #'
-#' @return A list containing the following components:
+#' @return An object containing the following components:
 #'
 #'   \item{n}{The number of responses for each group}
 #'   \item{N}{The total number in each group}
-#'   \item{estimate}{The point estimate of the difference in proportions (theta*)}
+#'   \item{estimate}{The point estimate of the difference in proportions (p1-p2)}
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Mee Confidence Interval}
 #'
 #' @export
 #'

@@ -42,7 +42,7 @@ hypothesis.}
 \item{data}{(\code{data.frame}) \cr Optional data frame containing the variables specified in \code{x} and \code{by}.}
 }
 \value{
-A list containing the following components:
+An object containing the following components:
 
 \item{estimate}{The point estimate of the difference in proportions (p_x -
 p_y)} \item{conf.low}{Lower bound of the confidence interval}
