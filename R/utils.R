@@ -162,14 +162,5 @@ print.ci_prop_common_risk_diff_sato <- function(x, ...){
   cli::cli_li("Variance: {round(x$variance, 3)}")
   cli::cli_li("{x$conf.level*100}% Confidence Interval:")
   cli::cli_text("\u00a0\u00a0({round(x$conf.low, 4)}, {round(x$conf.high, 4)})")
-  if(!is.null(x$delta)){
-    cli::cli_h3("Delta")
-    dplyr::tibble(d = x$delta,
-                  s = x$statistic,
-                  p = x$p.value) |>
-      purrr::pmap(\(d,s,p){
-        cli::cli_li("At {d} the statistic is {round(s, 3)} and the p-value is {round(p, 4)}")
-      })
-  }
   invisible(x)
 }
