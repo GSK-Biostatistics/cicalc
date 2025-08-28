@@ -119,8 +119,8 @@ ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
       statistic = z_stat,
       p.value = p.value,
       method =
-        glue::glue("Mentel-Haenszel Confidence Interval, Sato Variance")
+        glue::glue("Mentel-Haenszel Risk Difference Confidence Interval, Sato Variance")
     ),
-    class = c("ci_prop_common_risk_diff_sato", "cicalc")
+    class = c("ci_risk_diff_mh_strata", "cicalc")
   )
 }
