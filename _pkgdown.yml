@@ -28,7 +28,7 @@ reference:
     - ci_prop_diff_mn_strata
   - subtitle: "Common Risk Difference"
   - contents:
-    - ci_prop_common_risk_diff_sato
+    - ci_risk_diff_mh_strata
   - subtitle: "Utilities"
   - contents:
     - expand
