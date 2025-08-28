@@ -46,13 +46,13 @@
 #' strata <- rep(c("stratum1", "stratum2"), times = c(20, 20))
 #'
 #' # Calculate common risk difference
-#' ci_prop_common_risk_diff_sato(x = responses, by = arm, strata = strata)
-ci_prop_common_risk_diff_sato <- function(x, by, strata, conf.level = 0.95, data = NULL) {
+#' ci_risk_diff_mh_strata(x = responses, by = arm, strata = strata)
+ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL) {
   set_cli_abort_call()
   check_data_frame(data, allow_empty = TRUE)
   if(is.data.frame(data)){
     return(
-      ci_prop_common_risk_diff_sato(
+      ci_risk_diff_mh_strata(
         x = x ,
         by = by ,
         strata = strata,

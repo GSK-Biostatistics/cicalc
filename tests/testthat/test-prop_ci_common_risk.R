@@ -26,7 +26,7 @@ agresti_long <- agresti |>
   tidyr::unnest(results)
 
 test_that("Testing values match what is stated in Agresti on page 231",{
-  results <- ci_prop_common_risk_diff_sato(x= results, by = treatment,
+  results <- ci_risk_diff_mh_strata(x= results, by = treatment,
                                            strata =centre, data = agresti_long)
   expect_equal(round(results$estimate, 3), 0.130)
   expect_equal(round(sqrt(results$variance), 3), 0.050)
@@ -43,7 +43,7 @@ test_that("Testing values match what is stated in Agresti on page 231",{
 
 test_that("Check print",{
   expect_snapshot(
-    ci_prop_common_risk_diff_sato(x= results, by = treatment,
+    ci_risk_diff_mh_strata(x= results, by = treatment,
                                   strata =centre, data = agresti_long)
   )
 })
