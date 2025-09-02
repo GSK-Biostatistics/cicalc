@@ -150,3 +150,17 @@ print.stratified_miettinen_nurminen <- function(x, ...){
   }
   invisible(x)
 }
+
+
+#' @export
+print.ci_risk_diff_mh_strata <- function(x, ...){
+
+  diff_str <- paste0(x$n, "/", x$N, collapse = " - ")
+  cli::cli_h1(x$method)
+  cli::cli_li("{diff_str}")
+  cli::cli_li("Estimate: {round(x$estimate, 3)}")
+  cli::cli_li("Variance: {round(x$variance, 3)}")
+  cli::cli_li("{x$conf.level*100}% Confidence Interval:")
+  cli::cli_text("\u00a0\u00a0({round(x$conf.low, 4)}, {round(x$conf.high, 4)})")
+  invisible(x)
+}

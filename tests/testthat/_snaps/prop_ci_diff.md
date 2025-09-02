@@ -58,3 +58,19 @@
       * 95% Confidence Interval:
         (0.0533, 0.3377)
 
+---
+
+    Code
+      print(ci_prop_diff_mee(response, treat, delta = c(0, 0.1)))
+    Message
+      
+      -- Mee Confidence Interval -----------------------------------------------------
+      * 56/70 - 48/80
+      * Estimate: 0.2
+      * 95% Confidence Interval:
+        (0.0533, 0.3377)
+      
+      -- Delta 
+      * At 0 the statistic is 2.65 and the p-value is 0.004
+      * At 0.1 the statistic is 1.348 and the p-value is 0.0889
+
