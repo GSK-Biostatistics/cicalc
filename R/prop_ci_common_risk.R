@@ -27,14 +27,14 @@
 #'
 #' @return An object containing the following components:
 #'
-#'   \item{estimate}{The Mentel-Haeszel estimated common risk difference}
+#'   \item{estimate}{The Mantel-Haeszel estimated common risk difference}
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
 #'   \item{variance}{Sato variance estimate}
 #'   \item{statistic}{Z-Statistic under the null hypothesis, assuming a common risk difference of 0}
 #'   \item{p.value}{p-value under the null hypothesis, assuming a common risk difference of 0}
-#'   \item{method}{Description of the method used ("Mentel-Haenszel Confidence Interval, Sato Variance")}
+#'   \item{method}{Description of the method used ("Mantel-Haenszel Confidence Interval, Sato Variance")}
 #' @export
 #' @references
 #' Agresti, A. (2013). Categorical Data Analysis. 3rd Edition. John Wiley & Sons, Hoboken, NJ p. 231
@@ -119,7 +119,7 @@ ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
       statistic = z_stat,
       p.value = p.value,
       method =
-        glue::glue("Mentel-Haenszel Risk Difference Confidence Interval, Sato Variance")
+        glue::glue("Mantel-Haenszel Risk Difference Confidence Interval, Sato Variance")
     ),
     class = c("ci_risk_diff_mh_strata", "cicalc")
   )

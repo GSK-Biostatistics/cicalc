@@ -4,7 +4,7 @@
       ci_risk_diff_mh_strata(x = results, by = treatment, strata = centre, data = agresti_long)
     Message
       
-      -- Mentel-Haenszel Risk Difference Confidence Interval, Sato Variance ----------
+      -- Mantel-Haenszel Risk Difference Confidence Interval, Sato Variance ----------
       * 55/130 - 47/143
       * Estimate: 0.13
       * Variance: 0.003
