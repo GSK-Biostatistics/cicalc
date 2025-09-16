@@ -153,8 +153,6 @@ ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
 #'   \item{variance}{Mantel-Haenszel variance estimate \eqn{Var(log(RR_MH))}}
-#'   \item{statistic}{Z-Statistic under the null hypothesis, assuming a common risk difference of 0}
-#'   \item{p.value}{p-value under the null hypothesis, assuming a common risk difference of 0}
 #'   \item{method}{Description of the method used ("Mantel-Haenszel Common Relattive Risk Confidence Interval")}
 #' @export
 #' @references
@@ -173,7 +171,7 @@ ci_rel_risk_cmh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
   check_data_frame(data, allow_empty = TRUE)
   if(is.data.frame(data)){
     return(
-      ci_risk_diff_mh_strata(
+      ci_rel_risk_cmh_strata(
         x = x ,
         by = by ,
         strata = strata,
@@ -216,10 +214,6 @@ ci_rel_risk_cmh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
   lower_ci <- rel_risk_mh*exp(-z_alpha*sqrt(var_rr))
   upper_ci <- rel_risk_mh*exp(z_alpha*sqrt(var_rr))
 
-  z_stat <- log(rel_risk_mh)/sqrt(var_rr)
-
-  p.value <- 2 * (1 - pnorm(abs(z_stat)))
-
   df <- get_counts(x = x, by = by)
   # Output
   structure(
@@ -231,8 +225,6 @@ ci_rel_risk_cmh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
       conf.high = upper_ci,
       conf.level = conf.level,
       variance = var_rr,
-      statistic = z_stat,
-      p.value = p.value,
       method =
         glue::glue("Mantel-Haenszel Common Relattive Risk Confidence Interva")
     ),
