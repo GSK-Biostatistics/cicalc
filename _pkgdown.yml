@@ -26,9 +26,10 @@ reference:
     - ci_prop_diff_mee
     - ci_prop_diff_mn
     - ci_prop_diff_mn_strata
-  - subtitle: "Common Risk Difference"
+  - subtitle: "Common Risk"
   - contents:
     - ci_risk_diff_mh_strata
+    - ci_rel_risk_cmh_strata
   - subtitle: "Utilities"
   - contents:
     - expand

@@ -49,3 +49,36 @@ test_that("Check print",{
 })
 
 
+# Common Relative Risk ----------------------------------------------------
+
+test_that("Test Common Rel Risk",{
+  sas_example <- dplyr::tribble(
+    ~gender, ~treatment, ~response, ~count,
+    "female", "Active", "Better", 16 ,
+    "female", "Active", "Same", 11,
+    "female", "Placebo", "Better",  5 ,
+    "female", "Placebo", "Same", 20,
+    "male",   "Active", "Better", 12 ,
+    "male",   "Active", "Same", 16,
+    "male",   "Placebo", "Better",  7 ,
+    "male",   "Placebo", "Same", 19
+  ) |>
+    dplyr::mutate(
+      res_val = response == "Better",
+      res_vec = purrr::map2(res_val, count, rep)
+    )  |>
+    dplyr::select(-count, -res_val, -response)|>
+    tidyr::unnest(res_vec)
+
+  result <- ci_rel_risk_cmh_strata(res_vec, by = treatment, strat =gender, data = sas_example)
+  expect_equal(round(result$estimate, 4), 2.1636)
+  expect_equal(round(result$conf.low, 4), 1.2336)
+  expect_equal(round(result$conf.high, 4), 3.7948)
+})
+
+test_that("Check print",{
+  expect_snapshot(
+    ci_rel_risk_cmh_strata(x= results, by = treatment,
+                           strata =centre, data = agresti_long)
+  )
+})
