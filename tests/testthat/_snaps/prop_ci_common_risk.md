@@ -17,7 +17,7 @@
       ci_rel_risk_cmh_strata(x = results, by = treatment, strata = centre, data = agresti_long)
     Message
       
-      -- Mantel-Haenszel Common Relattive Risk Confidence Interva --------------------
+      -- Mantel-Haenszel Common Relattive Risk Confidence Interval -------------------
       * 55/130 - 47/143
       * Estimate: 1.424
       * Variance: 0.02
