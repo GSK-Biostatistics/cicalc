@@ -204,7 +204,7 @@ ci_rel_risk_cmh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
   if(any(rel_rik_denom != 0)){
     rel_risk_mh <- sum(s_x*n_y/N_k)/rel_rik_denom
   } else {
-    cli::cli_abort("Denominator of the Mental Haenszel Estimator can not sum to 0")
+    cli::cli_abort("Denominator of the Mantel Haenszel Estimator can not sum to 0")
   }
 
   var_rr <- sum((n_x*n_y*(s_x+s_y)-s_x*s_y*N_k)/N_k^2)/(sum(s_x*n_y/N_k)*sum(s_y*n_x/N_k))
@@ -226,7 +226,7 @@ ci_rel_risk_cmh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
       conf.level = conf.level,
       variance = var_rr,
       method =
-        glue::glue("Mantel-Haenszel Common Relattive Risk Confidence Interva")
+        glue::glue("Mantel-Haenszel Common Relattive Risk Confidence Interval")
     ),
     class = c("ci_rel_risk_cmh_strata", "cicalc")
   )
