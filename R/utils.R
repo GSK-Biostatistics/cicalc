@@ -153,7 +153,7 @@ print.stratified_miettinen_nurminen <- function(x, ...){
 
 
 #' @export
-print.ci_risk_diff_mh_strata <- function(x, ...){
+print.ci_prop_diff_mh_strata <- function(x, ...){
 
   diff_str <- paste0(x$n, "/", x$N, collapse = " - ")
   cli::cli_h1(x$method)

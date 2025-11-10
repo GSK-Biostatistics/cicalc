@@ -24,6 +24,7 @@
 #' The confidence interval is then \eqn{\hat{\delta}_{MH} \pm z_{1-\alpha/2} \sqrt{\hat{\sigma}^2(\hat{d}_{MH})}}.
 #'
 #' @inheritParams ci_prop_diff_mn_strata
+#' @param sato_var (`logical`)\cr Use Sato variance estimate
 #'
 #' @return An object containing the following components:
 #'
@@ -47,12 +48,12 @@
 #'
 #' # Calculate common risk difference
 #' ci_risk_diff_mh_strata(x = responses, by = arm, strata = strata)
-ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL) {
+ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = TRUE, data = NULL) {
   set_cli_abort_call()
   check_data_frame(data, allow_empty = TRUE)
   if(is.data.frame(data)){
     return(
-      ci_risk_diff_mh_strata(
+      ci_prop_diff_mh_strata(
         x = x ,
         by = by ,
         strata = strata,
@@ -70,6 +71,7 @@ ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
   check_n_levels(by, n_levels = 2)
   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
   check_identical_length(x, by)
+  check_logical(sato_var)
 
   strata <- combine_strata(x, strata)
 
@@ -93,13 +95,20 @@ ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
   p_k <- (n_x^2*s_y - n_y^2*s_x + n_x*n_y*(n_y-n_x)/2)/N_k^2
   q_k <- (s_x*(n_y - s_y) + s_y*(n_x - s_x))/(2*N_k)
 
-  sato_var <- (d_mh*sum(p_k) + sum(q_k))/sum(n_x*n_y/N_k)^2
+  if(sato_var) {
+    est_var <- (d_mh*sum(p_k) + sum(q_k))/sum(n_x*n_y/N_k)^2
+    var_title <- ", Sato Variance"
+  } else {
+    est_var <- sum((((s_x/100) * (1 - (s_x/100)) / n_x) + ((s_y/100) * (1 - (s_y/100)) / s_y)) * weights_k^2)
+    var_title <- ""
+  }
+
 
   alpha <- 1 - conf.level
   z_alpha <- stats::qnorm((1 + conf.level) / 2)
 
-  lower_ci <- d_mh - z_alpha*sqrt(sato_var)
-  upper_ci <- d_mh + z_alpha*sqrt(sato_var)
+  lower_ci <- d_mh - z_alpha*sqrt(est_var)
+  upper_ci <- d_mh + z_alpha*sqrt(est_var)
 
   z_stat <- d_mh/sqrt(sato_var)
 
@@ -115,13 +124,13 @@ ci_risk_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
       conf.low = lower_ci,
       conf.high = upper_ci,
       conf.level = conf.level,
-      variance = sato_var,
+      variance = est_var,
       statistic = z_stat,
       p.value = p.value,
       method =
-        glue::glue("Mantel-Haenszel Risk Difference Confidence Interval, Sato Variance")
+        glue::glue("Mantel-Haenszel Risk Difference Confidence Interval{var_title}")
     ),
-    class = c("ci_risk_diff_mh_strata", "cicalc")
+    class = c("ci_prop_diff_mh_strata", "cicalc")
   )
 }
 

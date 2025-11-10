@@ -1,7 +1,7 @@
 # Check print
 
     Code
-      ci_risk_diff_mh_strata(x = results, by = treatment, strata = centre, data = agresti_long)
+      ci_prop_diff_mh_strata(x = results, by = treatment, strata = centre, data = agresti_long)
     Message
       
       -- Mantel-Haenszel Risk Difference Confidence Interval, Sato Variance ----------
