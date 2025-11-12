@@ -67,6 +67,16 @@ The Sato variance is:
 where \eqn{P_k = \frac{n_{xk}^2 s_{yk} - n_{yk}^2 s_{xk} + n_{xk} n_{yk} (n_{yk} - n_{xk})/2}{N_k^2}}
 and \eqn{Q_k = \frac{s_{xk}(n_{yk} - s_{yk}) + s_{yk}(n_{xk} - s_{xk})}{2 N_k}}.
 
+The Cochran Independant Binominal variance is:
+
+\deqn{\hat{\sigma}^2(\hat{\delta}_{C}) = \sum_{k} w_k^2 \left[
+\frac{\hat{p}_{1k}(1 - \hat{p}_{1k})}{n_{1k}} +
+\frac{\hat{p}_{2k}(1 - \hat{p}_{2k})}{n_{2k}}
+\right]}
+
+where \eqn{\hat{p}_{1k} = \frac{s_{xk}}{n_{xk}}}
+and \eqn{\hat{p}_{2k} = \frac{s_{yk}}{n_{yk}}}.
+
 The confidence interval is then \eqn{\hat{\delta}_{MH} \pm z_{1-\alpha/2} \sqrt{\hat{\sigma}^2(\hat{d}_{MH})}}.
 }
 \examples{
@@ -76,8 +86,9 @@ arm <- rep(c("treat", "control"), 20)
 strata <- rep(c("stratum1", "stratum2"), times = c(20, 20))
 
 # Calculate common risk difference
-ci_risk_diff_mh_strata(x = responses, by = arm, strata = strata)
+ci_prop_diff_mh_strata(x = responses, by = arm, strata = strata)
 }
 \references{
 Agresti, A. (2013). Categorical Data Analysis. 3rd Edition. John Wiley & Sons, Hoboken, NJ p. 231
+Cochran, W.G. (1954). The Combination of estimates from different experiments. Biometrics, 10(1), p.101-129
 }
