@@ -125,13 +125,14 @@ ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = 
 
   z_stat <- d_mh/sqrt(sato_var)
 
-  p.value <- 2 * (1 - pnorm(abs(z_stat)))
+  p.value <- 2 * (1 - stats::pnorm(abs(z_stat)))
 
+  df <- get_counts(x = x, by = by)
   # Output
   structure(
     list(
-      n = c(response_df$response_1, response_df$response_2),
-      N = c(response_df$n_1, response_df$n_2),
+      n = c(df$response_1, df$response_2),
+      N = c(df$n_1, df$n_2),
       estimate = d_mh,
       conf.low = lower_ci,
       conf.high = upper_ci,
@@ -139,6 +140,7 @@ ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = 
       variance = est_var,
       statistic = z_stat,
       p.value = p.value,
+      weights = weights_k,
       method =
         glue::glue("Mantel-Haenszel Risk Difference Confidence Interval{var_title}")
     ),
