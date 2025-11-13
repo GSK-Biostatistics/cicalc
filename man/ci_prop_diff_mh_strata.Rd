@@ -39,10 +39,11 @@ An object containing the following components:
 \item{conf.low}{Lower bound of the confidence interval}
 \item{conf.high}{Upper bound of the confidence interval}
 \item{conf.level}{The confidence level used}
-\item{variance}{Sato variance estimate}
+\item{variance}{Variance estimate}
 \item{statistic}{Z-Statistic under the null hypothesis, assuming a common risk difference of 0}
 \item{p.value}{p-value under the null hypothesis, assuming a common risk difference of 0}
-\item{method}{Description of the method used ("Mantel-Haenszel Confidence Interval, Sato Variance")}
+\item{method}{Description of the method used ("Mantel-Haenszel Confidence Interval, Sato Variance")
+or ("Mantel-Haenszel Confidence Interval, Independent Binomial") }
 }
 \description{
 Calculates the confidence interval for the Mantel-Haenszel estimate of the

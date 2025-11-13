@@ -48,6 +48,28 @@ test_that("Check print",{
   )
 })
 
+test_that("Testing Independant Binomial Variance Estimator",{
+  results <- ci_prop_diff_mh_strata(x= results, by = treatment,
+                                    strata = centre, sato_var = FALSE, data = agresti_long)
+  results_sato <- ci_prop_diff_mh_strata(x= results, by = treatment,
+                                    strata = centre, sato_var = TRUE, data = agresti_long)
+  # estimates between the two methods should be the same
+  expect_equal(results$estimate, results_sato$estimate)
+  # variance between the two should not be the same
+  expect_error(results$variance, results_sato$variance)
+
+  # the results of the Independent Binomial Variance does not equal the Sato variance
+  expect_false(results$conf.low == results_sato$conf.low)
+  expect_false(results$conf.high == results_sato$conf.high)
+})
+
+test_that("Check print",{
+  expect_snapshot(
+    ci_prop_diff_mh_strata(x= results, by = treatment,
+                           strata =centre, sato_var = FALSE, data = agresti_long)
+  )
+})
+
 
 # Common Relative Risk ----------------------------------------------------
 

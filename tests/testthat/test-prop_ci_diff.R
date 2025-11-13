@@ -29,6 +29,21 @@ test_that("ci_prop_diff_* matches the values in the paper", {
   expect_equal(mee$conf.low, 0.0533, tolerance = 0.02)
   expect_equal(mee$conf.high, 0.3377, tolerance = 0.02)
 
+  # Anderson-Hauck
+  ha <- ci_prop_diff_ha(x = resp, by = trt)
+  expect_equal(ha$conf.low, 0.0494, tolerance = 0.02)
+  expect_equal(ha$conf.high, 0.3506, tolerance = 0.02)
+
+  # Newcombe (score, noCC)
+  nc <- ci_prop_diff_nc(x = resp, by = trt, correct = FALSE)
+  expect_equal(nc$conf.low, 0.0524, tolerance = 0.02)
+  expect_equal(nc$conf.high, 0.3339, tolerance = 0.02)
+
+  # Newcombe (score, CC)
+  nc <- ci_prop_diff_nc(x = resp, by = trt, correct = TRUE)
+  expect_equal(nc$conf.low, 0.0428, tolerance = 0.02)
+  expect_equal(nc$conf.high, 0.3422, tolerance = 0.02)
+
   # 9/10-3/10
   resp <- expand(c(9, 3), c(10, 10))
   trt <- rep(c("a", "b"), times = c(10,10))
@@ -58,6 +73,20 @@ test_that("ci_prop_diff_* matches the values in the paper", {
   expect_equal(mee$conf.low, 0.1821, tolerance = 0.02)
   expect_equal(mee$conf.high, 0.8370, tolerance = 0.02)
 
+  # Anderson-Hauck
+  ha <- ci_prop_diff_ha(x = resp, by = trt)
+  expect_equal(ha$conf.low, 0.1922, tolerance = 0.02)
+  expect_equal(ha$conf.high, 1, tolerance = 0.02)
+
+  # Newcombe (score, noCC)
+  nc <- ci_prop_diff_nc(x = resp, by = trt, correct = FALSE)
+  expect_equal(nc$conf.low, 0.1705, tolerance = 0.02)
+  expect_equal(nc$conf.high, 0.8090, tolerance = 0.02)
+
+  # Newcombe (score, CC)
+  nc <- ci_prop_diff_nc(x = resp, by = trt, correct = TRUE)
+  expect_equal(nc$conf.low, 0.1013, tolerance = 0.02)
+  expect_equal(nc$conf.high, 0.8387, tolerance = 0.02)
 
   # 10/10 - 0/20
   resp <- expand(c(10, 0), c(10, 20))
@@ -88,6 +117,20 @@ test_that("ci_prop_diff_* matches the values in the paper", {
   expect_equal(mee$conf.low, 0.7225, tolerance = 0.02)
   expect_equal(mee$conf.high, 1, tolerance = 0.02)
 
+  # Anderson-Hauck
+  ha <- ci_prop_diff_ha(x = resp, by = trt)
+  expect_equal(ha$conf.low, 0.9500, tolerance = 0.02)
+  expect_equal(ha$conf.high, 1, tolerance = 0.02)
+
+  # Newcombe (score, noCC)
+  nc <- ci_prop_diff_nc(x = resp, by = trt, correct = FALSE)
+  expect_equal(nc$conf.low, 0.6791, tolerance = 0.02)
+  expect_equal(nc$conf.high, 1, tolerance = 0.02)
+
+  # Newcombe (score, CC)
+  nc <- ci_prop_diff_nc(x = resp, by = trt, correct = TRUE)
+  expect_equal(nc$conf.low, 0.6014, tolerance = 0.02)
+  expect_equal(nc$conf.high, 1, tolerance = 0.02)
 })
 
 test_that("Test Data", {
@@ -118,7 +161,20 @@ test_that("Test Data", {
   mee_w_df <- ci_prop_diff_mee(response, treat, data = test_df)
   expect_equal(mee, mee_w_df)
 
+  # Anderson-Hauck
+  ha <- ci_prop_diff_ha(response, treat)
+  ha_w_df <- ci_prop_diff_ha(response, treat, data = test_df)
+  expect_equal(ha, ha_w_df)
 
+  # Newcombe (no CC)
+  nc <- ci_prop_diff_nc(response, treat, correct = FALSE)
+  nc_w_df <- ci_prop_diff_nc(response, treat, data = test_df)
+  expect_equal(nc, nc_w_df)
+
+  # Newcombe (CC)
+  nc <- ci_prop_diff_nc(response, treat, correct = TRUE)
+  nc_w_df <- ci_prop_diff_nc(response, treat, correct = TRUE,data = test_df)
+  expect_equal(nc, nc_w_df)
 
 })
 
@@ -157,6 +213,19 @@ test_that("Test Print", {
     print(ci_prop_diff_mee(response, treat, delta = c(0, 0.1)))
   )
 
+  # Anderson-Hauck
+  expect_snapshot(
+    ci_prop_diff_ha(response, treat)
+  )
 
+  # Newcombe (no CC)
+  expect_snapshot(
+    ci_prop_diff_nc(response, treat, correct = FALSE)
+  )
+
+  # Newcombe (CC)
+  expect_snapshot(
+    print(ci_prop_diff_nc(response, treat, correct = TRUE))
+  )
 
 })

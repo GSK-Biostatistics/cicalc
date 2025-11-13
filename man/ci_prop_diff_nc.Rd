@@ -79,20 +79,6 @@ the confidence intervals are given by:
   \left[ n_i (1 - \hat{p}_i) + 1 \right]
 }
 }
-
-Denote these limits as \eqn{L_i} and \eqn{U_i}, respectively.
-Then the \strong{Newcombe (Score)} confidence limits for the difference in proportions
-(\eqn{p_1 - p_2}) are:
-
-\deqn{
-\text{Lower limit: } (\hat{p}_1 - \hat{p}_2) -
-\sqrt{ (\hat{p}_1 - L_1)^2 + (U_2 - \hat{p}_2)^2 }
-}
-
-\deqn{
-\text{Upper limit: } (\hat{p}_1 - \hat{p}_2) +
-\sqrt{ (U_1 - \hat{p}_1)^2 + (\hat{p}_2 - L_2)^2 }
-}
 }
 \examples{
 responses <- expand(c(9, 3), c(10, 10))
