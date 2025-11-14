@@ -326,6 +326,8 @@ ci_prop_diff_nc_strata <- function(x,
                                    data = NULL) {
   set_cli_abort_call()
 
+  weights_method <- match.arg(weights_method)
+
   check_data_frame(data, allow_empty = TRUE)
 
   # if data was passed, evaluate in the context of the data frame
@@ -377,6 +379,13 @@ ci_prop_diff_nc_strata <- function(x,
   }
   weights[levels(strata)[!levels(strata) %in% names(weights)]] <- 0
 
+  # reformat method for printing
+  weights_method <- if(weights_method == "cmh"){
+    "CMH"
+  } else{
+    "Wilson"
+  }
+
   # Calculating lower (`l`) and upper (`u`) confidence bounds per group.
   strat_wilson_by_grp <- Map(
     ci_prop_wilson_strata,
@@ -427,7 +436,7 @@ ci_prop_diff_nc_strata <- function(x,
       conf.level = conf.level,
       weights = weights,
       method =
-        glue::glue("Stratified Newcombe Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction")
+        glue::glue("Stratified Newcombe Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction, {weights_method}")
     ),
     class = c("stratified_newcombe", "stratified_wilson", "cicada")
   )

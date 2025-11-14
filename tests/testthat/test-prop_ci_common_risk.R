@@ -27,7 +27,7 @@ agresti_long <- agresti |>
 
 test_that("Testing values match what is stated in Agresti on page 231",{
   results <- ci_prop_diff_mh_strata(x= results, by = treatment,
-                                           strata = centre, data = agresti_long)
+                                    strata =centre, sato_var = TRUE, data = agresti_long)
   expect_equal(round(results$estimate, 3), 0.130)
   expect_equal(round(sqrt(results$variance), 3), 0.050)
 
@@ -44,7 +44,7 @@ test_that("Testing values match what is stated in Agresti on page 231",{
 test_that("Check print",{
   expect_snapshot(
     ci_prop_diff_mh_strata(x= results, by = treatment,
-                                  strata =centre, data = agresti_long)
+                           strata =centre, data = agresti_long)
   )
 })
 
@@ -52,11 +52,11 @@ test_that("Testing Independant Binomial Variance Estimator",{
   results <- ci_prop_diff_mh_strata(x= results, by = treatment,
                                     strata = centre, sato_var = FALSE, data = agresti_long)
   results_sato <- ci_prop_diff_mh_strata(x= results, by = treatment,
-                                    strata = centre, sato_var = TRUE, data = agresti_long)
+                                         strata = centre, sato_var = TRUE, data = agresti_long)
   # estimates between the two methods should be the same
   expect_equal(results$estimate, results_sato$estimate)
   # variance between the two should not be the same
-  expect_error(results$variance, results_sato$variance)
+  expect_false(results$variance == results_sato$variance)
 
   # the results of the Independent Binomial Variance does not equal the Sato variance
   expect_false(results$conf.low == results_sato$conf.low)
@@ -69,7 +69,6 @@ test_that("Check print",{
                            strata =centre, sato_var = FALSE, data = agresti_long)
   )
 })
-
 
 # Common Relative Risk ----------------------------------------------------
 
@@ -102,5 +101,59 @@ test_that("Check print",{
   expect_snapshot(
     ci_rel_risk_cmh_strata(x= results, by = treatment,
                            strata =centre, data = agresti_long)
+  )
+})
+
+# Stratified Newcombe Common Risk Diffence ------------------------------------
+test_that("check the ci_prop_diff_nc_strata() function works", {
+  # check Stratified Newcombe CIs ----------------------------------------------------------
+  set.seed(1)
+  rsp <- c(
+    sample(c(TRUE, FALSE), size = 40, prob = c(3 / 4, 1 / 4), replace = TRUE),
+    sample(c(TRUE, FALSE), size = 40, prob = c(1 / 2, 1 / 2), replace = TRUE)
+  )
+  grp <- factor(rep(c("A", "B"), each = 40), levels = c("B", "A"))
+  strata_data <- data.frame(
+    "f1" = sample(c("a", "b"), 80, TRUE),
+    "f2" = sample(c("x", "y", "z"), 80, TRUE),
+    stringsAsFactors = TRUE
+  )
+  strata <- interaction(strata_data)
+
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = rsp, by = grp, strata = strata, weights_method = "wilson" , correct = FALSE)
+  )
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = rsp, by = grp, strata = strata, weights_method = "wilson", correct = TRUE)
+  )
+
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = rsp, by = grp, strata = strata, weights_method = "cmh", correct = FALSE)
+  )
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = rsp, by = grp, strata = strata, weights_method = "cmh", correct = TRUE)
+  )
+
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = as.numeric(rsp), by = grp, strata = strata, weights_method = "wilson")
+  )
+
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = as.numeric(rsp), by = grp, strata = strata, weights_method = "cmh")
+  )
+
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = as.numeric(rsp), by = grp, strata = strata)
+  )
+
+
+  # checking error messaging
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = rep_len(TRUE, length(rsp)), by = grp, strata = strata, weights_method = "wilson"),
+    error = TRUE
+  )
+  expect_snapshot(
+    ci_prop_diff_nc_strata(x = rep_len(FALSE, length(rsp)), by = grp, strata = strata, weights_method = "cmh"),
+    error = TRUE
   )
 })
