@@ -355,7 +355,7 @@ ci_prop_diff_nc_strata <- function(x,
 
 
   if (any(tapply(x, strata, length) < 5)) {
-    warning("Less than 5 observations in some strata.")
+    cli::cli_warn("Less than 5 observations in some strata.")
   }
 
   rsp_by_grp <- split(x, f = by)
