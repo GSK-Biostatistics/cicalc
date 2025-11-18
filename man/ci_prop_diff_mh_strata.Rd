@@ -2,7 +2,7 @@
 % Please edit documentation in R/prop_ci_common_risk.R
 \name{ci_prop_diff_mh_strata}
 \alias{ci_prop_diff_mh_strata}
-\title{Mantel-Haenszel Common Risk Difference Confidence Interval (Sato Variance)}
+\title{Mantel-Haenszel Common Risk Difference Confidence Interval}
 \usage{
 ci_prop_diff_mh_strata(
   x,
@@ -48,7 +48,7 @@ or ("Mantel-Haenszel Confidence Interval, Independent Binomial") }
 \description{
 Calculates the confidence interval for the Mantel-Haenszel estimate of the
 common risk difference across multiple 2x2 tables (strata), using the Sato
-variance estimator.
+variance or Independent Binomial estimator.
 }
 \details{
 The Mantel-Haenszel common risk difference is computed as:

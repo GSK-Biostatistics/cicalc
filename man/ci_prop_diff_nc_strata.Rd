@@ -2,7 +2,7 @@
 % Please edit documentation in R/prop_ci_common_risk.R
 \name{ci_prop_diff_nc_strata}
 \alias{ci_prop_diff_nc_strata}
-\title{Stratified Newcombe CI}
+\title{Stratified Newcombe Common Risk Difference Confidence Interval}
 \usage{
 ci_prop_diff_nc_strata(
   x,
