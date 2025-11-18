@@ -48,7 +48,7 @@ or ("Mantel-Haenszel Confidence Interval, Independent Binomial") }
 \description{
 Calculates the confidence interval for the Mantel-Haenszel estimate of the
 common risk difference across multiple 2x2 tables (strata), using the Sato
-variance or Independent Binomial estimator.
+or Independent Binomial variance estimator.
 }
 \details{
 The Mantel-Haenszel common risk difference is computed as:
@@ -88,6 +88,8 @@ strata <- rep(c("stratum1", "stratum2"), times = c(20, 20))
 
 # Calculate common risk difference
 ci_prop_diff_mh_strata(x = responses, by = arm, strata = strata)
+# Calculate risk difference with independent binomial variance
+ci_prop_diff_mh_strata(x = responses, by = arm, strata = strata, sato_var = FALSE)
 }
 \references{
 Agresti, A. (2013). Categorical Data Analysis. 3rd Edition. John Wiley & Sons, Hoboken, NJ p. 231

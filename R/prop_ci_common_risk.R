@@ -2,7 +2,7 @@
 #'
 #' Calculates the confidence interval for the Mantel-Haenszel estimate of the
 #' common risk difference across multiple 2x2 tables (strata), using the Sato
-#' variance or Independent Binomial estimator.
+#' or Independent Binomial variance estimator.
 #'
 #' The Mantel-Haenszel common risk difference is computed as:
 #'
@@ -60,6 +60,8 @@
 #'
 #' # Calculate common risk difference
 #' ci_prop_diff_mh_strata(x = responses, by = arm, strata = strata)
+#' # Calculate risk difference with independent binomial variance
+#' ci_prop_diff_mh_strata(x = responses, by = arm, strata = strata, sato_var = FALSE)
 ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = TRUE, data = NULL) {
   set_cli_abort_call()
   check_data_frame(data, allow_empty = TRUE)
@@ -259,10 +261,9 @@ ci_rel_risk_cmh_strata <- function(x, by, strata, conf.level = 0.95, data = NULL
 
 #' Stratified Newcombe Common Risk Difference Confidence Interval
 #'
-#' Calculates the stratified Newcombe confidence
-#'   interval for unequal proportions as described in
-#'   Yan X, Su XG. Stratified Wilson and Newcombe confidence intervals
-#'   for multiple binomial proportions. _Statist
+#' Calculates the stratified Newcombe confidence interval for unequal proportions
+#' as described in Yan X, Su XG. Stratified Wilson and Newcombe confidence intervals
+#' or multiple binomial proportions. Weights are estimated using CMH or Wilson methods.
 #'
 #' \deqn{
 #' L = \hat{d}_{\rm MH} - z_{\alpha/2} \sqrt{

@@ -51,10 +51,9 @@ An object containing the following components:
 \item{method}{Type of method used}
 }
 \description{
-Calculates the stratified Newcombe confidence
-interval for unequal proportions as described in
-Yan X, Su XG. Stratified Wilson and Newcombe confidence intervals
-for multiple binomial proportions. _Statist
+Calculates the stratified Newcombe confidence interval for unequal proportions
+as described in Yan X, Su XG. Stratified Wilson and Newcombe confidence intervals
+or multiple binomial proportions. Weights are estimated using CMH or Wilson methods.
 }
 \details{
 \deqn{
