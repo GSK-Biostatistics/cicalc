@@ -463,6 +463,7 @@ test_score_mee <- function(s_x, n_x, s_y, n_y, delta) {
 #'
 #' @references
 #' Hauck WW, Anderson S. (1986) A comparison of large-sample confidence interval methods for the difference of two binomial probabilities The American Statistician 40(4). p.318-322.
+#' \href{https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf}{Constructing Confidence Intervals for the Differences of Binomial Proportions in SAS}
 #'
 #' @examples
 #' responses <- expand(c(9, 3), c(10, 10))
@@ -478,7 +479,8 @@ ci_prop_diff_ha <- function(x, by, conf.level = 0.95, data = NULL) {
   if (is.data.frame(data)) {
     return(
       ci_prop_diff_ha(
-        x = x, by = by,
+        x = x,
+        by = by,
         conf.level = conf.level
       ) |>
         substitute() |>
@@ -592,6 +594,7 @@ ci_prop_diff_ha <- function(x, by, conf.level = 0.95, data = NULL) {
 #' @references
 #' Newcombe, R. G. (1998). Interval estimation for the difference between
 #' independent proportions: Comparison of eleven methods. *Statistics in Medicine, 17*(8), 873–890.
+#' \href{https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf}{Constructing Confidence Intervals for the Differences of Binomial Proportions in SAS}
 #'
 #' @examples
 #' responses <- expand(c(9, 3), c(10, 10))
@@ -621,6 +624,8 @@ ci_prop_diff_nc <- function(x, by, conf.level = 0.95, correct = FALSE, data = NU
   check_binary(x)
   check_not_missing(by)
   check_n_levels(by, n_levels = 2)
+  check_class(correct, "logical")
+  check_scalar(correct)
   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
   check_scalar(conf.level)
 
@@ -672,6 +677,8 @@ ci_prop_diff_nc <- function(x, by, conf.level = 0.95, correct = FALSE, data = NU
   )
 }
 
+#' Helper Function for the Estimation of Score Confidence Interval for `ci_prop_diff_nc()`
+#'
 #' @keywords internal
 #' @noRd
 nc_binom_ci_helper <- function(x, n, conf.level, correct = correct) {

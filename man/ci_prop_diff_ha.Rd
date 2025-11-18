@@ -46,4 +46,5 @@ ci_prop_diff_ha(x = responses, by = arm)
 }
 \references{
 Hauck WW, Anderson S. (1986) A comparison of large-sample confidence interval methods for the difference of two binomial probabilities The American Statistician 40(4). p.318-322.
+\href{https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf}{Constructing Confidence Intervals for the Differences of Binomial Proportions in SAS}
 }

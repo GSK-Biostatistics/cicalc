@@ -90,4 +90,5 @@ ci_prop_diff_nc(x = responses, by = arm)
 \references{
 Newcombe, R. G. (1998). Interval estimation for the difference between
 independent proportions: Comparison of eleven methods. \emph{Statistics in Medicine, 17}(8), 873–890.
+\href{https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf}{Constructing Confidence Intervals for the Differences of Binomial Proportions in SAS}
 }
