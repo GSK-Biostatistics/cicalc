@@ -160,3 +160,14 @@
       Error:
       ! All values in `x` argument are either `TRUE` or `FALSE` and CI is not estimable.
 
+---
+
+    Code
+      ci_prop_diff_nc_strata(x = rsp, by = grp, strata = strata, weights_method = "wilson",
+        correct = FALSE)
+    Condition
+      Warning:
+      Less than 5 observations in some strata.
+      Error in `ci_prop_diff_nc_strata()`:
+      ! Arguments `unique(strata)` and `weights` must be the same length.
+

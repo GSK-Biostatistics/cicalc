@@ -171,7 +171,7 @@ test_that("check the ci_prop_diff_nc_strata() function works", {
     error = TRUE
   )
 
-  # force strata with less than 5 observations
+  # force strata with less than 5 observations, check warning
   strata[strata == "a.x"][1:11] <- "b.x"
 
   expect_snapshot(
