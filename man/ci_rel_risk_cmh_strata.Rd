@@ -2,7 +2,7 @@
 % Please edit documentation in R/prop_ci_common_risk.R
 \name{ci_rel_risk_cmh_strata}
 \alias{ci_rel_risk_cmh_strata}
-\title{Mantel-Haenszel Stratified Reltative Risk Confidence Interval}
+\title{Mantel-Haenszel Stratified Relative Risk Confidence Interval}
 \usage{
 ci_rel_risk_cmh_strata(x, by, strata, conf.level = 0.95, data = NULL)
 }
@@ -31,14 +31,14 @@ An object containing the following components:
 \item{conf.high}{Upper bound of the confidence interval}
 \item{conf.level}{The confidence level used}
 \item{variance}{Mantel-Haenszel variance estimate \eqn{Var(log(RR_MH))}}
-\item{method}{Description of the method used ("Mantel-Haenszel Common Relattive Risk Confidence Interval")}
+\item{method}{Description of the method used ("Mantel-Haenszel Common Relative Risk Confidence Interval")}
 }
 \description{
 Calculates the confidence interval for the Mantel-Haenszel estimate of the
-common reltative risk across multiple 2x2 tables (strata)
+common relative risk across multiple 2x2 tables (strata)
 }
 \details{
-The Mantel-Haenszel reltative risk difference is computed as:
+The Mantel-Haenszel relative risk difference is computed as:
 
 \deqn{RR_{MH} = \frac{\sum_{k} s_{xk}~n_{yk}/N_k}{\sum_{k} s_{yk}~n_{xk}/N_k}}
 

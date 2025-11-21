@@ -74,3 +74,39 @@
       * At 0 the statistic is 2.65 and the p-value is 0.004
       * At 0.1 the statistic is 1.348 and the p-value is 0.0889
 
+---
+
+    Code
+      ci_prop_diff_ha(response, treat)
+    Message
+      
+      -- Anderson-Hauck Confidence Interval ------------------------------------------
+      * 56/70 - 48/80
+      * Estimate: 0.2
+      * 95% Confidence Interval:
+        (0.0494, 0.3506)
+
+---
+
+    Code
+      ci_prop_diff_nc(response, treat, correct = FALSE)
+    Message
+      
+      -- Newcombe Confidence Interval without continuity correction ------------------
+      * 56/70 - 48/80
+      * Estimate: 0.2
+      * 95% Confidence Interval:
+        (0.0524, 0.3339)
+
+---
+
+    Code
+      print(ci_prop_diff_nc(response, treat, correct = TRUE))
+    Message
+      
+      -- Newcombe Confidence Interval with continuity correction ---------------------
+      * 56/70 - 48/80
+      * Estimate: 0.2
+      * 95% Confidence Interval:
+        (0.0428, 0.3422)
+

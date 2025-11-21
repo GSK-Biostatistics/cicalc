@@ -408,7 +408,6 @@ ci_prop_jeffreys <- function(x, conf.level = 0.95, data = NULL) {
 #' set.seed(1)
 #' rsp <- sample(c(TRUE, FALSE), 100, TRUE)
 #' strata_data <- data.frame(
-#'   x = sample(c(TRUE, FALSE), 100, TRUE),
 #'   "f1" = sample(c("a", "b"), 100, TRUE),
 #'   "f2" = sample(c("x", "y", "z"), 100, TRUE),
 #'   stringsAsFactors = TRUE
