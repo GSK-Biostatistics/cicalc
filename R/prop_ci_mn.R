@@ -119,12 +119,13 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   check_range(delta,allow_empty = TRUE,
               range = c(-1, 1), include_bounds = c(FALSE, FALSE))
 
+
   # convert vectors to count data
   df <- get_counts(x = x, by = by)
 
   alpha <- 1 - conf.level
 
-  if(df$response_1 == 0 | df$response_2 == 0){
+  if(df$response_1 == 0 | df$response_2 == 0 | df$response_1 == df$response_2){
     # Manually count at 0
     z <- stats::qnorm((1 + conf.level) / 2)
 
