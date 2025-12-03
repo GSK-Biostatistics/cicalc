@@ -26,6 +26,14 @@ test_that("ci_prop_diff_mn matches the values in the paper", {
   expect_equal(extreme$conf.low, 0.7156, tolerance = 0.02)
   expect_equal(extreme$conf.high, 1.0000, tolerance = 0.02)
 
+  # 4/8 - 4/8
+  responses <- c(rep(1, 4), rep(0, 4),rep(1, 4), rep(0, 4))
+  arm <- rep(c("treat", "control"), times = c(8, 8))
+  equal_prop <- ci_prop_diff_mn(x = responses, by = arm)
+
+  expect_equal(equal_prop$conf.low, -0.4515, tolerance = 0.02)
+  expect_equal(equal_prop$conf.high, 0.4515, tolerance = 0.02)
+
   # testing with data input
   df <- dplyr::tibble(response = resp,
                treat = trt
