@@ -103,6 +103,8 @@ ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata, data = strat_df
   : Clopper-Pearson CI
 - [`ci_prop_jeffreys()`](https://gsk-biostatistics.github.io/cicalc/reference/ci_prop_jeffreys.md)
   : Jeffreys CI
+- [`ci_prop_mid_p()`](https://gsk-biostatistics.github.io/cicalc/reference/ci_prop_mid_p.md)
+  : Mid-P CI
 - [`ci_prop_wald()`](https://gsk-biostatistics.github.io/cicalc/reference/ci_prop_wald.md)
   : Wald CI
 - [`ci_prop_wilson()`](https://gsk-biostatistics.github.io/cicalc/reference/ci_prop_wilson.md)
