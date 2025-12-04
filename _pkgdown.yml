@@ -15,6 +15,7 @@ reference:
     - ci_prop_agresti_coull
     - ci_prop_clopper_pearson
     - ci_prop_jeffreys
+    - ci_prop_mid_p
     - ci_prop_wald
     - ci_prop_wilson
     - ci_prop_wilson_strata
