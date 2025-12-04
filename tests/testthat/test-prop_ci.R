@@ -151,6 +151,11 @@ test_that("check the ci_prop_*() functions work", {
   # Check numbers against Agresti (2013) page 605
   expect_equal(round(ci_prop_mid_p(expand(0, 25))$conf.high, 3), 0.113)
 
+  # https://www.lexjansen.com/wuss/2015/81_Final_Paper_PDF.pdf
+  extra_test <- ci_prop_mid_p(expand(81, 263))
+  expect_equal(round(extra_test$conf.low, 4), 0.2544)
+  expect_equal(round(extra_test$conf.high, 4), 0.3658)
+
   # Test extreme values
   expect_snapshot(ci_prop_mid_p(rep(FALSE, 100)))
   expect_snapshot(ci_prop_mid_p(rep(TRUE, 100)))
