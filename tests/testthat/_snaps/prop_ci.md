@@ -241,6 +241,76 @@
 ---
 
     Code
+      mid_p_dbl <- ci_prop_mid_p(x_dbl, conf.level = 0.9)
+
+---
+
+    Code
+      mid_p_lgl <- ci_prop_mid_p(x_lgl, conf.level = 0.9)
+
+---
+
+    Code
+      ci_prop_mid_p(x_rsp, conf.level = 0.95)
+    Message
+      
+      -- Mid-p Confidence Interval ---------------------------------------------------
+      * 5 responses out of 10
+      * Estimate: 0.5
+      * 95% Confidence Interval:
+        (0.212, 0.788)
+
+---
+
+    Code
+      ci_prop_mid_p(x_true)
+    Message
+      
+      -- Mid-p Confidence Interval ---------------------------------------------------
+      * 32 responses out of 32
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (0.9106, 1)
+
+---
+
+    Code
+      ci_prop_mid_p(x_false)
+    Message
+      
+      -- Mid-p Confidence Interval ---------------------------------------------------
+      * 0 responses out of 32
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0.0894)
+
+---
+
+    Code
+      ci_prop_mid_p(rep(FALSE, 100))
+    Message
+      
+      -- Mid-p Confidence Interval ---------------------------------------------------
+      * 0 responses out of 100
+      * Estimate: 0
+      * 95% Confidence Interval:
+        (0, 0.0295)
+
+---
+
+    Code
+      ci_prop_mid_p(rep(TRUE, 100))
+    Message
+      
+      -- Mid-p Confidence Interval ---------------------------------------------------
+      * 100 responses out of 100
+      * Estimate: 1
+      * 95% Confidence Interval:
+        (0.9705, 1)
+
+---
+
+    Code
       ci_prop_wilson(x_dbl, conf.level = c(0.9, 0.9))
     Condition
       Error in `ci_prop_wilson()`:

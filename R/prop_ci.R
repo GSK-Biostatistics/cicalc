@@ -1,4 +1,3 @@
-
 #' Wald CI
 #'
 #' Calculates the Wald interval by following the usual textbook definition
@@ -638,3 +637,103 @@ ci_prop_wilson_strata <- function(x,
     "diff_v" = diff_v
   )
 }
+
+
+#' Mid-P CI
+#'
+#' Calculates the exact mid-p CI for binomial proportions by inverting two one-sided binomial tests that include the mid-p tail.
+#' This is calculated by finding the \eqn{P_L} and \eqn{P_U} that satisfies the following equations:
+#' \deqn{\sum _{x=n_1+1}^{n} \binom {n}{x} P_{L}^{x}(1-P_{L})^{n-x} + \frac{1}{2} \binom{n}{n_1} P_{L}^{n_1}(1-P_{L})^{n-n_1} = \alpha /2}
+#' \deqn{\sum _{x=0}^{n_1-1} \binom {n}{x} P_{U}^{x}(1-P_{U})^{n-x} + \frac{1}{2} \binom{n}{n_1} P_{U}^{n_1}(1-P_{U})^{n-n_1} = \alpha /2}
+#'
+#'
+#' @inheritParams ci_prop_wald
+#'
+#' @return An object containing the following components:
+#'
+#'   \item{n}{Number of responses}
+#'   \item{N}{Total number}
+#'   \item{estimate}{The point estimate of the proportion}
+#'   \item{conf.low}{Lower bound of the confidence interval}
+#'   \item{conf.high}{Upper bound of the confidence interval}
+#'   \item{conf.level}{The confidence level used}
+#'   \item{method}{Type of method used}
+#'
+#'
+#'
+#' @export
+ci_prop_mid_p <- function(x, conf.level = 0.95, data = NULL) {
+  set_cli_abort_call()
+  check_data_frame(data, allow_empty = TRUE)
+
+  # if data was passed, evaluate in the context of the data frame
+  if (is.data.frame(data)) {
+    return(
+      ci_prop_mid_p(
+        x = x ,
+        conf.level = conf.level
+      ) |>
+        substitute() |>
+        eval(envir = data, enclos = parent.frame())
+    )
+  }
+
+  # check inputs ---------------------------------------------------------------
+  check_not_missing(x)
+  check_binary(x)
+  check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
+  check_scalar(conf.level)
+
+  x <- stats::na.omit(x)
+
+  n <- length(x)
+  y <- sum(x)
+  alpha <- 1 - conf.level
+
+  if(y == 0){
+    lower_ci <- 0
+  } else {
+    lower_ci <- stats::uniroot(alpha_test, interval=c(0.0000, 1),
+                               fx=alpha_val,
+                               ref_alpha = 1-alpha / 2,
+                               y= y, n=n, tol=1e-08)$root
+  }
+
+  if(y == n){
+    upper_ci <- 1
+  } else {
+    upper_ci <- stats::uniroot(alpha_test, interval=c(lower_ci, 1),
+                               fx=alpha_val,
+                               ref_alpha = alpha / 2,
+                               y= y, n=n, tol=1e-08)$root
+  }
+
+
+  structure(
+    list(
+      N = n,
+      n = sum(x),
+      estimate = mean(x),
+      conf.low = lower_ci,
+      conf.high = upper_ci,
+      conf.level = conf.level,
+      method = glue::glue("Mid-p Confidence Interval")
+    ),
+    class = c("mid_p", "prop_ci_uni", "cicada")
+  )
+}
+
+#' @keywords internal
+alpha_val <- function(y, n, prob){
+  0.5*pbinom(y-1, n , prob, lower.tail = TRUE) +
+    0.5*pbinom(y, n , prob, lower.tail = TRUE)
+}
+
+#' @keywords internal
+alpha_test <- function(prob, fx, ref_alpha, ...){
+  alpha_prob <- fx(prob = prob, ...)
+  ref_alpha - alpha_prob
+}
+
+
+

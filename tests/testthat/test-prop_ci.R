@@ -132,6 +132,35 @@ test_that("check the ci_prop_*() functions work", {
   expect_snapshot(ci_prop_jeffreys(x_true))
   expect_snapshot(ci_prop_jeffreys(x_false))
 
+  # check mid-p CIs ----------------------------------------------------------
+  expect_snapshot(
+    mid_p_dbl <- ci_prop_mid_p(x_dbl, conf.level = 0.9)
+  )
+  expect_snapshot(
+    mid_p_lgl <- ci_prop_mid_p(x_lgl, conf.level = 0.9)
+  )
+
+  mid_p_dbl <- ci_prop_mid_p(x_rsp, conf.level = 0.9)
+  mid_p_dbl_df <- ci_prop_mid_p(x_val, conf.level = 0.9, data = df)
+  expect_equal(mid_p_dbl, mid_p_dbl_df)
+
+  expect_snapshot(ci_prop_mid_p(x_rsp, conf.level = 0.95))
+  expect_snapshot(ci_prop_mid_p(x_true))
+  expect_snapshot(ci_prop_mid_p(x_false))
+
+  # Check numbers against Agresti (2013) page 605
+  expect_equal(round(ci_prop_mid_p(expand(0, 25))$conf.high, 3), 0.113)
+
+  # https://www.lexjansen.com/wuss/2015/81_Final_Paper_PDF.pdf
+  extra_test <- ci_prop_mid_p(expand(81, 263))
+  expect_equal(round(extra_test$conf.low, 4), 0.2544)
+  expect_equal(round(extra_test$conf.high, 4), 0.3658)
+
+  # Test extreme values
+  expect_snapshot(ci_prop_mid_p(rep(FALSE, 100)))
+  expect_snapshot(ci_prop_mid_p(rep(TRUE, 100)))
+
+
   # error messaging ------------------------------------------------------------
   expect_snapshot(
     ci_prop_wilson(x_dbl, conf.level = c(0.9, 0.9)),
