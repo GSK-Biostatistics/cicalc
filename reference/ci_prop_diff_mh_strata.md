@@ -62,7 +62,7 @@ An object containing the following components:
 
 - estimate:
 
-  The Mantel-Haeszel estimated common risk difference
+  The Mantel-Haenszel estimated common risk difference
 
 - conf.low:
 
@@ -117,7 +117,7 @@ where \\P_k = \frac{n\_{xk}^2 s\_{yk} - n\_{yk}^2 s\_{xk} + n\_{xk}
 n\_{yk} (n\_{yk} - n\_{xk})/2}{N_k^2}\\ and \\Q_k =
 \frac{s\_{xk}(n\_{yk} - s\_{yk}) + s\_{yk}(n\_{xk} - s\_{xk})}{2 N_k}\\.
 
-The Cochran Independant Binominal variance is:
+The Cochran Independent Binomial variance is:
 
 \$\$\hat{\sigma}^2(\hat{\delta}\_{C}) = \sum\_{k} w_k^2 \left\[
 \frac{\hat{p}\_{1k}(1 - \hat{p}\_{1k})}{n\_{1k}} +

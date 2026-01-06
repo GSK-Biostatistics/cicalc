@@ -98,7 +98,7 @@ if a data frame provided in the <code>data</code> argument.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object containing the following components:</p>
 <dl><dt>estimate</dt>
-<dd><p>The Mantel-Haeszel estimated common risk difference</p></dd>
+<dd><p>The Mantel-Haenszel estimated common risk difference</p></dd>
 
 <dt>conf.low</dt>
 <dd><p>Lower bound of the confidence interval</p></dd>
@@ -136,7 +136,7 @@ and \(n_{yk}\) are the group sizes in stratum \(k\).</p>
 <p>$$\hat{\sigma}^2(\hat{\delta}_{MH}) = \frac{\hat{d}_{MH} \sum_{k}{P_k} + \sum_k Q_k}{\left( \sum_k w_k \right)^2}$$</p>
 <p>where \(P_k = \frac{n_{xk}^2 s_{yk} - n_{yk}^2 s_{xk} + n_{xk} n_{yk} (n_{yk} - n_{xk})/2}{N_k^2}\)
 and \(Q_k = \frac{s_{xk}(n_{yk} - s_{yk}) + s_{yk}(n_{xk} - s_{xk})}{2 N_k}\).</p>
-<p>The Cochran Independant Binominal variance is:</p>
+<p>The Cochran Independent Binomial variance is:</p>
 <p>$$\hat{\sigma}^2(\hat{\delta}_{C}) = \sum_{k} w_k^2 \left[
 \frac{\hat{p}_{1k}(1 - \hat{p}_{1k})}{n_{1k}} +
 \frac{\hat{p}_{2k}(1 - \hat{p}_{2k})}{n_{2k}}

@@ -49,7 +49,7 @@ An object containing the following components:
 
 - estimate:
 
-  The Mantel-Haeszel estimated common risk difference
+  The Mantel-Haenszel estimated common risk difference
 
 - conf.low:
 
