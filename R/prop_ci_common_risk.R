@@ -21,7 +21,7 @@
 #' where \eqn{P_k = \frac{n_{xk}^2 s_{yk} - n_{yk}^2 s_{xk} + n_{xk} n_{yk} (n_{yk} - n_{xk})/2}{N_k^2}}
 #' and \eqn{Q_k = \frac{s_{xk}(n_{yk} - s_{yk}) + s_{yk}(n_{xk} - s_{xk})}{2 N_k}}.
 #'
-#' The Cochran Independant Binominal variance is:
+#' The Cochran Independent Binomial variance is:
 #'
 #' \deqn{\hat{\sigma}^2(\hat{\delta}_{C}) = \sum_{k} w_k^2 \left[
 #' \frac{\hat{p}_{1k}(1 - \hat{p}_{1k})}{n_{1k}} +
@@ -38,7 +38,7 @@
 #'
 #' @return An object containing the following components:
 #'
-#'   \item{estimate}{The Mantel-Haeszel estimated common risk difference}
+#'   \item{estimate}{The Mantel-Haenszel estimated common risk difference}
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}
@@ -175,7 +175,7 @@ ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = 
 #'
 #' @return An object containing the following components:
 #'
-#'   \item{estimate}{The Mantel-Haeszel estimated common risk difference}
+#'   \item{estimate}{The Mantel-Haenszel estimated common risk difference}
 #'   \item{conf.low}{Lower bound of the confidence interval}
 #'   \item{conf.high}{Upper bound of the confidence interval}
 #'   \item{conf.level}{The confidence level used}

@@ -13,7 +13,7 @@ Authors@R: c(
 Description: This calculates a variety of different CIs for proportions
     and difference of proportions that are commonly used in the
     pharmaceutical industry including Wald, Wilson, Clopper-Pearson,
-    Agresti-Coull and Jeffreys for proprotions. And Miettinen-Nurminen
+    Agresti-Coull and Jeffreys for proportions. And Miettinen-Nurminen
     (1985) <doi:10.1002/sim.4780040211>, Wald, Haldane, and Mee
     <https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf> for
     difference in proportions.

@@ -26,7 +26,7 @@ if a data frame provided in the \code{data} argument.}
 \value{
 An object containing the following components:
 
-\item{estimate}{The Mantel-Haeszel estimated common risk difference}
+\item{estimate}{The Mantel-Haenszel estimated common risk difference}
 \item{conf.low}{Lower bound of the confidence interval}
 \item{conf.high}{Upper bound of the confidence interval}
 \item{conf.level}{The confidence level used}

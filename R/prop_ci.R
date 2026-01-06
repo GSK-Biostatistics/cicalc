@@ -725,8 +725,8 @@ ci_prop_mid_p <- function(x, conf.level = 0.95, data = NULL) {
 
 #' @keywords internal
 alpha_val <- function(y, n, prob){
-  0.5*pbinom(y-1, n , prob, lower.tail = TRUE) +
-    0.5*pbinom(y, n , prob, lower.tail = TRUE)
+  0.5*stats::pbinom(y-1, n , prob, lower.tail = TRUE) +
+    0.5*stats::pbinom(y, n , prob, lower.tail = TRUE)
 }
 
 #' @keywords internal

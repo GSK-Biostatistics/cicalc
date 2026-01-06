@@ -54,7 +54,7 @@ test_that("Check print", {
   )
 })
 
-test_that("Testing Independant Binomial Variance Estimator", {
+test_that("Testing Independent Binomial Variance Estimator", {
   results <- ci_prop_diff_mh_strata(
     x = results, by = treatment,
     strata = centre, sato_var = FALSE, data = agresti_long
