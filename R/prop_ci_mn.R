@@ -386,8 +386,8 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     # Calculate weights and diff in weighted proportions
     weights <-(n_x * n_y) / (n_x + n_y)
     names(weights) <- response_df$strata
-    tot_w <- sum(weights)
-    diff <- sum(s_x/n_x*weights)/tot_w - sum(s_y/n_y*weights)/tot_w
+    tot_w <- sum(weights, na.rm = TRUE)
+    diff <- sum(s_x/n_x*weights, na.rm = TRUE)/tot_w - sum(s_y/n_y*weights, na.rm = TRUE)/tot_w
 
     # Calculate confidence interval
     lower_ci <- stats::uniroot(z_distance, interval=c(-0.999,0.999),
