@@ -511,7 +511,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 #' @noRd
 test_score_mn_weighted<-function(s_x, n_x, s_y, n_y, w, delta){
   tot_w <- sum(w, na.rm = TRUE)
-  diff <- sum(s_x/n_x*w)/tot_w - sum(s_y/n_y*w)/tot_w
+  diff <- sum(s_x/n_x*w, na.rm = TRUE)/tot_w - sum(s_y/n_y*w, na.rm = TRUE)/tot_w
 
   mV <- variance_mn(s_x, n_x, s_y, n_y, delta)
 
