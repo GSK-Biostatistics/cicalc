@@ -150,7 +150,7 @@ test_that("ci_prop_diff_mn_strata", {
   )
 
 
-  # Test when strata and by are teh same
+  # Test when strata and by are the same
   responses <- expand(c(9, 3, 7, 2), c(10, 10, 10, 10))
   arm <- rep(c("treat", "control"), each = 20)
   strata <- rep(c("stratum1", "stratum2"), each = 20)
@@ -197,5 +197,61 @@ test_that("Data argument works", {
   expect_equal(by_data, by_vector)
 
 
+
+})
+
+test_that("More than 2 levels in strata",{
+  set.seed(123)
+  trt<-c(rep(1, 100),rep(2, 100))
+  response<-rbinom(200,1,.6)
+  region <-1+rbinom(200,1,.5)
+  sex <-1+rbinom(200,1,.5)
+  gender<-1+rbinom(200,1,.5)
+
+  exData<-data.frame(trt,response,region,sex,gender)
+
+  output<-ci_prop_diff_mn_strata(
+    x=response,
+    by=trt,
+    strata=c(region,sex,gender),
+    method = c("summary score"),
+    conf.level = 0.95,
+    delta = -0.1,
+    data = exData
+  )
+
+  expect_snapshot(output)
+})
+
+test_that("Test when strata group is missing events", {
+
+set.seed(123)
+trt<-c(rep(1, 100),rep(2, 100))
+response<-rbinom(200,1,.6)
+region <-1+rbinom(200,1,.9)
+sex <-1+rbinom(200,1,.7)
+gender<-1+rbinom(200,1,.7)
+
+exData2<-data.frame(trt,response,region,sex,gender)
+
+expect_snapshot(ci_prop_diff_mn_strata(
+  x=response,
+  by=trt,
+  strata=c(region,sex,gender),
+  method = c("summary score"),
+  conf.level = 0.95,
+  delta = -0.1,
+  data = exData2
+))
+  
+  expect_snapshot(ci_prop_diff_mn_strata(
+  x=response,
+  by=trt,
+  strata=c(region,sex,gender),
+  method = c("score"),
+  conf.level = 0.95,
+  delta = -0.1,
+  data = exData2
+))
 
 })

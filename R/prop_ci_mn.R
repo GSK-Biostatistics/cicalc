@@ -379,6 +379,10 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     s_x <- response_df$response_1
     n_y <- response_df$n_2
     s_y <- response_df$response_2
+
+    if(0 %in% c(s_x, s_y)){
+        cli::cli_text("At least one stratum has a 0 response")
+      }
     # Calculate weights and diff in weighted proportions
     weights <-(n_x * n_y) / (n_x + n_y)
     names(weights) <- response_df$strata
@@ -443,6 +447,10 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
       n_y <- response_df$n_2
       s_y <- response_df$response_2
+
+      if(0 %in% c(s_x, s_y)){
+        cli::cli_text("At least one stratum has a 0 response")
+      }
       # Calculate weights and diff in weighted proportions
       w <-(n_x * n_y) / (n_x + n_y)
 
@@ -453,6 +461,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
   }
   df <- get_counts(x = x, by = by)
+
   structure(
     list(
       n = c(df$response_1, df$response_2),
@@ -508,7 +517,7 @@ test_score_mn_weighted<-function(s_x, n_x, s_y, n_y, w, delta){
 
   #equation 15
   den <- ((w/tot_w)^2)*mV
-  tot_den <- sum(den)
+  tot_den <- sum(den, na.rm = TRUE)
 
   zstat <- (diff-delta)/sqrt(tot_den)
   zstat
