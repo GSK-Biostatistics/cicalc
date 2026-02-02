@@ -225,33 +225,33 @@ test_that("More than 2 levels in strata",{
 
 test_that("Test when strata group is missing events", {
 
-set.seed(123)
-trt<-c(rep(1, 100),rep(2, 100))
-response<-rbinom(200,1,.6)
-region <-1+rbinom(200,1,.9)
-sex <-1+rbinom(200,1,.7)
-gender<-1+rbinom(200,1,.7)
+  set.seed(123)
+  trt<-c(rep(1, 100),rep(2, 100))
+  response<-rbinom(200,1,.6)
+  region <-1+rbinom(200,1,.9)
+  sex <-1+rbinom(200,1,.7)
+  gender<-1+rbinom(200,1,.7)
 
-exData2<-data.frame(trt,response,region,sex,gender)
+  exData2<-data.frame(trt,response,region,sex,gender)
 
-expect_snapshot(ci_prop_diff_mn_strata(
-  x=response,
-  by=trt,
-  strata=c(region,sex,gender),
-  method = c("summary score"),
-  conf.level = 0.95,
-  delta = -0.1,
-  data = exData2
-))
-  
   expect_snapshot(ci_prop_diff_mn_strata(
-  x=response,
-  by=trt,
-  strata=c(region,sex,gender),
-  method = c("score"),
-  conf.level = 0.95,
-  delta = -0.1,
-  data = exData2
-))
+    x=response,
+    by=trt,
+    strata=c(region,sex,gender),
+    method = c("summary score"),
+    conf.level = 0.95,
+    delta = -0.1,
+    data = exData2
+  ))
+
+    expect_snapshot(ci_prop_diff_mn_strata(
+    x=response,
+    by=trt,
+    strata=c(region,sex,gender),
+    method = c("score"),
+    conf.level = 0.95,
+    delta = -0.1,
+    data = exData2
+  ))
 
 })
