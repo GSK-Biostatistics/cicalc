@@ -220,7 +220,8 @@ test_that("More than 2 levels in strata",{
     data = exData
   )
 
-  expect_snapshot(output)
+  expect_equal(output$p.value, 0.1467, tolerance = 0.001)
+  expect_equal(output$statistic, 1.051, tolerance = 0.001)
 })
 
 test_that("Test when strata group is missing events", {
@@ -234,7 +235,7 @@ test_that("Test when strata group is missing events", {
 
   exData2<-data.frame(trt,response,region,sex,gender)
 
-  expect_snapshot(ci_prop_diff_mn_strata(
+  output <- ci_prop_diff_mn_strata(
     x=response,
     by=trt,
     strata=c(region,sex,gender),
@@ -242,9 +243,11 @@ test_that("Test when strata group is missing events", {
     conf.level = 0.95,
     delta = -0.1,
     data = exData2
-  ))
+  )
+  expect_equal(output$p.value, 0.1098, tolerance = 0.001)
+  expect_equal(output$statistic, 1.228, tolerance = 0.001)
 
-    expect_snapshot(ci_prop_diff_mn_strata(
+  output2 <- ci_prop_diff_mn_strata(
     x=response,
     by=trt,
     strata=c(region,sex,gender),
@@ -252,6 +255,9 @@ test_that("Test when strata group is missing events", {
     conf.level = 0.95,
     delta = -0.1,
     data = exData2
-  ))
+  )
+
+  expect_equal(output$p.value, 0.1098, tolerance = 0.001)
+  expect_equal(output$statistic, 1.228, tolerance = 0.001)
 
 })
