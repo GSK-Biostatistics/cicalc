@@ -333,6 +333,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
         eval(envir = data, enclos = parent.frame())
     )
   }
+
   # check inputs ---------------------------------------------------------------
   check_not_missing(x)
   check_not_missing(by)
@@ -413,12 +414,15 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
     #SAS PROC FREQ Summary Score Estimate of the Common Risk Difference
     #https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm
+    
     estimate_df <- dplyr::tibble(
       x = x,
       by = as.numeric(as.factor(by)),
       strata = strata
     ) |>
       dplyr::group_by(strata) |>
+      dplyr::mutate(n_in_strata = dplyr::n()) |>
+      dplyr::filter(n_in_strata > 1) |>
       dplyr::summarise(mn = list(ci_prop_diff_mn(x, by, conf.level =conf.level))) |>
       dplyr::mutate(
         low = purrr::map_dbl(.data$mn, "conf.low"),
