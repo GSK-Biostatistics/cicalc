@@ -15,13 +15,13 @@
 ## Citation
 
 Fillmore C, Sprys M, Lythgoe D (2026). *cicalc: Calculate Confidence
-Intervals*. R package version 0.2.0,
+Intervals*. R package version 0.2.1,
 <https://gsk-biostatistics.github.io/cicalc/>.
 
     @Manual{,
       title = {cicalc: Calculate Confidence Intervals},
       author = {Christina Fillmore and Mike Sprys and Dan Lythgoe},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.2.1},
       url = {https://gsk-biostatistics.github.io/cicalc/},
     }
