@@ -333,6 +333,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
         eval(envir = data, enclos = parent.frame())
     )
   }
+
   # check inputs ---------------------------------------------------------------
   check_not_missing(x)
   check_not_missing(by)
@@ -379,11 +380,15 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     s_x <- response_df$response_1
     n_y <- response_df$n_2
     s_y <- response_df$response_2
+
+    if(0 %in% c(s_x, s_y)){
+        cli::cli_text("At least one stratum has a 0 response")
+      }
     # Calculate weights and diff in weighted proportions
     weights <-(n_x * n_y) / (n_x + n_y)
     names(weights) <- response_df$strata
-    tot_w <- sum(weights)
-    diff <- sum(s_x/n_x*weights)/tot_w - sum(s_y/n_y*weights)/tot_w
+    tot_w <- sum(weights, na.rm = TRUE)
+    diff <- sum(s_x/n_x*weights, na.rm = TRUE)/tot_w - sum(s_y/n_y*weights, na.rm = TRUE)/tot_w
 
     # Calculate confidence interval
     lower_ci <- stats::uniroot(z_distance, interval=c(-0.999,0.999),
@@ -409,12 +414,15 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
     #SAS PROC FREQ Summary Score Estimate of the Common Risk Difference
     #https://support.sas.com/documentation/cdl/en/procstat/67528/HTML/default/viewer.htm#procstat_freq_details63.htm
+    
     estimate_df <- dplyr::tibble(
       x = x,
       by = as.numeric(as.factor(by)),
       strata = strata
     ) |>
       dplyr::group_by(strata) |>
+      dplyr::mutate(n_in_strata = dplyr::n()) |>
+      dplyr::filter(n_in_strata > 1) |>
       dplyr::summarise(mn = list(ci_prop_diff_mn(x, by, conf.level =conf.level))) |>
       dplyr::mutate(
         low = purrr::map_dbl(.data$mn, "conf.low"),
@@ -443,6 +451,10 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
       n_y <- response_df$n_2
       s_y <- response_df$response_2
+
+      if(0 %in% c(s_x, s_y)){
+        cli::cli_text("At least one stratum has a 0 response")
+      }
       # Calculate weights and diff in weighted proportions
       w <-(n_x * n_y) / (n_x + n_y)
 
@@ -453,6 +465,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 
   }
   df <- get_counts(x = x, by = by)
+
   structure(
     list(
       n = c(df$response_1, df$response_2),
@@ -501,14 +514,14 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
 #' @keywords internal
 #' @noRd
 test_score_mn_weighted<-function(s_x, n_x, s_y, n_y, w, delta){
-  tot_w <- sum(w)
-  diff <- sum(s_x/n_x*w)/tot_w - sum(s_y/n_y*w)/tot_w
+  tot_w <- sum(w, na.rm = TRUE)
+  diff <- sum(s_x/n_x*w, na.rm = TRUE)/tot_w - sum(s_y/n_y*w, na.rm = TRUE)/tot_w
 
   mV <- variance_mn(s_x, n_x, s_y, n_y, delta)
 
   #equation 15
   den <- ((w/tot_w)^2)*mV
-  tot_den <- sum(den)
+  tot_den <- sum(den, na.rm = TRUE)
 
   zstat <- (diff-delta)/sqrt(tot_den)
   zstat
