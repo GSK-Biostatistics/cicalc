@@ -164,8 +164,7 @@ ci_prop_wilson <- function(x, conf.level = 0.95, correct = FALSE, data = NULL) {
 #'
 #' @details
 #' \deqn{
-#' \left(1 + \frac{N-n+1}{nF[\frac{\alpha}{2};2n,2(N-n+1)]} \right)^{-1}
-#' / \left( 1 + \frac{N-n}{(n+1)F[1-\frac{\alpha}{2};2(n+1),2(N-n)]} \right)^{-1}}
+#' \left(1 + \frac{N-n+1}{nF[\frac{\alpha}{2};2n,2(N-n+1)]} \right)^{-1}, \left( 1 + \frac{N-n}{(n+1)F[1-\frac{\alpha}{2};2(n+1),2(N-n)]} \right)^{-1}}
 #'
 #' @return An object containing the following components:
 #'
