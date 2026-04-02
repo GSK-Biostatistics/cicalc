@@ -14,14 +14,17 @@
 
 ## Citation
 
+Source:
+[`DESCRIPTION`](https://github.com/gsk-biostatistics/cicalc/blob/main/DESCRIPTION)
+
 Fillmore C, Sprys M, Lythgoe D (2026). *cicalc: Calculate Confidence
-Intervals*. R package version 0.2.1,
+Intervals*. R package version 0.2.1.9000,
 <https://gsk-biostatistics.github.io/cicalc/>.
 
     @Manual{,
       title = {cicalc: Calculate Confidence Intervals},
       author = {Christina Fillmore and Mike Sprys and Dan Lythgoe},
       year = {2026},
-      note = {R package version 0.2.1},
+      note = {R package version 0.2.1.9000},
       url = {https://gsk-biostatistics.github.io/cicalc/},
     }
