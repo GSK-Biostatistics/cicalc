@@ -63,7 +63,6 @@ An object containing the following components:
 
 ## Details
 
-\$\$ \left( \frac{k}{n} \pm z\_{\alpha/2}
-\sqrt{\frac{\frac{k}{n}(1-\frac{k}{n})}{n} +
-\frac{z^2\_{\alpha/2}}{4n^2}} \right) / \left( 1 +
-\frac{z^2\_{\alpha/2}}{n} \right)\$\$
+\$\$ \left(1 + \frac{N-n+1}{nF\[\frac{\alpha}{2};2n,2(N-n+1)\]}
+\right)^{-1} / \left( 1 +
+\frac{N-n}{(n+1)F\[1-\frac{\alpha}{2};2(n+1),2(N-n)\]} \right)^{-1}\$\$
