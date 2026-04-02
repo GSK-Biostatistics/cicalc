@@ -1,7 +1,7 @@
 Type: Package
 Package: cicalc
 Title: Calculate Confidence Intervals
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: c(
     person("Christina", "Fillmore", , "christina.e.fillmore@gsk.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0595-2302")),
@@ -18,7 +18,7 @@ Description: This calculates a variety of different CIs for proportions
     <https://www.lexjansen.com/wuss/2016/127_Final_Paper_PDF.pdf> for
     difference in proportions.
 License: Apache License (>= 2)
-URL: https://gsk-biostatistics.github.io/cicalc/
+URL: https://gsk-biostatistics.github.io/cicalc/, https://github.com/gsk-biostatistics/cicalc
 Depends:
     R (>= 4.1.0)
 Imports: 
