@@ -124,9 +124,24 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
   df <- get_counts(x = x, by = by)
 
   alpha <- 1 - conf.level
-
-  if(df$response_1 == 0 | df$response_2 == 0 | df$response_1 == df$response_2){
-    # Manually count at 0
+  non_rootable <- df$response_1 == 0 | df$response_2 == 0 | df$response_1 == df$response_2
+  lower_ci <- NULL
+  upper_ci <- NULL
+  if(!non_rootable){    
+    lower_try <- purrr::safely(stats::uniroot)(z_distance, interval=c(-0.999,0.999),
+                                       fx=test_score_mn,
+                                       ref_z = stats::qnorm(1 - alpha / 2),
+                                       s_x = df$response_1, n_x = df$n_1,
+                                       s_y = df$response_2, n_y = df$n_2, tol=1e-08)
+    lower_ci <- lower_try$result$root
+    upper_try <- purrr::safely(stats::uniroot)(z_distance, interval=c(lower_ci,0.999),
+                                       fx=test_score_mn,
+                                       ref_z = stats::qnorm(alpha / 2),
+                                       s_x = df$response_1, n_x = df$n_1,
+                                       s_y = df$response_2, n_y = df$n_2, tol=1e-08)
+    upper_ci <- upper_try$result$root
+  } 
+  if(non_rootable | is.null(lower_ci) | is.null(upper_ci)){
     z <- stats::qnorm((1 + conf.level) / 2)
 
     delta_vec <- seq(-0.99999, 0.99999, length.out = 1000000)
@@ -135,21 +150,8 @@ ci_prop_diff_mn <- function(x, by, conf.level = 0.95, delta = NULL, data = NULL)
     potential_vals <- delta_vec[which(-z < T_scores & T_scores < z)]
     lower_ci <- min(potential_vals)
     upper_ci <- max(potential_vals)
-  } else {
-    lower_ci <- stats::uniroot(z_distance, interval=c(-0.999,0.999),
-                                       fx=test_score_mn,
-                                       ref_z = stats::qnorm(1 - alpha / 2),
-                                       s_x = df$response_1, n_x = df$n_1,
-                                       s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root
-
-    upper_ci <- stats::uniroot(z_distance, interval=c(lower_ci,0.999999),
-                                       fx=test_score_mn,
-                                       ref_z = stats::qnorm(alpha / 2),
-                                       s_x = df$response_1, n_x = df$n_1,
-                                       s_y = df$response_2, n_y = df$n_2, tol=1e-08)$root
-
-  }
-
+  } 
+ 
   statistic = NULL
   p.value = NULL
 
