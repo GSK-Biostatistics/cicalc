@@ -1,5 +1,10 @@
 # Changelog
 
+## cicalc 0.2.1
+
+- Fix bug in Miettinen-Nurminen CI calculation when non-rootable
+  conditions occur
+
 ## cicalc 0.2.0
 
 CRAN release: 2026-01-07
