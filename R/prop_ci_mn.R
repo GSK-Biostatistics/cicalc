@@ -424,7 +424,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     ) |>
       dplyr::group_by(strata) |>
       dplyr::mutate(n_in_strata = dplyr::n()) |>
-      dplyr::filter(n_in_strata > 1) |>
+      dplyr::filter(.data$n_in_strata > 1) |>
       dplyr::summarise(mn = list(ci_prop_diff_mn(x, by, conf.level =conf.level))) |>
       dplyr::mutate(
         low = purrr::map_dbl(.data$mn, "conf.low"),
