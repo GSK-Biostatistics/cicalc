@@ -10,6 +10,7 @@ You can install the development version of cicalc from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("GSK-Biostatistics/cicalc")
 ```
@@ -19,6 +20,7 @@ devtools::install_github("GSK-Biostatistics/cicalc")
 A subsection of common CI’s available in this package are below:
 
 ``` r
+
 library(cicalc)
 # Example of CI for proportions
 x <- c(
