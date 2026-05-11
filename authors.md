@@ -15,7 +15,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/gsk-biostatistics/cicalc/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/gsk-biostatistics/cicalc/blob/0.2.1/DESCRIPTION)
 
 Fillmore C, Sprys M, Lythgoe D (2026). *cicalc: Calculate Confidence
 Intervals*. R package version 0.2.1,
