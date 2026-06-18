@@ -127,7 +127,7 @@ ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = 
   lower_ci <- d_mh - z_alpha*sqrt(est_var)
   upper_ci <- d_mh + z_alpha*sqrt(est_var)
 
-  z_stat <- d_mh/sqrt(sato_var)
+  z_stat <- d_mh/sqrt(est_var)
 
   p.value <- 2 * (1 - stats::pnorm(abs(z_stat)))
 
