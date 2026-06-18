@@ -1,3 +1,7 @@
+# cicalc 0.2.2
+* Fix issue with factor conversion in Miettinen-Nurminen CI calculation #20 
+
+
 # cicalc 0.2.1 
 * Fix bug in Miettinen-Nurminen CI calculation when non-rootable conditions occur
 

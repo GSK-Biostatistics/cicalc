@@ -419,7 +419,7 @@ ci_prop_diff_mn_strata <- function(x, by, strata, method = c("score", "summary s
     
     estimate_df <- dplyr::tibble(
       x = x,
-      by = as.numeric(as.factor(by)),
+      by = as.numeric(forcats::as_factor(by)),
       strata = strata
     ) |>
       dplyr::group_by(strata) |>
