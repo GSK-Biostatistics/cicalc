@@ -1,5 +1,18 @@
 # Changelog
 
+## cicalc 0.2.2
+
+- Fix issue with factor conversion in Miettinen-Nurminen CI calculation
+  [\#20](https://github.com/gsk-biostatistics/cicalc/issues/20)
+- Fix issue with ci_prop_diff_mh_strata() for z statistic calculation
+- Fix issue with ci_prop_wilson_strata() when datasets are provided
+  [\#22](https://github.com/GSK-Biostatistics/cicalc/issues/22)
+- Fix non-logical
+  [\#23](https://github.com/GSK-Biostatistics/cicalc/issues/23) and
+  dataset issue
+  [\#24](https://github.com/GSK-Biostatistics/cicalc/issues/24) for
+  ci_prop_diff_nc_strata()
+
 ## cicalc 0.2.1
 
 CRAN release: 2026-05-08

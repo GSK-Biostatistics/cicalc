@@ -192,9 +192,9 @@ ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata,
 #> ── Stratified Summary Score Miettinen-Nurminen Confidence Interval ─────────────
 #> • 12/20 - 9/20
 #> • Weights: stratum1 = 0.511, stratum2 = 0.489
-#> • Estimate: -0.126
+#> • Estimate: 0.126
 #> • 95% Confidence Interval:
-#>   (-0.4113, 0.1586)
+#>   (-0.1586, 0.4113)
 
 # Calculate 99% confidence interval
 ci_prop_diff_mn_strata(x = responses, by = arm, strata = strata,
