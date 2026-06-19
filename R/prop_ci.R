@@ -439,7 +439,7 @@ ci_prop_wilson_strata <- function(x,
   # if data was passed, evaluate in the context of the data frame
   if (is.data.frame(data)) {
     return(
-      ci_prop_jeffreys(
+      ci_prop_wilson_strata(
         x = x ,
         conf.level = conf.level
       ) |>

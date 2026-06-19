@@ -127,7 +127,7 @@ ci_prop_diff_mh_strata <- function(x, by, strata, conf.level = 0.95, sato_var = 
   lower_ci <- d_mh - z_alpha*sqrt(est_var)
   upper_ci <- d_mh + z_alpha*sqrt(est_var)
 
-  z_stat <- d_mh/sqrt(sato_var)
+  z_stat <- d_mh/sqrt(est_var)
 
   p.value <- 2 * (1 - stats::pnorm(abs(z_stat)))
 
@@ -334,9 +334,11 @@ ci_prop_diff_nc_strata <- function(x,
   # if data was passed, evaluate in the context of the data frame
   if (is.data.frame(data)) {
     return(
-      ci_prop_diff_nc(
+      ci_prop_diff_nc_strata(
         x = x,
         by = by,
+        strata = strata,
+        weights_method = weights_method,
         conf.level = conf.level,
         correct = correct
       ) |>
@@ -353,7 +355,7 @@ ci_prop_diff_nc_strata <- function(x,
   check_scalar(correct)
   check_range(conf.level, range = c(0, 1), include_bounds = c(FALSE, FALSE))
   check_scalar(conf.level)
-
+  x<- as.logical(x)
 
   if (any(tapply(x, strata, length) < 5)) {
     cli::cli_warn("Less than 5 observations in some strata.")
@@ -439,6 +441,6 @@ ci_prop_diff_nc_strata <- function(x,
       method =
         glue::glue("Stratified Newcombe Confidence Interval {ifelse(correct, 'with', 'without')} continuity correction, {weights_method}")
     ),
-    class = c("stratified_newcombe", "stratified_wilson", "cicada")
+    class = c("ci_prop_diff_nc_strata", "stratified_wilson", "cicalc")
   )
 }

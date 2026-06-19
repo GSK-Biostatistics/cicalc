@@ -109,9 +109,9 @@
       * 50 responses out of 80
       * Weights: a.x = 0.211, b.x = 0.189, a.y = 0.118, b.y = 0.154, a.z = 0.174, b.z
       = 0.153
-      * Estimate: 0
+      * Estimate: 0.259
       * 95% Confidence Interval:
-        (0, 0)
+        (0.0392, 0.4502)
 
 ---
 
@@ -124,9 +124,9 @@
       * 50 responses out of 80
       * Weights: a.x = 0.195, b.x = 0.163, a.y = 0.135, b.y = 0.138, a.z = 0.202, b.z
       = 0.167
-      * Estimate: 0
+      * Estimate: 0.254
       * 95% Confidence Interval:
-        (0, 0)
+        (0.0347, 0.4454)
 
 ---
 
@@ -138,9 +138,9 @@
       * 50 responses out of 80
       * Weights: a.x = 0.211, b.x = 0.189, a.y = 0.118, b.y = 0.154, a.z = 0.174, b.z
       = 0.153
-      * Estimate: 0
+      * Estimate: 0.259
       * 95% Confidence Interval:
-        (0, 0)
+        (0.0392, 0.4502)
 
 ---
 
